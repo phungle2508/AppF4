@@ -1,0 +1,126 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:9.2.0
+    volumes:
+      - ./config/mysql:/etc/mysql/conf.d
+    environment:
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+    command: mysqld --lower_case_table_names=1 --skip-mysqlx --character_set_server=utf8mb4 --explicit_defaults_for_timestamp
+    healthcheck:
+      test: [ 'CMD-SHELL', 'mysql -e "SHOW DATABASES;" && sleep 5' ]
+      interval: 5s
+      timeout: 10s
+      retries: 10
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.13.4
+    environment:
+      - ES_JAVA_OPTS=-Xms256m -Xmx256m
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+    healthcheck:
+      test: [ 'CMD', 'curl', '-f', 'http://localhost:9200/_cluster/health?wait_for_status=green&timeout=10s' ]
+      interval: 5s
+      timeout: 10s
+      retries: 10
+
+  redis:
+    image: redis:7.4.2
+    ports:
+      - "6379:6379"
+  apigateway:
+    image: apigateway
+    environment:
+      - _JAVA_OPTIONS=-Xmx512m -Xms256m
+      - SPRING_PROFILES_ACTIVE=prod,api-docs
+      - SPRING_CLOUD_CONSUL_HOST=consul
+      - SPRING_CLOUD_CONSUL_PORT=8500
+      - SPRING_R2DBC_URL=r2dbc:mysql://mysql:3306/apigateway?useUnicode=true&characterEncoding=utf8&useSSL=false
+      - SPRING_LIQUIBASE_URL=jdbc:mysql://mysql:3306/apigateway?useUnicode=true&characterEncoding=utf8&useSSL=false
+      - SPRING_ELASTICSEARCH_URIS=http://elasticsearch:9200
+      - JHIPSTER_CACHE_REDIS_SERVER=redis://redis:6379
+      - SPRING_CLOUD_STREAM_KAFKA_BINDER_BROKERS=kafka:9092
+    ports:
+      - 8080:8080
+    depends_on:
+      mysql:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+
+  myservice1:
+    image: myservice1
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod,api-docs
+      - SPRING_CLOUD_CONSUL_HOST=consul
+      - SPRING_CLOUD_CONSUL_PORT=8500
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/myservice1?useUnicode=true&characterEncoding=utf8&useSSL=false
+      - SPRING_LIQUIBASE_URL=jdbc:mysql://mysql:3306/myservice1?useUnicode=true&characterEncoding=utf8&useSSL=false
+      - SPRING_ELASTICSEARCH_URIS=http://elasticsearch:9200
+      - JHIPSTER_CACHE_REDIS_SERVER=redis://redis:6379
+      - SPRING_CLOUD_STREAM_KAFKA_BINDER_BROKERS=kafka:9092
+    ports:
+      - 8081:8081
+    depends_on:
+      mysql:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+
+  myservice2:
+    image: myservice2
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod,api-docs
+      - SPRING_CLOUD_CONSUL_HOST=consul
+      - SPRING_CLOUD_CONSUL_PORT=8500
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/myservice2?useUnicode=true&characterEncoding=utf8&useSSL=false
+      - SPRING_LIQUIBASE_URL=jdbc:mysql://mysql:3306/myservice2?useUnicode=true&characterEncoding=utf8&useSSL=false
+      - SPRING_ELASTICSEARCH_URIS=http://elasticsearch:9200
+      - JHIPSTER_CACHE_REDIS_SERVER=redis://redis:6379
+      - SPRING_CLOUD_STREAM_KAFKA_BINDER_BROKERS=kafka:9092
+    depends_on:
+      mysql:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+
+  consul:
+    image: docker.io/bitnami/consul:1.20.2
+    ports:
+      - 8300:8300
+      - 8500:8500
+      - 8600:8600
+    command: consul agent -dev -ui -client 0.0.0.0 -log-level=INFO
+
+  consul-config-loader:
+    image: jhipster/consul-config-loader:v0.4.1
+    volumes:
+      - ./central-server-config:/config
+    environment:
+      - INIT_SLEEP_SECONDS=5
+      - CONSUL_URL=consul
+      - CONSUL_PORT=8500
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.1.1
+    command: "start-dev --import-realm"
+    volumes:
+      - ./realm-config:/opt/keycloak/data/import
+      - ./realm-config/keycloak-health-check.sh:/opt/keycloak/health-check.sh
+    environment:
+      - KC_DB=dev-file
+      - KEYCLOAK_ADMIN=admin
+      - KEYCLOAK_ADMIN_PASSWORD=admin
+      - KC_HTTP_PORT=9080
+      - KC_HTTPS_PORT=9443
+      - KC_HEALTH_ENABLED=true
+    ports:
+      - 9080:9080
+      - 9443:9443
+    healthcheck:
+      test: "bash /opt/keycloak/health-check.sh"
+      interval: 5s
+      timeout: 5s
+      retries: 20

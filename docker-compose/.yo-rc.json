@@ -1,0 +1,8 @@
+{
+  "generator-jhipster": {
+    "appsFolders": ["/api-gateway", "/my-service-1", "/my-service-2"],
+    "directoryPath": "backend/",
+    "jhipsterVersion": "8.9.0",
+    "jwtSecretKey": "ODZjOWZiZmUwYjBlYWNiZTI3NTRjZTZmZDkyYzJlMTRhODk5ZjllMjE1NDlhNzQyOTNkYzI4ZDE5MDE1ODBlNjRkODU3MGFiZmJmZjg3ODZjNjI5MDM4ZmRhMmMzZDIxMmE1Zg=="
+  }
+}
