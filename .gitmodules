@@ -1,3 +1,6 @@
 [submodule "backend/my-service-1"]
 	path = backend/my-service-1
 	url = https://github.com/shegga9x/f4-service1
+[submodule "frontend"]
+	path = frontend
+	url = https://github.com/shegga9x/f4-frontend
