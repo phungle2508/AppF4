@@ -7,3 +7,6 @@
 [submodule "backend/api-gateway"]
 	path = backend/api-gateway
 	url = https://github.com/shegga9x/f4-api-gateway
+[submodule "backend/my-service-2"]
+	path = backend/my-service-2
+	url = https://github.com/shegga9x/f4-api-gateway
