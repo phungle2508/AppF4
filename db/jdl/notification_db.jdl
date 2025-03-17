@@ -1,0 +1,17 @@
+entity Notifications(notifications) {
+    userId Long,
+    message String required maxlength(65535),
+    isRead Boolean,
+    createdAt Instant
+}
+
+// No views were found for which JDL is to be generated. Please review console logs
+
+// Options
+service * with serviceClass
+
+paginate * with pagination
+
+dto * with mapstruct
+
+filter *
