@@ -1,7 +1,17 @@
-enum Roles(roles) {
+enum Roles {
+    USER,
+    ADMIN,
+    MODERATOR
 }
 
-entity Users(users) {
+enum OauthProvider {
+    LOCAL,
+    GOOGLE,
+    FACEBOOK,
+    GITHUB
+}
+
+entity Users {
     email String required unique maxlength(255),
     passwordHash String maxlength(255),
     oauthProvider OauthProvider,
@@ -10,16 +20,13 @@ entity Users(users) {
     createdAt Instant
 }
 
-relationship OneToOne {
+entity UserRoles {
+    userId Long required,
+    role Roles required
 }
 
-relationship ManyToOne {
-}
-
-// many-to-many Relations
-// TODO This is a pure ManyToMany relation (delete me and decide owner side)
 relationship ManyToMany {
-    UserRoles{user(email) required} to Users
+    UserRoles{user(email) required} to Users{roles}
 }
 
 // No views were found for which JDL is to be generated. Please review console logs

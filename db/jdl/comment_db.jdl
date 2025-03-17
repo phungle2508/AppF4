@@ -1,0 +1,28 @@
+entity Comments(comments) {
+    postId Long,
+    userId Long,
+    content String required maxlength(65535),
+    createdAt Instant
+}
+
+entity ReportedComments(reported_comments) {
+    reportedBy Long,
+    reason String required maxlength(65535),
+    createdAt Instant
+}
+
+relationship ManyToOne {
+    Comments{parentComment} to Comments
+    ReportedComments{comment} to Comments
+}
+
+// No views were found for which JDL is to be generated. Please review console logs
+
+// Options
+service * with serviceClass
+
+paginate * with pagination
+
+dto * with mapstruct
+
+filter *

@@ -1,0 +1,30 @@
+enum Status {
+    ACTIVE,
+    INACTIVE,
+    BANNED
+}
+
+entity Follows(follows) {
+    followerId Long required,
+    followingId Long required,
+    createdAt Instant
+}
+
+entity Profiles(profiles) {
+    userId Long required,
+    fullName String maxlength(255),
+    bio String maxlength(65535),
+    profilePicture String maxlength(255),
+    status Status
+}
+
+// No views were found for which JDL is to be generated. Please review console logs
+
+// Options
+service * with serviceClass
+
+paginate * with pagination
+
+dto * with mapstruct
+
+filter *

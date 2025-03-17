@@ -1,0 +1,19 @@
+entity Posts(posts) {
+    userId Long,
+    content String maxlength(65535),
+    mediaUrl String maxlength(255),
+    isPrivate Boolean,
+    createdAt Instant,
+    updatedAt Instant
+}
+
+// No views were found for which JDL is to be generated. Please review console logs
+
+// Options
+service * with serviceClass
+
+paginate * with pagination
+
+dto * with mapstruct
+
+filter *
