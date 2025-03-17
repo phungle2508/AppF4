@@ -1,0 +1,11 @@
+entity Notification {
+    message Text required,
+    isRead Boolean,
+    createdAt Instant
+}
+
+relationship ManyToOne {
+    Notification{user} to User
+}
+
+paginate Notification with pagination

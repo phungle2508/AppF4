@@ -1,0 +1,13 @@
+entity Post {
+    content Text,
+    mediaUrl String,
+    isPrivate Boolean,
+    createdAt Instant,
+    updatedAt Instant
+}
+
+relationship ManyToOne {
+    Post{user} to User
+}
+
+paginate Post with pagination

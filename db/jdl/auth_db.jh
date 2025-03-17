@@ -1,0 +1,47 @@
+entity User {
+    email String required unique,
+    passwordHash String,
+    oauthProvider UserOauthProvider,
+    oauthId String unique,
+    emailVerified Boolean,
+    createdAt Instant
+}
+
+entity Role {
+    name RoleName required unique
+}
+
+entity UserRole {
+    id Long primary key autoIncrement
+}
+
+enum UserOauthProvider {
+    google,
+    facebook,
+    github,
+    local
+}
+
+enum RoleName {
+    admin,
+    user,
+    moderator
+}
+
+entity UserRole {
+    id Long primary key autoIncrement
+}
+
+relationship ManyToOne {
+    UserRole{user required} to User,
+    UserRole{role required} to Role
+}
+
+// Options
+service * with serviceClass
+
+paginate * with pagination
+
+dto * with mapstruct
+
+filter *
