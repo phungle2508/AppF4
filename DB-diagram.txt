@@ -5,15 +5,15 @@ Database Table Diagram: https://dbdiagram.io/d/67d84bd475d75cc84466c804
 ## **1️⃣ Microservices Overview**
 Each core feature should be handled by a separate microservice with its own database. Some services can share a database if necessary, but ideally, each should be **loosely coupled**.
 
-| **Microservice**        | **Responsibilities**                             | **Database**     |
-|------------------------|-------------------------------------------------|-----------------|
-| **Auth Service**       | User authentication, authorization, JWT, OAuth2  | MySQL (users, roles) |
-| **User Service**       | Profile management, followers/following         | MySQL (profiles, relations) |
-| **Post Service**       | Post creation, editing, media storage           | MySQL (posts, media) |
-| **Comment Service**    | Comments, replies, reactions on comments        | MySQL (comments, reactions) |
-| **Reaction Service**   | Likes and reactions tracking                    | MySQL (reactions) |
-| **Notification Service** | Real-time & push notifications                  | Redis / Kafka |
-| **Search Service**     | Search users, posts, and topics                 | Elasticsearch / OpenSearch |
+| **Microservice**         | **Responsibilities**                             | **Database**                |
+|--------------------------|--------------------------------------------------|-----------------------------|
+| **Auth Service**         | User authentication, authorization, JWT, OAuth2  | MySQL (users, roles)        |
+| **User Service**         | Profile management, followers/following          | MySQL (profiles, relations) |
+| **Post Service**         | Post creation, editing, media storage            | MySQL (posts, media)        |
+| **Comment Service**      | Comments, replies, reactions on comments         | MySQL (comments, reactions) |
+| **Reaction Service**     | Likes and reactions tracking                     | MySQL (reactions)           |
+| **Notification Service** | Real-time & push notifications                   | Redis / Kafka               |
+| **Search Service**       | Search users, posts, and topics                  | Elasticsearch / OpenSearch  |
 
 Each microservice should expose **RESTful APIs (or GraphQL/WebSockets)** for communication.
 
