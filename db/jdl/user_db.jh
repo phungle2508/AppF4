@@ -1,0 +1,26 @@
+entity Profile {
+    fullName String,
+    bio Text,
+    profilePicture String,
+    status ProfileStatus
+}
+
+entity Follow {
+    createdAt Instant
+}
+
+enum ProfileStatus {
+    active,
+    inactive,
+    banned
+}
+
+relationship OneToOne {
+    Profile{user} to User
+}
+
+relationship ManyToMany {
+    User{following} to User{followers} with JPA derived
+}
+
+paginate Profile, Follow with pagination

@@ -1,0 +1,34 @@
+enum Roles(roles) {
+}
+
+entity Users(users) {
+    email String required unique maxlength(255),
+    passwordHash String maxlength(255),
+    oauthProvider OauthProvider,
+    oauthId String unique maxlength(255),
+    emailVerified Boolean,
+    createdAt Instant
+}
+
+relationship OneToOne {
+}
+
+relationship ManyToOne {
+}
+
+// many-to-many Relations
+// TODO This is a pure ManyToMany relation (delete me and decide owner side)
+relationship ManyToMany {
+    UserRoles{user(email) required} to Users
+}
+
+// No views were found for which JDL is to be generated. Please review console logs
+
+// Options
+service * with serviceClass
+
+paginate * with pagination
+
+dto * with mapstruct
+
+filter *

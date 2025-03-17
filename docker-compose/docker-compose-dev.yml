@@ -12,7 +12,7 @@ services:
     healthcheck:
       test: [ 'CMD-SHELL', 'mysql -e "SHOW DATABASES;" && sleep 5' ]
       interval: 5s
-      timeout: 10ss
+      timeout: 10s
       retries: 10
 
   elasticsearch:
