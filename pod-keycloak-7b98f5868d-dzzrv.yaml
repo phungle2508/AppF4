@@ -1,0 +1,164 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: "2025-03-17T08:09:34Z"
+  generateName: keycloak-7b98f5868d-
+  labels:
+    app: keycloak
+    pod-template-hash: 7b98f5868d
+  name: keycloak-7b98f5868d-dzzrv
+  namespace: default
+  ownerReferences:
+  - apiVersion: apps/v1
+    blockOwnerDeletion: true
+    controller: true
+    kind: ReplicaSet
+    name: keycloak-7b98f5868d
+    uid: 4cfff6e0-c058-4f06-b523-416c57dfa4c6
+  resourceVersion: "748"
+  uid: 55ada707-95f0-49d2-bd91-b5cce092d62a
+spec:
+  containers:
+  - command:
+    - start-dev
+    - --import-realm
+    envFrom:
+    - configMapRef:
+        name: keycloak-config
+    image: quay.io/keycloak/keycloak:26.1.1
+    imagePullPolicy: IfNotPresent
+    name: keycloak
+    ports:
+    - containerPort: 9080
+      protocol: TCP
+    - containerPort: 9443
+      protocol: TCP
+    readinessProbe:
+      exec:
+        command:
+        - bash
+        - /opt/keycloak/health-check.sh
+      failureThreshold: 3
+      initialDelaySeconds: 10
+      periodSeconds: 5
+      successThreshold: 1
+      timeoutSeconds: 1
+    resources:
+      limits:
+        cpu: 500m
+        memory: 512Mi
+      requests:
+        cpu: 250m
+        memory: 256Mi
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /opt/keycloak/data/import
+      name: realm-config
+    - mountPath: /opt/keycloak/health-check.sh
+      name: health-check
+      subPath: health-check.sh
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-95jpm
+      readOnly: true
+  dnsPolicy: ClusterFirst
+  enableServiceLinks: true
+  nodeName: minikube
+  preemptionPolicy: PreemptLowerPriority
+  priority: 0
+  restartPolicy: Always
+  schedulerName: default-scheduler
+  securityContext: {}
+  serviceAccount: default
+  serviceAccountName: default
+  terminationGracePeriodSeconds: 30
+  tolerations:
+  - effect: NoExecute
+    key: node.kubernetes.io/not-ready
+    operator: Exists
+    tolerationSeconds: 300
+  - effect: NoExecute
+    key: node.kubernetes.io/unreachable
+    operator: Exists
+    tolerationSeconds: 300
+  volumes:
+  - name: realm-config
+    persistentVolumeClaim:
+      claimName: keycloak-pvc
+  - configMap:
+      defaultMode: 420
+      items:
+      - key: health-check.sh
+        path: health-check.sh
+      name: keycloak-config
+    name: health-check
+  - name: kube-api-access-95jpm
+    projected:
+      defaultMode: 420
+      sources:
+      - serviceAccountToken:
+          expirationSeconds: 3607
+          path: token
+      - configMap:
+          items:
+          - key: ca.crt
+            path: ca.crt
+          name: kube-root-ca.crt
+      - downwardAPI:
+          items:
+          - fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.namespace
+            path: namespace
+status:
+  conditions:
+  - lastProbeTime: string
+    lastTransitionTime: "2025-03-17T08:09:34Z"
+    status: "False"
+    type: PodReadyToStartContainers
+  - lastProbeTime: null
+    lastTransitionTime: "2025-03-17T08:09:34Z"
+    status: "True"
+    type: Initialized
+  - lastProbeTime: null
+    lastTransitionTime: "2025-03-17T08:09:34Z"
+    message: 'containers with unready status: [keycloak]'
+    reason: ContainersNotReady
+    status: "False"
+    type: Ready
+  - lastProbeTime: null
+    lastTransitionTime: "2025-03-17T08:09:34Z"
+    message: 'containers with unready status: [keycloak]'
+    reason: ContainersNotReady
+    status: "False"
+    type: ContainersReady
+  - lastProbeTime: null
+    lastTransitionTime: "2025-03-17T08:09:34Z"
+    status: "True"
+    type: PodScheduled
+  containerStatuses:
+  - image: quay.io/keycloak/keycloak:26.1.1
+    imageID: ""
+    lastState: {}
+    name: keycloak
+    ready: false
+    restartCount: 0
+    started: false
+    state:
+      waiting:
+        reason: ContainerCreating
+    volumeMounts:
+    - mountPath: /opt/keycloak/data/import
+      name: realm-config
+    - mountPath: /opt/keycloak/health-check.sh
+      name: health-check
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-95jpm
+      readOnly: true
+      recursiveReadOnly: Disabled
+  hostIP: 192.168.49.2
+  hostIPs:
+  - ip: 192.168.49.2
+  phase: Pending
+  qosClass: Burstable
+  startTime: "2025-03-17T08:09:34Z"
