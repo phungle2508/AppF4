@@ -1,6 +1,6 @@
 # File created using '.gitignore Generator' for Visual Studio Code: https://bit.ly/vscode-gig
-# Created by https://www.toptal.com/developers/gitignore/api/visualstudiocode,linux,java,nextjs
-# Edit at https://www.toptal.com/developers/gitignore?templates=visualstudiocode,linux,java,nextjs
+# Created by https://www.toptal.com/developers/gitignore/api/visualstudiocode,nextjs,linux,java
+# Edit at https://www.toptal.com/developers/gitignore?templates=visualstudiocode,nextjs,linux,java
 
 ### Java ###
 # Compiled class file
@@ -97,8 +97,8 @@ next-env.d.ts
 # Ignore all local history of files
 .history
 .ionide
-/backend/.idea
-# End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,linux,java,nextjs
+microfe-turbo/*
+# End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,nextjs,linux,java
 
 # Custom rules (everything added below won't be overriden by 'Generate .gitignore File' if you use 'Update' option)
 
