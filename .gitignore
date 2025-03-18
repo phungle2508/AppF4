@@ -97,7 +97,7 @@ next-env.d.ts
 # Ignore all local history of files
 .history
 .ionide
-# /backend/.idea
+/backend/.idea
 # End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,linux,java,nextjs
 
 # Custom rules (everything added below won't be overriden by 'Generate .gitignore File' if you use 'Update' option)
