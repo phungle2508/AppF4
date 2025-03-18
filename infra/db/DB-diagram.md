@@ -8,15 +8,15 @@
 
 Each core feature is handled by a separate microservice, ensuring **loose coupling**. While some services may share a database, ideally, each should have its own dedicated storage.  
 
-| **Microservice**         | **Responsibilities**                             | **Database**                 |
-|--------------------------|--------------------------------------------------|------------------------------|
-| 🔐 **Auth Service**      | Authentication, authorization (JWT, OAuth2)     | MySQL (`users`, `roles`)     |
-| 👤 **User Service**      | User profiles, followers, relationships         | MySQL (`profiles`, `relations`) |
-| 📝 **Post Service**      | Post creation, editing, media storage          | MySQL (`posts`, `media`)     |
-| 💬 **Comment Service**   | Comments, replies, reactions on comments       | MySQL (`comments`, `reactions`) |
-| ❤️ **Reaction Service**  | Likes & reactions tracking                     | MySQL (`reactions`)          |
-| 🔔 **Notification Service** | Real-time & push notifications           | Redis / Kafka                |
-| 🔍 **Search Service**    | Search users, posts, topics                    | Elasticsearch / OpenSearch   |
+| **Microservice**         | **Responsibilities**                             | **Database**                 |**public APIs**                             | 
+|--------------------------|--------------------------------------------------|------------------------------|--------------------------------------------|
+| 🔐 **Auth Service**      | Authentication, authorization (JWT, OAuth2)     | MySQL (`users`, `roles`)     |                                            | 
+| 👤 **User Service**      | User profiles, followers, relationships | MySQL (`profiles`, `relations`) | [RandomUser API](https://randomuser.me/documentation) |
+| 📝 **Post Service**      | Post creation, editing, media storage | MySQL (`posts`, `media`)     | [JSONPlaceholder (Posts)](https://jsonplaceholder.typicode.com) + [Lorem Picsum](https://picsum.photos)         |
+| 💬 **Comment Service**   | Comments, replies, reactions on comments       | MySQL (`comments`, `reactions`) | [JSONPlaceholder (Comments))](https://jsonplaceholder.typicode.com) |
+| ❤️ **Reaction Service**  | Likes & reactions tracking                     | MySQL (`reactions`)          |                                                     |
+| 🔔 **Notification Service** | Real-time & push notifications           | Redis / Kafka                |                                                       |  
+| 🔍 **Search Service**    | Search users, posts, topics                    | Elasticsearch / OpenSearch   |                                                |
 
 > **Communication:** Microservices expose **RESTful APIs** (or **GraphQL/WebSockets**) for interaction.  
 
