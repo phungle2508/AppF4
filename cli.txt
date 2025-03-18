@@ -3,3 +3,13 @@
   ./mvnw
 
   ./npmw start
+
+kubectl apply -f k8s/
+
+minikube image load apigateway
+
+kubectl rollout restart deployment/apigateway -n bookstore
+
+kubectl get pods -n bookstore
+
+kubectl port-forward svc/keycloak 9080:9080 -n bookstore
