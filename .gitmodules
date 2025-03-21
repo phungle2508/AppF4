@@ -10,10 +10,10 @@
 [submodule "backend/my-service-2"]
 	path = backend/my-service-2
 	url = https://github.com/shegga9x/f4-api-gateway	
-[submodule "backend/ms-comment"]
-	path = backend/ms-comment
-	url = https://github.com/shegga9x/f4-api-gateway
-[submodule "backend/ms-post"]
-	path = backend/ms-post
-	url = https://github.com/shegga9x/f4-api-gateway
+[submodule "backend/mscomment"]
+	path = backend/mscomment
+	url = https://github.com/tranmanhtuong123/mscomment.git
+[submodule "backend/mspost"]
+	path = backend/mspost
+	url = https://github.com/tranmanhtuong123/mspost.git
 
