@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd backend
+cd backend || exit
 
 declare -A repos=(
   ["ms_user"]="https://github.com/shegga9x/f4-user-service.git"
@@ -16,13 +16,20 @@ for folder in "${!repos[@]}"; do
   echo "📦 Committing and pushing $folder"
 
   if [ -d "$folder" ]; then
-    cd "$folder"
+    cd "$folder" || continue
+
+    # Ensure we're not in a detached HEAD
+    current_branch=$(git symbolic-ref --short -q HEAD)
+    if [ -z "$current_branch" ]; then
+      echo "🔄 HEAD is detached. Checking out or creating 'master' branch..."
+      git checkout master 2>/dev/null || git checkout -b master origin/master
+    fi
 
     # Check for changes
     if [ -n "$(git status --porcelain)" ]; then
       git add .
       git commit -m "Update: $(date '+%Y-%m-%d %H:%M:%S')"
-      git push origin HEAD:main
+      git push origin master
       echo "✅ Changes pushed for $folder"
     else
       echo "🟡 No changes to commit in $folder"

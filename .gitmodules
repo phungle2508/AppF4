@@ -1,36 +1,36 @@
 [submodule "microfrontends"]
 	path = microfrontends
-	url = https://github.com/shegga9x/f4-microfrontends.git
+	url = https://github.com/minhhiennn/microfrontends.git
 
 [submodule "infra/vps-config"]
 	path = infra/vps-config
-	url = https://github.com/shegga9x/f4-vps-config.git
+	url = https://github.com/shegga9x/f4-vps-configuration
 
 [submodule "infra/microservices-vps-config"]
 	path = infra/microservices-vps-config
-	url = https://github.com/shegga9x/f4-microservices-vps-config.git
+	url = https://github.com/shegga9x/f4-microserices-vps-configuration
 
 [submodule "backend/gateway"]
 	path = backend/gateway
-	url = https://github.com/shegga9x/f4-gateway-service
+	url = https://github.com/shegga9x/f4-apigateway
 
-[submodule "backend/ms_user"]
+[submodule "backend/user"]
 	path = backend/ms_user
-	url = https://github.com/shegga9x/f4-user-service.git
+	url = https://github.com/shegga9x/f4-microservices-user
 
-[submodule "backend/ms_reel"]
+[submodule "backend/reel"]
 	path = backend/ms_reel
-	url = https://github.com/shegga9x/f4-reel-service.git
+	url = https://github.com/shegga9x/f4-microservices-reel
 
-[submodule "backend/ms_commentlike"]
+[submodule "backend/like-comment"]
 	path = backend/ms_commentlike
-	url = https://github.com/shegga9x/f4-commentlike-service.git
+	url = https://github.com/shegga9x/f4-microservices-like-comment
 
-[submodule "backend/ms_notification"]
+[submodule "backend/notification"]
 	path = backend/ms_notification
-	url = https://github.com/shegga9x/f4-notification-service.git
+	url = https://github.com/shegga9x/f4-microservices-notification
 
-[submodule "backend/ms_feed"]
+[submodule "backend/feed"]
 	path = backend/ms_feed
-	url = https://github.com/shegga9x/f4-feed-service.git
+	url = https://github.com/shegga9x/f4-microservices-feed
 
