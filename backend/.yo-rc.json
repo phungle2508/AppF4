@@ -1,0 +1,7 @@
+{
+  "generator-jhipster": {
+    "baseName": "workspaces",
+    "directoryPath": "./",
+    "jhipsterVersion": "8.10.0"
+  }
+}
