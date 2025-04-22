@@ -1,4 +1,0 @@
-org.springframework.test.context.ContextCustomizerFactory = \
-    com.f4.feed.config.SqlTestContainersSpringContextCustomizerFactory,com.f4.\
-    feed.config.TestContainersSpringContextCustomizerFactory,com.f4.feed.config.\
-    KafkaTestContainersSpringContextCustomizerFactory

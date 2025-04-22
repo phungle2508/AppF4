@@ -32,4 +32,4 @@
 
 [submodule "backend/gateway"]
 	path = backend/gateway
-	url = https://github.com/shegga9x/f4-gateway-service
+	url = https://github.com/shegga9x/f4-gateway-service.git

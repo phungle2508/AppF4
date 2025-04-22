@@ -1,4 +1,0 @@
-org.springframework.test.context.ContextCustomizerFactory = \
-    com.f4.notification.config.\
-    SqlTestContainersSpringContextCustomizerFactory,com.f4.notification.config.\
-    KafkaTestContainersSpringContextCustomizerFactory
