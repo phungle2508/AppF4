@@ -122,12 +122,15 @@ spring:
   # Graceful shutdown configuration to prevent task rejection
   lifecycle:
     timeout-per-shutdown-phase: 20s
-
+  elasticsearch:
+    uris: http://appf4.io.vn:9200
+    username: elastic
+    password: admin
 # Redis server config
 jhipster:
   cache:
     redis:
-      server: redis://appf4.io.vn:6379
+      server: redis://${ssh.redis_password}@appf4.io.vn:6379
 
 pexels:
   api-key: ${PEXELS_API_KEY:E95y4qkSdeaH7cT2bZxgd7fMpxl6KnOiLGohb7LvRQL1RPEOLhEH1f5K}

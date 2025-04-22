@@ -15,14 +15,14 @@ for folder in "${!repos[@]}"; do
   echo "-----"
   echo "📦 Committing and pushing $folder"
 
-  if [ -d "$folder/.git" ]; then
+  if [ -d "$folder" ]; then
     cd "$folder"
 
     # Check for changes
     if [ -n "$(git status --porcelain)" ]; then
       git add .
       git commit -m "Update: $(date '+%Y-%m-%d %H:%M:%S')"
-      git push origin main
+      git push origin HEAD:main
       echo "✅ Changes pushed for $folder"
     else
       echo "🟡 No changes to commit in $folder"
@@ -30,6 +30,6 @@ for folder in "${!repos[@]}"; do
 
     cd ..
   else
-    echo "❌ $folder is not a git repo. Skipping."
+    echo "❌ $folder directory not found. Skipping."
   fi
 done
