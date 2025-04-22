@@ -1,0 +1,86 @@
+@startuml
+!define table(x) class x << (T,#FFAAAA) >>
+hide circle
+allow_mixing
+' User DB
+package "User DB" {
+    table(User) {
+        + id : UUID
+        username : String
+        email : String
+        password_hash : String
+        created_at : Timestamp
+    }
+}
+
+' Reel DB
+package "Reel DB" {
+    table(Reel) {
+        + id : UUID
+        user_id : UUID
+        title : String
+        video_url : String
+        created_at : Timestamp
+    }
+}
+
+' LikeComment DB
+package "LikeComment DB" {
+    table(Comment) {
+        + id : UUID
+        reel_id : UUID
+        user_id : UUID
+        content : Text
+        created_at : Timestamp
+    }
+
+    table(Like) {
+        + id : UUID
+        reel_id : UUID
+        user_id : UUID
+        created_at : Timestamp
+    }
+}
+
+' Notification DB
+package "Notification DB" {
+    table(Notification) {
+        + id : UUID
+        recipient_id : UUID
+        type : String
+        message : Text
+        is_read : Boolean
+        created_at : Timestamp
+    }
+}
+
+' Feed DB
+package "Feed DB" {
+    table(FeedItem) {
+        + id : UUID
+        user_id : UUID
+        reel_id : UUID
+        timestamp : Timestamp
+    }
+}
+
+' Keycloak DB (simplified)
+package "Keycloak DB" {
+    table(KeycloakUser) {
+        + id : UUID
+        username : String
+        email : String
+        realm_id : UUID
+    }
+}
+
+' Relationships
+User --> Reel : owns >
+User --> Comment : writes >
+User --> Like : gives >
+User --> Notification : receives >
+User --> FeedItem : sees >
+Reel --> Comment : has >
+Reel --> Like : has >
+Reel --> FeedItem : appears in >
+@enduml

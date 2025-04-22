@@ -1,0 +1,179 @@
+// API Gateway
+application {
+  config {
+    baseName gateway
+    packageName com.f4.gateway
+    applicationType gateway
+    authenticationType oauth2
+    databaseType no
+    serverPort 8080
+    serviceDiscoveryType consul
+    enableSwaggerCodegen true
+  }
+}
+
+// User Service
+application {
+  config {
+    baseName ms_user
+    packageName com.f4.user
+    applicationType microservice
+    authenticationType oauth2
+    databaseType sql
+    devDatabaseType mysql
+    prodDatabaseType mysql
+    serverPort 8081
+    serviceDiscoveryType consul
+    enableSwaggerCodegen true
+  }
+  entities * except Reel, Comment, Like, Notification, FeedItem
+}
+
+// Reel Service
+application {
+  config {
+    baseName ms_reel
+    packageName com.f4.reel
+    applicationType microservice
+    authenticationType oauth2
+    databaseType sql
+    devDatabaseType mysql
+    prodDatabaseType mysql
+    serverPort 8082
+    messageBroker kafka
+    serviceDiscoveryType consul
+    searchEngine elasticsearch
+    enableSwaggerCodegen true
+  }
+  entities Reel
+}
+
+// CommentLike Service
+application {
+  config {
+    baseName ms_commentlike
+    packageName com.f4.commentlike
+    applicationType microservice
+    authenticationType oauth2
+    databaseType sql
+    devDatabaseType mysql
+    prodDatabaseType mysql
+    serverPort 8085
+    messageBroker kafka
+    serviceDiscoveryType consul
+    enableSwaggerCodegen true
+  }
+  entities Comment, Like
+}
+
+// Notification Service
+application {
+  config {
+    baseName ms_notification
+    packageName com.f4.notification
+    applicationType microservice
+    authenticationType oauth2
+    databaseType sql
+    devDatabaseType mysql
+    prodDatabaseType mysql
+    serverPort 8083
+    messageBroker kafka
+    serviceDiscoveryType consul
+    enableSwaggerCodegen true
+  }
+  entities Notification
+}
+
+// Feed Service
+application {
+  config {
+    baseName ms_feed
+    packageName com.f4.feed
+    applicationType microservice
+    authenticationType oauth2
+    databaseType sql
+    devDatabaseType mysql
+    prodDatabaseType mysql
+    serverPort 8084
+    messageBroker kafka
+    serviceDiscoveryType consul
+    searchEngine elasticsearch
+    enableSwaggerCodegen true
+  }
+  entities FeedItem
+}
+
+// Entity Definitions
+entity User {
+    id UUID required
+    username String required unique
+    email String required unique
+    passwordHash String required
+    createdAt Instant required
+}
+
+entity KeycloakUser {
+    id UUID required
+    username String required unique
+    email String required unique
+    realmId UUID required
+}
+
+entity Reel {
+    id UUID required
+    userId UUID required
+    title String required
+    videoUrl String required
+    createdAt Instant required
+}
+
+entity Comment {
+    id UUID required
+    reelId UUID required
+    userId UUID required
+    content TextBlob required
+    createdAt Instant required
+}
+
+entity Like {
+    id UUID required
+    reelId UUID required
+    userId UUID required
+    createdAt Instant required
+}
+
+entity Notification {
+    id UUID required
+    recipientId UUID required
+    type String required
+    message TextBlob required
+    isRead Boolean required
+    createdAt Instant required
+}
+
+entity FeedItem {
+    id UUID required
+    userId UUID required
+    reelId UUID required
+    timestamp Instant required
+}
+
+// Relationships
+relationship OneToOne {
+    User{keycloakUser} to KeycloakUser{user}
+}
+
+// Global options
+dto * with mapstruct
+service * with serviceImpl
+paginate * with infinite-scroll
+search Reel, FeedItem with elasticsearch
+
+// Deployment configuration
+deployment {
+  deploymentType docker-compose
+  serviceDiscoveryType consul
+  appsFolders [gateway, ms_user, ms_reel, ms_commentlike, ms_notification, ms_feed]
+  dockerRepositoryName "f4"
+  monitoring prometheus
+} 

@@ -1,0 +1,374 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: f4space
+---
+# Elasticsearch
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: elasticsearch
+  namespace: f4space
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: elasticsearch
+  template:
+    metadata:
+      labels:
+        app: elasticsearch
+    spec:
+      containers:
+        - name: elasticsearch
+          image: docker.elastic.co/elasticsearch/elasticsearch:8.13.4
+          env:
+            - name: discovery.type
+              value: "single-node"
+            - name: xpack.security.enabled
+              value: "false"
+          ports:
+            - containerPort: 9200
+          resources:
+            limits:
+              memory: "2Gi"
+              cpu: "1"
+            requests:
+              memory: "1Gi"
+              cpu: "500m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: elasticsearch-service
+  namespace: f4space
+spec:
+  selector:
+    app: elasticsearch
+  ports:
+    - protocol: TCP
+      port: 9200
+      targetPort: 9200
+---
+# Redis
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis
+  namespace: f4space
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis
+  template:
+    metadata:
+      labels:
+        app: redis
+    spec:
+      containers:
+        - name: redis
+          image: redis:7.4.2
+          ports:
+            - containerPort: 6379
+          resources:
+            limits:
+              memory: "512Mi"
+              cpu: "250m"
+            requests:
+              memory: "256Mi"
+              cpu: "125m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis-service
+  namespace: f4space
+spec:
+  selector:
+    app: redis
+  ports:
+    - protocol: TCP
+      port: 6379
+      targetPort: 6379
+---
+# Consul
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: consul
+  namespace: f4space
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: consul
+  template:
+    metadata:
+      labels:
+        app: consul
+    spec:
+      containers:
+        - name: consul
+          image: bitnami/consul:1.20.2
+          command: ["consul", "agent", "-dev", "-ui", "-client", "0.0.0.0"]
+          ports:
+            - containerPort: 8500
+          resources:
+            limits:
+              memory: "512Mi"
+              cpu: "250m"
+            requests:
+              memory: "256Mi"
+              cpu: "125m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: consul-service
+  namespace: f4space
+spec:
+  selector:
+    app: consul
+  ports:
+    - protocol: TCP
+      port: 8500
+      targetPort: 8500
+---
+# Keycloak
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: keycloak
+  namespace: f4space
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: keycloak
+  template:
+    metadata:
+      labels:
+        app: keycloak
+    spec:
+      volumes:
+        - name: realm-config
+          configMap:
+            name: keycloak-realm-config
+      containers:
+        - name: keycloak
+          image: quay.io/keycloak/keycloak:26.1.1
+          args: ["start-dev", "--import-realm"]
+          env:
+            - name: KC_HTTP_PORT
+              value: "9080"
+            - name: KC_HOSTNAME_STRICT
+              value: "false"
+            - name: KC_LOG_LEVEL
+              value: "INFO"
+            - name: KC_DB
+              value: "mysql"
+            - name: KC_DB_URL
+              value: "jdbc:mysql://mysql-apigateway.f4space.svc.cluster.local:3306/f4space"
+            - name: KC_DB_USERNAME
+              value: "root"
+            - name: KC_DB_PASSWORD
+              value: ""
+            - name: KEYCLOAK_ADMIN
+              value: "admin"
+            - name: KEYCLOAK_ADMIN_PASSWORD
+              value: "admin"
+          ports:
+            - containerPort: 9080
+          volumeMounts:
+            - name: realm-config
+              mountPath: /opt/keycloak/data/import/
+          readinessProbe:
+            httpGet:
+              path: /realms/master
+              port: 9080
+            initialDelaySeconds: 60
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /realms/master
+              port: 9080
+            initialDelaySeconds: 120
+            periodSeconds: 10
+          resources:
+            limits:
+              memory: "1Gi"
+              cpu: "500m"
+            requests:
+              memory: "512Mi"
+              cpu: "250m"
+---
+# ✅ Keycloak Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: keycloak
+  namespace: f4space
+spec:
+  type: NodePort # 🔴 Change from ClusterIP to NodePort
+  selector:
+    app: keycloak
+  ports:
+    - protocol: TCP
+      port: 9080
+      targetPort: 9080
+      nodePort: 30080 # 🟢 Expose Keycloak on this port
+---
+# Kafka
+# Kafka Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kafka
+  namespace: f4space
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kafka
+  template:
+    metadata:
+      labels:
+        app: kafka
+    spec:
+      containers:
+        - name: kafka
+          image: apache/kafka-native:3.9.0
+          env:
+            - name: KAFKA_NODE_ID
+              value: "1"
+            - name: KAFKA_PROCESS_ROLES
+              value: "broker,controller"
+            - name: KAFKA_LISTENERS
+              value: "PLAINTEXT://:9092,CONTROLLER://:9093"
+            - name: KAFKA_ADVERTISED_LISTENERS
+              value: "PLAINTEXT://kafka-service.f4space.svc.cluster.local:9092"
+            - name: KAFKA_CONTROLLER_LISTENER_NAMES
+              value: "CONTROLLER"
+            - name: KAFKA_CONTROLLER_QUORUM_VOTERS
+              value: "1@kafka-service.f4space.svc.cluster.local:9093"
+          ports:
+            - name: broker
+              containerPort: 9092
+            - name: controller
+              containerPort: 9093
+          resources:
+            limits:
+              memory: "1Gi"
+              cpu: "500m"
+            requests:
+              memory: "512Mi"
+              cpu: "250m"
+          volumeMounts:
+            - name: log4j-config
+              mountPath: /etc/kafka/config/tools-log4j.properties
+              subPath: tools-log4j.properties
+      volumes:
+        - name: log4j-config
+          configMap:
+            name: kafka-log4j
+---
+# Kafka Service (Headless for Service Discovery)
+apiVersion: v1
+kind: Service
+metadata:
+  name: kafka-service
+  namespace: f4space
+spec:
+  selector:
+    app: kafka
+  ports:
+    - name: broker
+      protocol: TCP
+      port: 9092
+      targetPort: 9092
+    - name: controller
+      protocol: TCP
+      port: 9093
+      targetPort: 9093
+
+---
+# API Gateway
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: apigateway
+  namespace: f4space
+spec:
+  initContainers:
+    - name: wait-for-keycloak
+      image: busybox
+      command:
+        [
+          "sh",
+          "-c",
+          "until wget -qO- http://keycloak.f4space.svc.cluster.local:9080/realms/master; do echo waiting for Keycloak; sleep 5; done",
+        ]
+  replicas: 1
+  selector:
+    matchLabels:
+      app: apigateway
+  template:
+    metadata:
+      labels:
+        app: apigateway
+    spec:
+      containers:
+        - name: apigateway
+          image: shegga/apigateway
+          # imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
+          env:
+            - name: _JAVA_OPTIONS
+              value: "-Xmx512m -Xms256m"
+            - name: SPRING_PROFILES_ACTIVE
+              value: "prod,api-docs"
+            - name: SPRING_CLOUD_CONSUL_HOST
+              value: "consul-service.f4space.svc.cluster.local"
+            - name: SPRING_CLOUD_CONSUL_PORT
+              value: "8500"
+            - name: SPRING_R2DBC_URL
+              value: "r2dbc:mysql://mysql-apigateway.f4space.svc.cluster.local:3306/f4space"
+            - name: SPRING_LIQUIBASE_URL
+              value: "jdbc:mysql://mysql-apigateway.f4space.svc.cluster.local:3306/f4space"
+            - name: SPRING_ELASTICSEARCH_URIS
+              value: "http://elasticsearch-service.f4space.svc.cluster.local:9200"
+            - name: JHIPSTER_CACHE_REDIS_SERVER
+              value: "redis://redis.f4space.svc.cluster.local:6379"
+            - name: SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_OIDC_REDIRECT_URI
+              value: "http://localhost:8080/login/oauth2/code/jhipster"
+            - name: SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_OIDC_ISSUER_URI
+              value: "http://192.168.49.2:30080/realms/jhipster"
+            - name: JHIPSTER_SECURITY_OAUTH2_AUTH_SERVER_URL
+              value: "http://192.168.49.2:30080"
+            - name: SPRING_KAFKA_BOOTSTRAP_SERVERS
+              value: "kafka-service.f4space.svc.cluster.local:9092"
+          resources:
+            limits:
+              memory: "1Gi"
+              cpu: "500m"
+            requests:
+              memory: "512Mi"
+              cpu: "250m"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: apigateway-service
+  namespace: f4space
+spec:
+  type: NodePort # Change from ClusterIP
+  selector:
+    app: apigateway
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+      nodePort: 32080 # Exposes on this port

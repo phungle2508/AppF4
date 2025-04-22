@@ -1,0 +1,29 @@
+Core Features
+📌 User Authentication & Authorization
+    🔐 OAuth2 / Keycloak / NextAuth.js for login (Google, Facebook, GitHub, etc.)
+    🆔 Email/password signup & verification
+    🔄 JWT-based authentication
+    🏗️ Role-based access control (admin, user, moderator)
+🏡 User Profile & Dashboard
+    📸 Profile picture, bio, and status updates
+    📝 Edit profile details
+    👥 Followers/Following system
+📝 Post Creation & Management
+    🖼️ Text, images, videos, GIFs
+    🎥 Live streaming or video sharing (optional)
+    🌐 Public vs private posts
+    ✏️ Edit & delete posts
+💬 Comments & Replies
+    🗨️ Nested comments
+    ❤️ Like reactions on comments
+    🚩 Report inappropriate comments
+❤️ Like & Reactions
+    👍 Like, ❤️ Love, 😂 Haha, 😢 Sad, 😡 Angry
+    📊 Engagement metrics
+🔔 Notifications
+    🔄 Real-time notifications using WebSockets / Kafka
+    📬 Push notifications (Firebase Cloud Messaging)
+🔍 Search & Discovery
+    🔎 Search users, posts, and topics (Elasticsearch / OpenSearch)
+    📌 Suggested friends / content recommendations
+
