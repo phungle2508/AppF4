@@ -4,7 +4,6 @@
     "applicationType": "microservice",
     "authenticationType": "oauth2",
     "baseName": "ms_notification",
-    "creationTimestamp": 1745287054640,
     "databaseType": "sql",
     "devDatabaseType": "mysql",
     "enableSwaggerCodegen": true,

@@ -4,7 +4,6 @@
     "applicationType": "microservice",
     "authenticationType": "oauth2",
     "baseName": "ms_commentlike",
-    "creationTimestamp": 1745287054341,
     "databaseType": "sql",
     "devDatabaseType": "mysql",
     "enableSwaggerCodegen": true,

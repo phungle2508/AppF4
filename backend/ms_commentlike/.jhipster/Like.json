@@ -6,7 +6,6 @@
   "clientRootFolder": "ms_commentlike",
   "databaseType": "sql",
   "dto": "mapstruct",
-  "entityTableName": "jhi_like",
   "fields": [
     {
       "fieldName": "id",

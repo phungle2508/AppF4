@@ -1,0 +1,16 @@
+{
+  "generator-jhipster": {
+    "applicationIndex": 1,
+    "applicationType": "microservice",
+    "authenticationType": "oauth2",
+    "baseName": "ms_user",
+    "databaseType": "sql",
+    "devDatabaseType": "mysql",
+    "enableSwaggerCodegen": true,
+    "entities": ["User", "KeycloakUser"],
+    "packageName": "com.f4.user",
+    "prodDatabaseType": "mysql",
+    "serverPort": "8081",
+    "serviceDiscoveryType": "consul"
+  }
+}

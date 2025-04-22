@@ -1,0 +1,19 @@
+{
+  "generator-jhipster": {
+    "deploymentType": "docker-compose",
+    "appsFolders": [
+      "gateway",
+      "ms_user",
+      "ms_reel",
+      "ms_commentlike",
+      "ms_notification",
+      "ms_feed"
+    ],
+    "directoryPath": "../",
+    "gatewayType": "SpringCloudGateway",
+    "monitoring": "prometheus",
+    "clusteredDbApps": [],
+    "serviceDiscoveryType": "consul",
+    "dockerRepositoryName": "f4"
+  }
+}

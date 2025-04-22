@@ -82,6 +82,11 @@
 
     <dependencyManagement>
         <dependencies>
+        <dependency>
+            <groupId>com.jcraft</groupId>
+            <artifactId>jsch</artifactId>
+            <version>0.1.55</version>
+        </dependency>
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
@@ -100,6 +105,11 @@
     </dependencyManagement>
 
     <dependencies>
+        <dependency>
+            <groupId>com.jcraft</groupId>
+            <artifactId>jsch</artifactId>
+            <version>0.1.55</version>
+        </dependency>
         <dependency>
             <groupId>tech.jhipster</groupId>
             <artifactId>jhipster-framework</artifactId>
@@ -382,6 +392,11 @@
                     <artifactId>maven-checkstyle-plugin</artifactId>
                     <version>${maven-checkstyle-plugin.version}</version>
                     <dependencies>
+        <dependency>
+            <groupId>com.jcraft</groupId>
+            <artifactId>jsch</artifactId>
+            <version>0.1.55</version>
+        </dependency>
                         <dependency>
                             <groupId>com.puppycrawl.tools</groupId>
                             <artifactId>checkstyle</artifactId>
@@ -668,6 +683,11 @@
                         </pluginExtensions>
                     </configuration>
                     <dependencies>
+        <dependency>
+            <groupId>com.jcraft</groupId>
+            <artifactId>jsch</artifactId>
+            <version>0.1.55</version>
+        </dependency>
                         <dependency>
                             <groupId>com.google.cloud.tools</groupId>
                             <artifactId>jib-spring-boot-extension-maven</artifactId>
@@ -825,6 +845,11 @@
                 <spring.profiles.active>dev${profile.tls}</spring.profiles.active>
             </properties>
             <dependencies>
+        <dependency>
+            <groupId>com.jcraft</groupId>
+            <artifactId>jsch</artifactId>
+            <version>0.1.55</version>
+        </dependency>
                 <dependency>
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-devtools</artifactId>
@@ -838,6 +863,11 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
             <dependencies>
+        <dependency>
+            <groupId>com.jcraft</groupId>
+            <artifactId>jsch</artifactId>
+            <version>0.1.55</version>
+        </dependency>
                 <dependency>
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-docker-compose</artifactId>
@@ -854,6 +884,11 @@
                 </property>
             </activation>
             <dependencies>
+        <dependency>
+            <groupId>com.jcraft</groupId>
+            <artifactId>jsch</artifactId>
+            <version>0.1.55</version>
+        </dependency>
                 <dependency>
                     <!-- The following dependency is added due to issue #9175-->
                     <groupId>org.springframework.boot</groupId>
@@ -931,6 +966,11 @@
             -->
             <id>IDE</id>
             <dependencies>
+        <dependency>
+            <groupId>com.jcraft</groupId>
+            <artifactId>jsch</artifactId>
+            <version>0.1.55</version>
+        </dependency>
                 <dependency>
                     <groupId>org.mapstruct</groupId>
                     <artifactId>mapstruct-processor</artifactId>
@@ -1154,6 +1194,11 @@
             -->
             <id>zipkin</id>
             <dependencies>
+        <dependency>
+            <groupId>com.jcraft</groupId>
+            <artifactId>jsch</artifactId>
+            <version>0.1.55</version>
+        </dependency>
                 <dependency>
                     <groupId>io.micrometer</groupId>
                     <artifactId>micrometer-tracing</artifactId>

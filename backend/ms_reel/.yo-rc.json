@@ -4,7 +4,6 @@
     "applicationType": "microservice",
     "authenticationType": "oauth2",
     "baseName": "ms_reel",
-    "creationTimestamp": 1745287054325,
     "databaseType": "sql",
     "devDatabaseType": "mysql",
     "enableSwaggerCodegen": true,

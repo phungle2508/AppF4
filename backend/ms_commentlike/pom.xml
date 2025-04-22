@@ -80,6 +80,11 @@
 
     <dependencyManagement>
         <dependencies>
+        <dependency>
+            <groupId>com.jcraft</groupId>
+            <artifactId>jsch</artifactId>
+            <version>0.1.55</version>
+        </dependency>
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
@@ -91,6 +96,11 @@
     </dependencyManagement>
 
     <dependencies>
+        <dependency>
+            <groupId>com.jcraft</groupId>
+            <artifactId>jsch</artifactId>
+            <version>0.1.55</version>
+        </dependency>
         <dependency>
             <groupId>tech.jhipster</groupId>
             <artifactId>jhipster-framework</artifactId>
@@ -440,6 +450,11 @@
                     <artifactId>maven-checkstyle-plugin</artifactId>
                     <version>${maven-checkstyle-plugin.version}</version>
                     <dependencies>
+        <dependency>
+            <groupId>com.jcraft</groupId>
+            <artifactId>jsch</artifactId>
+            <version>0.1.55</version>
+        </dependency>
                         <dependency>
                             <groupId>com.puppycrawl.tools</groupId>
                             <artifactId>checkstyle</artifactId>
@@ -713,6 +728,11 @@
                         </pluginExtensions>
                     </configuration>
                     <dependencies>
+        <dependency>
+            <groupId>com.jcraft</groupId>
+            <artifactId>jsch</artifactId>
+            <version>0.1.55</version>
+        </dependency>
                         <dependency>
                             <groupId>com.google.cloud.tools</groupId>
                             <artifactId>jib-spring-boot-extension-maven</artifactId>
@@ -831,6 +851,11 @@
                         <diffExcludeObjects>oauth_access_token, oauth_approvals, oauth_client_details, oauth_client_token, oauth_code, oauth_refresh_token</diffExcludeObjects>
                     </configuration>
                     <dependencies>
+        <dependency>
+            <groupId>com.jcraft</groupId>
+            <artifactId>jsch</artifactId>
+            <version>0.1.55</version>
+        </dependency>
                         <dependency>
                             <groupId>org.liquibase</groupId>
                             <artifactId>liquibase-core</artifactId>
@@ -908,6 +933,11 @@
                 <spring.profiles.active>dev${profile.tls}${profile.no-liquibase}</spring.profiles.active>
             </properties>
             <dependencies>
+        <dependency>
+            <groupId>com.jcraft</groupId>
+            <artifactId>jsch</artifactId>
+            <version>0.1.55</version>
+        </dependency>
                 <dependency>
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-devtools</artifactId>
@@ -921,6 +951,11 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
             <dependencies>
+        <dependency>
+            <groupId>com.jcraft</groupId>
+            <artifactId>jsch</artifactId>
+            <version>0.1.55</version>
+        </dependency>
                 <dependency>
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-docker-compose</artifactId>
@@ -937,6 +972,11 @@
                 </property>
             </activation>
             <dependencies>
+        <dependency>
+            <groupId>com.jcraft</groupId>
+            <artifactId>jsch</artifactId>
+            <version>0.1.55</version>
+        </dependency>
                 <dependency>
                     <!-- The following dependency is added due to issue #9175-->
                     <groupId>org.springframework.boot</groupId>
@@ -1000,6 +1040,11 @@
             -->
             <id>IDE</id>
             <dependencies>
+        <dependency>
+            <groupId>com.jcraft</groupId>
+            <artifactId>jsch</artifactId>
+            <version>0.1.55</version>
+        </dependency>
                 <dependency>
                     <groupId>org.hibernate.orm</groupId>
                     <artifactId>hibernate-jpamodelgen</artifactId>
@@ -1070,6 +1115,11 @@
             -->
             <id>zipkin</id>
             <dependencies>
+        <dependency>
+            <groupId>com.jcraft</groupId>
+            <artifactId>jsch</artifactId>
+            <version>0.1.55</version>
+        </dependency>
                 <dependency>
                     <groupId>io.micrometer</groupId>
                     <artifactId>micrometer-tracing</artifactId>

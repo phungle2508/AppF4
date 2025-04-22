@@ -1,0 +1,130 @@
+# ===================================================================
+# Consul Configuration for the "dev" profile.
+# This configuration contains the environment variables from docker-compose
+# converted to YAML format for Spring configuration.
+# ===================================================================
+# SSH port forwarding configuration
+ssh:
+  forwarding:
+    enabled: true  # Set to true to enable SSH port forwarding
+  remote:
+    host: appf4.io.vn
+  user: root
+  password: ledinhde788De
+  service-name: gateway
+  mysql_database: gateway
+  mysql_port: 3306
+spring:
+  application:
+    name: ${ssh.service-name}
+  profiles:
+    active: dev,api-docs
+  cloud:
+    consul:
+      enabled: true
+      host: consul.appf4.io.vn
+      port: 443
+      scheme: https
+      tls:
+        skip-verify: true
+      discovery:
+        enabled: true
+        service-name: gateway
+        prefer-ip-address: true
+        ip-address: appf4.io.vn
+        port: ${ssh.remote.port}
+        acl-token: ${CONSUL_HTTP_TOKEN:}
+      config:
+        enabled: true
+        headers:
+          Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICI4TEgyYXBXZ0RPRHM3YkFIVmpuX3BsaVc5cU9VNDBBQ3F6RWM2d1RReWZvIn0.eyJleHAiOjE3NDM3NzgzMTksImlhdCI6MTc0Mzc3ODAxOSwianRpIjoiM2FhN2YxN2QtYzFiZC00NjI1LWI1NzEtOTllZmRlZjQ5OTZmIiwiaXNzIjoiaHR0cHM6Ly9rZXljbG9hay5hcHBmNC5pby52bi9yZWFsbXMvamhpcHN0ZXIiLCJhdWQiOiJhY2NvdW50Iiwic3ViIjoiNGM5NzM4OTYtNTc2MS00MWZjLTgyMTctMDdjNWQxM2EwMDRiIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoid2ViX2FwcCIsInNpZCI6IjE4MDI4ZDUwLWIzNjEtNGQzYi04OTYxLWRiMjUyZmI5NDM0MSIsImFjciI6IjEiLCJhbGxvd2VkLW9yaWdpbnMiOlsiaHR0cDovLzEyNy4wLjAuMTo4NzYxIiwiaHR0cHM6Ly9hcHBmNC5pby52bi8qIiwiaHR0cDovL2xvY2FsaG9zdDo4MDgwIiwiaHR0cHM6Ly9jb25zdWwuYXBwZjQuaW8udm4vKiIsImh0dHBzOi8vbXlzcWwuYXBwZjQuaW8udm4vKiIsImh0dHBzOi8va2Fma2EuYXBwZjQuaW8udm4vKiIsImh0dHBzOi8vcmVkaXMuYXBwZjQuaW8udm4vKiIsImh0dHA6Ly9sb2NhbGhvc3Q6ODEwMCIsImh0dHBzOi8va2FmZHJvcC5hcHBmNC5pby52bi8qIiwiaHR0cHM6Ly9sb2NhbGhvc3Q6ODA4MCJdLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsiUk9MRV9VU0VSIiwib2ZmbGluZV9hY2Nlc3MiLCJST0xFX0FETUlOIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6Im9wZW5pZCBlbWFpbCBwcm9maWxlIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInJvbGVzIjpbIlJPTEVfVVNFUiIsIm9mZmxpbmVfYWNjZXNzIiwiUk9MRV9BRE1JTiIsInVtYV9hdXRob3JpemF0aW9uIl0sIm5hbWUiOiJBZG1pbiBBZG1pbmlzdHJhdG9yIiwicHJlZmVycmVkX3VzZXJuYW1lIjoiYWRtaW4iLCJnaXZlbl9uYW1lIjoiQWRtaW4iLCJmYW1pbHlfbmFtZSI6IkFkbWluaXN0cmF0b3IiLCJlbWFpbCI6ImFkbWluQGxvY2FsaG9zdCJ9.Ch4c_lVD5OnUHO3AbekAcLFyN9VxLchNwiSNlgI7hb6aHf49kETdhZcvEabO3n5Ipm2YQnTVKF5Ef-2gQcR_n6X44Li88ksd7ErKdu1qU9qqqBrBWvHvZigO9kFqW0lwo_tW7HebDe0pAt2DP51gP87GuyLRrrjvDuPxhz3yNziW8N0_jWjYaYrllIAQCP1AKe8eQ-mdimPFlBWHHXEIKe-0ldGZ2tLr6_RYZPZL767vtcsJNngsc5aC90aDlnThPWCQUauc92cbQXqR3PqeV3RYQa0HjBsmg8vtaBHFiOUJUiZqkELUxOZ5UrsvMiqxeTboxkIpFLhwf5rneuzPAg
+        acl-token: ${CONSUL_HTTP_TOKEN:}
+    # Spring Cloud Stream configuration
+    stream:
+      defaultBinder: kafka
+      function:
+        definition: input;output
+      bindings:
+        input-in-0:
+          destination: ${ssh.service-name}-input
+          contentType: application/json
+          group: ${ssh.service-name}
+        output-out-0:
+          destination: ${ssh.service-name}-output
+          contentType: application/json
+      kafka:
+        binder:
+          brokers: appf4.io.vn:9092
+          auto-create-topics: true
+          configuration:
+            security.protocol: SSL
+            ssl.endpoint.identification.algorithm: ""
+            ssl.truststore.location: classpath:config/tls/kafka.truststore.jks
+            ssl.truststore.password: f4security
+            ssl.keystore.location: classpath:config/tls/kafka.keystore.jks
+            ssl.keystore.password: f4security
+            ssl.key.password: f4security
+        bindings:
+          input-in-0:
+            consumer:
+              autoCommitOffset: true
+              startOffset: latest
+              enableDlq: true
+          output-out-0:
+            producer:
+              sync: false
+              bufferSize: 16384
+      # Configure task scheduler for graceful shutdown
+      task:
+        scheduler:
+          shutdown-timeout: 30
+        execution:
+          shutdown:
+            timeout: 30s
+    service-registry:
+      auto-registration:
+        enabled: true
+  security:
+    oauth2:
+      client:
+        provider:
+          oidc:
+            issuer-uri: https://keycloak.appf4.io.vn/realms/jhipster
+        registration:
+          oidc:
+            client-id: web_app
+    csrf:
+      cookie:
+        name: XSRF-TOKEN
+        path: /
+        secure: false  # Set to true in production with HTTPS
+        same-site: Lax
+  r2dbc:
+    url: r2dbc:mysql://microservices.appf4.io.vn:${ssh.mysql_port}/${ssh.mysql_database}
+  liquibase:
+    url: jdbc:mysql://microservices.appf4.io.vn:${ssh.mysql_port}/${ssh.mysql_database}?useUnicode=true&characterEncoding=utf8&useSSL=false&createDatabaseIfNotExist=true
+  kafka:
+    bootstrap-servers: appf4.io.vn:9092
+    security-protocol: SSL
+    ssl:
+      endpoint-identification-algorithm: ""
+    properties:
+      ssl:
+        truststore:
+          location: classpath:config/tls/kafka.truststore.jks
+          password: f4security
+        keystore:
+          location: classpath:config/tls/kafka.keystore.jks
+          password: f4security
+        key:
+          password: f4security
+  # Graceful shutdown configuration to prevent task rejection
+  lifecycle:
+    timeout-per-shutdown-phase: 20s
+
+# Redis server config
+redis:
+  server: redis://appf4.io.vn:6379
+
+
+

@@ -4,7 +4,6 @@
     "applicationType": "microservice",
     "authenticationType": "oauth2",
     "baseName": "ms_feed",
-    "creationTimestamp": 1745287054112,
     "databaseType": "sql",
     "devDatabaseType": "mysql",
     "enableSwaggerCodegen": true,
