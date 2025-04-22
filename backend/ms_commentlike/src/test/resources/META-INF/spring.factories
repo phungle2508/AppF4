@@ -1,0 +1,4 @@
+org.springframework.test.context.ContextCustomizerFactory = \
+    com.f4.commentlike.config.\
+    SqlTestContainersSpringContextCustomizerFactory,com.f4.commentlike.config.\
+    KafkaTestContainersSpringContextCustomizerFactory
