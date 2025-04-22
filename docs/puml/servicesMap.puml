@@ -39,6 +39,11 @@ package "Search Engine" {
     RECTANGLE Elasticsearch
 }
 
+' Cache
+package "Cache" {
+    RECTANGLE Redis
+}
+
 ' Microservices
 package "Microservices" {
     RECTANGLE "User Service" as UserService
@@ -61,12 +66,14 @@ package "Microservices" {
     database "Notification DB" as NotificationDB
     NotificationService --> NotificationDB
     Kafka --> NotificationService : consumes
+    NotificationService --> Redis : cache messages
 
     RECTANGLE "Feed Service" as FeedService
     database "Feed DB" as FeedDB
     FeedService --> FeedDB
     Kafka --> FeedService : consumes
     FeedService --> Elasticsearch : indexes & searches
+    FeedService --> Redis : cache feeds
 }
 
 ' Gateway to Microservices (REST)

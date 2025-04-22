@@ -10,3 +10,27 @@
 	path = infra/microservices-vps-config
 	url = https://github.com/shegga9x/f4-microserices-vps-configuration
 
+[submodule "backend/gateway"]
+	path = backend/gateway
+	url = https://github.com/shegga9x/f4-apigateway
+
+[submodule "backend/user"]
+	path = backend/ms_user
+	url = https://github.com/shegga9x/f4-microservices-user
+
+[submodule "backend/reel"]
+	path = backend/ms_reel
+	url = https://github.com/shegga9x/f4-microservices-reel
+
+[submodule "backend/like-comment"]
+	path = backend/ms_commentlike
+	url = https://github.com/shegga9x/f4-microservices-like-comment
+
+[submodule "backend/notification"]
+	path = backend/ms_notification
+	url = https://github.com/shegga9x/f4-microservices-notification
+
+[submodule "backend/feed"]
+	path = backend/ms_feed
+	url = https://github.com/shegga9x/f4-microservices-feed
+

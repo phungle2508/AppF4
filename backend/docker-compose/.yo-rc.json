@@ -1,0 +1,21 @@
+{
+  "generator-jhipster": {
+    "appsFolders": [
+      "gateway",
+      "ms_user",
+      "ms_reel",
+      "ms_commentlike",
+      "ms_notification",
+      "ms_feed"
+    ],
+    "clusteredDbApps": [],
+    "deploymentType": "docker-compose",
+    "directoryPath": "../",
+    "dockerRepositoryName": "f4",
+    "gatewayType": "SpringCloudGateway",
+    "jhipsterVersion": "8.10.0",
+    "jwtSecretKey": "YTNjZGI5MjA2OWQwZWEwNWE3ZmNkMzI5NTliZmEyYWNjNTI0M2QxNDQwMDQ5MmEyYzk2NmE5MjYyM2FkZDQxNzEyZDA4ZTNjODkzMTYwZThjZDJjY2JkYjM1NTk2OGUxZjQ3Ng==",
+    "monitoring": "prometheus",
+    "serviceDiscoveryType": "consul"
+  }
+}

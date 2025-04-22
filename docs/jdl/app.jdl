@@ -26,7 +26,7 @@ application {
     serviceDiscoveryType consul
     enableSwaggerCodegen true
   }
-  entities * except Reel, Comment, Like, Notification, FeedItem
+  entities User, KeycloakUser
 }
 
 // Reel Service
@@ -80,6 +80,7 @@ application {
     messageBroker kafka
     serviceDiscoveryType consul
     enableSwaggerCodegen true
+    cacheProvider redis
   }
   entities Notification
 }
@@ -99,6 +100,7 @@ application {
     serviceDiscoveryType consul
     searchEngine elasticsearch
     enableSwaggerCodegen true
+    cacheProvider redis
   }
   entities FeedItem
 }
@@ -110,6 +112,7 @@ entity User {
     email String required unique
     passwordHash String required
     createdAt Instant required
+    keycloakUserId UUID required
 }
 
 entity KeycloakUser {
@@ -117,6 +120,7 @@ entity KeycloakUser {
     username String required unique
     email String required unique
     realmId UUID required
+    userId UUID required
 }
 
 entity Reel {
@@ -156,11 +160,6 @@ entity FeedItem {
     userId UUID required
     reelId UUID required
     timestamp Instant required
-}
-
-// Relationships
-relationship OneToOne {
-    User{keycloakUser} to KeycloakUser{user}
 }
 
 // Global options
