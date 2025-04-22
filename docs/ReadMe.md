@@ -1,23 +1,5 @@
 # <a name="-microservices-architecture--database-design">🛠 **Microservices Architecture & Database Design**
 
-## <a name="-table-of-contents">📑 Table of Contents
-
-- [🛠 **Microservices Architecture \& Database Design**](#-microservices-architecture--database-design)
-  - [📑 Table of Contents](#-table-of-contents)
-  - [1️⃣ Microservices Overview](#1️⃣-microservices-overview)
-  - [2️⃣ Database Schema Overview (MySQL)](#2️⃣-database-schema-overview-mysql)
-    - [👤 User DB](#-user-db)
-    - [📝 Reel DB](#-reel-db)
-    - [💬 LikeComment DB](#-likecomment-db)
-    - [🔔 Notification DB](#-notification-db)
-    - [📰 Feed DB](#-feed-db)
-    - [🛡 Keycloak DB (Simplified)](#-keycloak-db-simplified)
-  - [3️⃣ Microservices Communication](#3️⃣-microservices-communication)
-    - [🔗 **Entity Relationships**](#-entity-relationships)
-    - [🔄 **Asynchronous (Kafka / RabbitMQ)**](#-asynchronous-kafka--rabbitmq)
-  - [4️⃣ Optimizations \& Best Practices](#4️⃣-optimizations--best-practices)
-
-
 ---
 ## <a name="1-microservices-overview"></a>1️⃣ Microservices Overview
 
