@@ -1,0 +1,28 @@
+{
+  "generator-jhipster": {
+    "applicationIndex": 5,
+    "applicationType": "microservice",
+    "authenticationType": "oauth2",
+    "baseName": "ms_feed",
+    "creationTimestamp": 1745287054112,
+    "databaseType": "sql",
+    "devDatabaseType": "mysql",
+    "enableSwaggerCodegen": true,
+    "entities": ["FeedItem"],
+    "jhipsterVersion": "8.10.0",
+    "jwtSecretKey": "ZDE0NGViNzYyMzQ1NzgzNDZmZjZjMGM5MTU0MDU4ZGM2NzM2ZDExMDI5ZmE4MjdiMGIyOGE0ZmU0YzFmZDE4YjliMzQzMDhiYjJhNjk4Nzc2MDY0NzQwYjA2NmQzMjQ2MTFmZDI0Mzg2NDZlODJjYjM3NmFhNDBiMjUyMWZhNTA=",
+    "languages": ["en"],
+    "lastLiquibaseTimestamp": 1745286523000,
+    "messageBroker": "kafka",
+    "monorepository": true,
+    "nativeLanguage": "en",
+    "packageName": "com.f4.feed",
+    "prodDatabaseType": "mysql",
+    "searchEngine": "elasticsearch",
+    "serverPort": "8084",
+    "serviceDiscoveryType": "consul",
+    "skipClient": true,
+    "skipCommitHook": true,
+    "skipUserManagement": true
+  }
+}
