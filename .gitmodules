@@ -2,6 +2,7 @@
 	path = microfrontends
 	url = https://github.com/minhhiennn/microfrontends.git
 
+	branch = main
 [submodule "infra/vps-config"]
 	path = infra/vps-config
 	url = https://github.com/shegga9x/f4-vps-configuration
