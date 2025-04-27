@@ -175,4 +175,4 @@ deployment {
   appsFolders [gateway, ms_user, ms_reel, ms_commentlike, ms_notification, ms_feed]
   dockerRepositoryName "f4"
   monitoring prometheus
-} 
+}
