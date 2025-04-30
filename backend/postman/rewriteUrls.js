@@ -32,7 +32,7 @@ function updateHost(jsonData, ms_name) {
             if (item.request.url.raw) {
                 item.request.url.raw = item.request.url.raw.replace(
                     "{{baseUrl}}",
-                    `{{baseUrl}}/{{${ms_name}}}`
+                    `{{baseURL}}/{{${ms_name}}}`
                 );
             }
 
@@ -40,7 +40,7 @@ function updateHost(jsonData, ms_name) {
             if (item.request.url.host) {
                 item.request.url.host = item.request.url.host.map(host => {
                     if (host === "{{baseUrl}}") {
-                        return `{{baseUrl}}/{{${ms_name}}}`;
+                        return `{{baseURL}}/{{${ms_name}}}`;
                     }
                     return host;
                 });
