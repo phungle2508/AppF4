@@ -1,0 +1,1952 @@
+{
+  "info": {
+    "name": "Ms Reel API",
+    "description": {
+      "content": "Ms Reel API documentation",
+      "type": "text/markdown"
+    },
+    "version": "0.0.1",
+    "schema": "https://schema.postman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "kafka-practice-controller",
+      "item": [
+        {
+          "name": "listBrokers",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "*/*",
+                "description": "",
+                "disabled": false
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/{{reel}}/api/kafka-practice/brokers",
+              "host": [
+                "{{baseURL}}/{{reel}}"
+              ],
+              "path": [
+                "api",
+                "kafka-practice",
+                "brokers"
+              ],
+              "variable": [],
+              "query": []
+            },
+            "description": ""
+          },
+          "response": []
+        },
+        {
+          "name": "consume",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "*/*",
+                "description": "",
+                "disabled": false
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/{{reel}}/api/kafka-practice/consume",
+              "host": [
+                "{{baseURL}}/{{reel}}"
+              ],
+              "path": [
+                "api",
+                "kafka-practice",
+                "consume"
+              ],
+              "variable": [],
+              "query": [
+                {
+                  "key": "topic",
+                  "value": "topic_example",
+                  "description": "",
+                  "disabled": false
+                },
+                {
+                  "key": "groupId",
+                  "value": "groupId_example",
+                  "description": "",
+                  "disabled": false
+                },
+                {
+                  "key": "timeoutMs",
+                  "value": "789",
+                  "description": "",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": ""
+          },
+          "response": []
+        },
+        {
+          "name": "listGroups",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "*/*",
+                "description": "",
+                "disabled": false
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/{{reel}}/api/kafka-practice/groups",
+              "host": [
+                "{{baseURL}}/{{reel}}"
+              ],
+              "path": [
+                "api",
+                "kafka-practice",
+                "groups"
+              ],
+              "variable": [],
+              "query": []
+            },
+            "description": ""
+          },
+          "response": []
+        },
+        {
+          "name": "groupOffsets",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "*/*",
+                "description": "",
+                "disabled": false
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/{{reel}}/api/kafka-practice/groups/offsets",
+              "host": [
+                "{{baseURL}}/{{reel}}"
+              ],
+              "path": [
+                "api",
+                "kafka-practice",
+                "groups",
+                "offsets"
+              ],
+              "variable": [],
+              "query": [
+                {
+                  "key": "groupId",
+                  "value": "groupId_example",
+                  "description": "",
+                  "disabled": false
+                }
+              ]
+            },
+            "description": ""
+          },
+          "response": []
+        },
+        {
+          "name": "produce",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "*/*",
+                "description": "",
+                "disabled": false
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/{{reel}}/api/kafka-practice/produce",
+              "host": [
+                "{{baseURL}}/{{reel}}"
+              ],
+              "path": [
+                "api",
+                "kafka-practice",
+                "produce"
+              ],
+              "variable": [],
+              "query": [
+                {
+                  "key": "topic",
+                  "value": "topic_example",
+                  "description": "",
+                  "disabled": false
+                },
+                {
+                  "key": "message",
+                  "value": "message_example",
+                  "description": "",
+                  "disabled": false
+                },
+                {
+                  "key": "key",
+                  "value": "key_example",
+                  "description": "",
+                  "disabled": true
+                },
+                {
+                  "key": "partition",
+                  "value": "56",
+                  "description": "",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": ""
+          },
+          "response": []
+        },
+        {
+          "name": "listTopics",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "*/*",
+                "description": "",
+                "disabled": false
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/{{reel}}/api/kafka-practice/topics",
+              "host": [
+                "{{baseURL}}/{{reel}}"
+              ],
+              "path": [
+                "api",
+                "kafka-practice",
+                "topics"
+              ],
+              "variable": [],
+              "query": []
+            },
+            "description": ""
+          },
+          "response": []
+        },
+        {
+          "name": "describeTopic",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "*/*",
+                "description": "",
+                "disabled": false
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/{{reel}}/api/kafka-practice/topics/describe",
+              "host": [
+                "{{baseURL}}/{{reel}}"
+              ],
+              "path": [
+                "api",
+                "kafka-practice",
+                "topics",
+                "describe"
+              ],
+              "variable": [],
+              "query": [
+                {
+                  "key": "topic",
+                  "value": "topic_example",
+                  "description": "",
+                  "disabled": false
+                }
+              ]
+            },
+            "description": ""
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "elasticsearch-controller",
+      "item": [
+        {
+          "name": "advancedSearch",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "*/*",
+                "description": "",
+                "disabled": false
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/{{reel}}/api/elasticsearch/advanced-search",
+              "host": [
+                "{{baseURL}}/{{reel}}"
+              ],
+              "path": [
+                "api",
+                "elasticsearch",
+                "advanced-search"
+              ],
+              "variable": [],
+              "query": [
+                {
+                  "key": "query",
+                  "value": "query_example",
+                  "description": "",
+                  "disabled": false
+                },
+                {
+                  "key": "page",
+                  "value": "56",
+                  "description": "Zero-based page index (0..N)",
+                  "disabled": true
+                },
+                {
+                  "key": "size",
+                  "value": "56",
+                  "description": "The size of the page to be returned",
+                  "disabled": true
+                },
+                {
+                  "key": "sort",
+                  "value": "",
+                  "description": "Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": ""
+          },
+          "response": []
+        },
+        {
+          "name": "searchByUserId",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "*/*",
+                "description": "",
+                "disabled": false
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/{{reel}}/api/elasticsearch/by-user",
+              "host": [
+                "{{baseURL}}/{{reel}}"
+              ],
+              "path": [
+                "api",
+                "elasticsearch",
+                "by-user"
+              ],
+              "variable": [],
+              "query": [
+                {
+                  "key": "userId",
+                  "value": "38400000-8cf0-11bd-b23e-10b96e4ef00d",
+                  "description": "",
+                  "disabled": false
+                },
+                {
+                  "key": "page",
+                  "value": "56",
+                  "description": "Zero-based page index (0..N)",
+                  "disabled": true
+                },
+                {
+                  "key": "size",
+                  "value": "56",
+                  "description": "The size of the page to be returned",
+                  "disabled": true
+                },
+                {
+                  "key": "sort",
+                  "value": "",
+                  "description": "Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": ""
+          },
+          "response": []
+        },
+        {
+          "name": "combinedSearch",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "*/*",
+                "description": "",
+                "disabled": false
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/{{reel}}/api/elasticsearch/combined",
+              "host": [
+                "{{baseURL}}/{{reel}}"
+              ],
+              "path": [
+                "api",
+                "elasticsearch",
+                "combined"
+              ],
+              "variable": [],
+              "query": [
+                {
+                  "key": "title",
+                  "value": "title_example",
+                  "description": "",
+                  "disabled": true
+                },
+                {
+                  "key": "userId",
+                  "value": "38400000-8cf0-11bd-b23e-10b96e4ef00d",
+                  "description": "",
+                  "disabled": true
+                },
+                {
+                  "key": "from",
+                  "value": "2013-10-20T19:20:30+01:00",
+                  "description": "",
+                  "disabled": true
+                },
+                {
+                  "key": "to",
+                  "value": "2013-10-20T19:20:30+01:00",
+                  "description": "",
+                  "disabled": true
+                },
+                {
+                  "key": "page",
+                  "value": "56",
+                  "description": "Zero-based page index (0..N)",
+                  "disabled": true
+                },
+                {
+                  "key": "size",
+                  "value": "56",
+                  "description": "The size of the page to be returned",
+                  "disabled": true
+                },
+                {
+                  "key": "sort",
+                  "value": "",
+                  "description": "Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": ""
+          },
+          "response": []
+        },
+        {
+          "name": "searchByDateRange",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "*/*",
+                "description": "",
+                "disabled": false
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/{{reel}}/api/elasticsearch/date-range",
+              "host": [
+                "{{baseURL}}/{{reel}}"
+              ],
+              "path": [
+                "api",
+                "elasticsearch",
+                "date-range"
+              ],
+              "variable": [],
+              "query": [
+                {
+                  "key": "from",
+                  "value": "2013-10-20T19:20:30+01:00",
+                  "description": "",
+                  "disabled": false
+                },
+                {
+                  "key": "to",
+                  "value": "2013-10-20T19:20:30+01:00",
+                  "description": "",
+                  "disabled": false
+                },
+                {
+                  "key": "page",
+                  "value": "56",
+                  "description": "Zero-based page index (0..N)",
+                  "disabled": true
+                },
+                {
+                  "key": "size",
+                  "value": "56",
+                  "description": "The size of the page to be returned",
+                  "disabled": true
+                },
+                {
+                  "key": "sort",
+                  "value": "",
+                  "description": "Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": ""
+          },
+          "response": []
+        },
+        {
+          "name": "searchByMultipleFields",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "*/*",
+                "description": "",
+                "disabled": false
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/{{reel}}/api/elasticsearch/multi-field",
+              "host": [
+                "{{baseURL}}/{{reel}}"
+              ],
+              "path": [
+                "api",
+                "elasticsearch",
+                "multi-field"
+              ],
+              "variable": [],
+              "query": [
+                {
+                  "key": "searchTerm",
+                  "value": "searchTerm_example",
+                  "description": "",
+                  "disabled": false
+                },
+                {
+                  "key": "page",
+                  "value": "56",
+                  "description": "Zero-based page index (0..N)",
+                  "disabled": true
+                },
+                {
+                  "key": "size",
+                  "value": "56",
+                  "description": "The size of the page to be returned",
+                  "disabled": true
+                },
+                {
+                  "key": "sort",
+                  "value": "",
+                  "description": "Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": ""
+          },
+          "response": []
+        },
+        {
+          "name": "startReindex",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "*/*",
+                "description": "",
+                "disabled": false
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/{{reel}}/api/elasticsearch/reindex",
+              "host": [
+                "{{baseURL}}/{{reel}}"
+              ],
+              "path": [
+                "api",
+                "elasticsearch",
+                "reindex"
+              ],
+              "variable": [],
+              "query": []
+            },
+            "description": ""
+          },
+          "response": []
+        },
+        {
+          "name": "getReindexStatus",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "*/*",
+                "description": "",
+                "disabled": false
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/{{reel}}/api/elasticsearch/reindex/status",
+              "host": [
+                "{{baseURL}}/{{reel}}"
+              ],
+              "path": [
+                "api",
+                "elasticsearch",
+                "reindex",
+                "status"
+              ],
+              "variable": [],
+              "query": []
+            },
+            "description": ""
+          },
+          "response": []
+        },
+        {
+          "name": "searchAll",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "*/*",
+                "description": "",
+                "disabled": false
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/{{reel}}/api/elasticsearch/search-all",
+              "host": [
+                "{{baseURL}}/{{reel}}"
+              ],
+              "path": [
+                "api",
+                "elasticsearch",
+                "search-all"
+              ],
+              "variable": [],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "56",
+                  "description": "Zero-based page index (0..N)",
+                  "disabled": true
+                },
+                {
+                  "key": "size",
+                  "value": "56",
+                  "description": "The size of the page to be returned",
+                  "disabled": true
+                },
+                {
+                  "key": "sort",
+                  "value": "",
+                  "description": "Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": ""
+          },
+          "response": []
+        },
+        {
+          "name": "searchByTitle",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "*/*",
+                "description": "",
+                "disabled": false
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/{{reel}}/api/elasticsearch/search-by-title",
+              "host": [
+                "{{baseURL}}/{{reel}}"
+              ],
+              "path": [
+                "api",
+                "elasticsearch",
+                "search-by-title"
+              ],
+              "variable": [],
+              "query": [
+                {
+                  "key": "title",
+                  "value": "title_example",
+                  "description": "",
+                  "disabled": false
+                },
+                {
+                  "key": "page",
+                  "value": "56",
+                  "description": "Zero-based page index (0..N)",
+                  "disabled": true
+                },
+                {
+                  "key": "size",
+                  "value": "56",
+                  "description": "The size of the page to be returned",
+                  "disabled": true
+                },
+                {
+                  "key": "sort",
+                  "value": "",
+                  "description": "Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": ""
+          },
+          "response": []
+        },
+        {
+          "name": "status",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "*/*",
+                "description": "",
+                "disabled": false
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/{{reel}}/api/elasticsearch/status",
+              "host": [
+                "{{baseURL}}/{{reel}}"
+              ],
+              "path": [
+                "api",
+                "elasticsearch",
+                "status"
+              ],
+              "variable": [],
+              "query": []
+            },
+            "description": ""
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "ms-reel-kafka-resource",
+      "item": [
+        {
+          "name": "publish",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/{{reel}}/api/ms-reel-kafka/publish",
+              "host": [
+                "{{baseURL}}/{{reel}}"
+              ],
+              "path": [
+                "api",
+                "ms-reel-kafka",
+                "publish"
+              ],
+              "variable": [],
+              "query": [
+                {
+                  "key": "message",
+                  "value": "message_example",
+                  "description": "",
+                  "disabled": false
+                }
+              ]
+            },
+            "description": ""
+          },
+          "response": []
+        },
+        {
+          "name": "register",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "*/*",
+                "description": "",
+                "disabled": false
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/{{reel}}/api/ms-reel-kafka/register",
+              "host": [
+                "{{baseURL}}/{{reel}}"
+              ],
+              "path": [
+                "api",
+                "ms-reel-kafka",
+                "register"
+              ],
+              "variable": [],
+              "query": []
+            },
+            "description": ""
+          },
+          "response": []
+        },
+        {
+          "name": "unregister",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/{{reel}}/api/ms-reel-kafka/unregister",
+              "host": [
+                "{{baseURL}}/{{reel}}"
+              ],
+              "path": [
+                "api",
+                "ms-reel-kafka",
+                "unregister"
+              ],
+              "variable": [],
+              "query": []
+            },
+            "description": ""
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "reel-resource",
+      "item": [
+        {
+          "name": "createReel",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "description": "",
+                "disabled": false
+              },
+              {
+                "key": "Accept",
+                "value": "*/*",
+                "description": "",
+                "disabled": false
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n \"id\": \"<string>\",\n \"userId\": \"<string>\",\n \"title\": \"<string>\",\n \"videoUrl\": \"<string>\",\n \"createdAt\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/{{reel}}/api/reels",
+              "host": [
+                "{{baseURL}}/{{reel}}"
+              ],
+              "path": [
+                "api",
+                "reels"
+              ],
+              "variable": [],
+              "query": []
+            },
+            "description": ""
+          },
+          "response": []
+        },
+        {
+          "name": "getAllReels",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "*/*",
+                "description": "",
+                "disabled": false
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/{{reel}}/api/reels",
+              "host": [
+                "{{baseURL}}/{{reel}}"
+              ],
+              "path": [
+                "api",
+                "reels"
+              ],
+              "variable": [],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "56",
+                  "description": "Zero-based page index (0..N)",
+                  "disabled": true
+                },
+                {
+                  "key": "size",
+                  "value": "56",
+                  "description": "The size of the page to be returned",
+                  "disabled": true
+                },
+                {
+                  "key": "sort",
+                  "value": "",
+                  "description": "Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": ""
+          },
+          "response": []
+        },
+        {
+          "name": "deleteReel",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/{{reel}}/api/reels/:id",
+              "host": [
+                "{{baseURL}}/{{reel}}"
+              ],
+              "path": [
+                "api",
+                "reels",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "",
+                  "description": ""
+                }
+              ],
+              "query": []
+            },
+            "description": ""
+          },
+          "response": []
+        },
+        {
+          "name": "getReel",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "*/*",
+                "description": "",
+                "disabled": false
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/{{reel}}/api/reels/:id",
+              "host": [
+                "{{baseURL}}/{{reel}}"
+              ],
+              "path": [
+                "api",
+                "reels",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "",
+                  "description": ""
+                }
+              ],
+              "query": []
+            },
+            "description": ""
+          },
+          "response": []
+        },
+        {
+          "name": "partialUpdateReel",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "description": "",
+                "disabled": false
+              },
+              {
+                "key": "Accept",
+                "value": "*/*",
+                "description": "",
+                "disabled": false
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n \"id\": \"<string>\",\n \"userId\": \"<string>\",\n \"title\": \"<string>\",\n \"videoUrl\": \"<string>\",\n \"createdAt\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/{{reel}}/api/reels/:id",
+              "host": [
+                "{{baseURL}}/{{reel}}"
+              ],
+              "path": [
+                "api",
+                "reels",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "",
+                  "description": ""
+                }
+              ],
+              "query": []
+            },
+            "description": ""
+          },
+          "response": []
+        },
+        {
+          "name": "updateReel",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "description": "",
+                "disabled": false
+              },
+              {
+                "key": "Accept",
+                "value": "*/*",
+                "description": "",
+                "disabled": false
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n \"id\": \"<string>\",\n \"userId\": \"<string>\",\n \"title\": \"<string>\",\n \"videoUrl\": \"<string>\",\n \"createdAt\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/{{reel}}/api/reels/:id",
+              "host": [
+                "{{baseURL}}/{{reel}}"
+              ],
+              "path": [
+                "api",
+                "reels",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "",
+                  "description": ""
+                }
+              ],
+              "query": []
+            },
+            "description": ""
+          },
+          "response": []
+        },
+        {
+          "name": "searchReels",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "*/*",
+                "description": "",
+                "disabled": false
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/{{reel}}/api/reels/_search",
+              "host": [
+                "{{baseURL}}/{{reel}}"
+              ],
+              "path": [
+                "api",
+                "reels",
+                "_search"
+              ],
+              "variable": [],
+              "query": [
+                {
+                  "key": "query",
+                  "value": "query_example",
+                  "description": "",
+                  "disabled": false
+                },
+                {
+                  "key": "page",
+                  "value": "56",
+                  "description": "Zero-based page index (0..N)",
+                  "disabled": true
+                },
+                {
+                  "key": "size",
+                  "value": "56",
+                  "description": "The size of the page to be returned",
+                  "disabled": true
+                },
+                {
+                  "key": "sort",
+                  "value": "",
+                  "description": "Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": ""
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "pexels-controller",
+      "item": [
+        {
+          "name": "downloadAndStoreImage",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "*/*",
+                "description": "",
+                "disabled": false
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/{{reel}}/api/pexels/download",
+              "host": [
+                "{{baseURL}}/{{reel}}"
+              ],
+              "path": [
+                "api",
+                "pexels",
+                "download"
+              ],
+              "variable": [],
+              "query": [
+                {
+                  "key": "imageUrl",
+                  "value": "imageUrl_example",
+                  "description": "",
+                  "disabled": false
+                }
+              ]
+            },
+            "description": ""
+          },
+          "response": []
+        },
+        {
+          "name": "searchImages",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "*/*",
+                "description": "",
+                "disabled": false
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/{{reel}}/api/pexels/search",
+              "host": [
+                "{{baseURL}}/{{reel}}"
+              ],
+              "path": [
+                "api",
+                "pexels",
+                "search"
+              ],
+              "variable": [],
+              "query": [
+                {
+                  "key": "query",
+                  "value": "query_example",
+                  "description": "",
+                  "disabled": false
+                },
+                {
+                  "key": "perPage",
+                  "value": "56",
+                  "description": "",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": ""
+          },
+          "response": []
+        },
+        {
+          "name": "storePexelsImage",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "*/*",
+                "description": "",
+                "disabled": false
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/{{reel}}/api/pexels/store",
+              "host": [
+                "{{baseURL}}/{{reel}}"
+              ],
+              "path": [
+                "api",
+                "pexels",
+                "store"
+              ],
+              "variable": [],
+              "query": [
+                {
+                  "key": "pexelsImageUrl",
+                  "value": "pexelsImageUrl_example",
+                  "description": "",
+                  "disabled": false
+                }
+              ]
+            },
+            "description": ""
+          },
+          "response": []
+        },
+        {
+          "name": "uploadImage",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "description": "",
+                "disabled": false
+              },
+              {
+                "key": "Accept",
+                "value": "*/*",
+                "description": "",
+                "disabled": false
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n \"file\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/{{reel}}/api/pexels/upload",
+              "host": [
+                "{{baseURL}}/{{reel}}"
+              ],
+              "path": [
+                "api",
+                "pexels",
+                "upload"
+              ],
+              "variable": [],
+              "query": []
+            },
+            "description": ""
+          },
+          "response": []
+        },
+        {
+          "name": "downloadAndStoreVideo",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "*/*",
+                "description": "",
+                "disabled": false
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/{{reel}}/api/pexels/videos/download",
+              "host": [
+                "{{baseURL}}/{{reel}}"
+              ],
+              "path": [
+                "api",
+                "pexels",
+                "videos",
+                "download"
+              ],
+              "variable": [],
+              "query": [
+                {
+                  "key": "videoUrl",
+                  "value": "videoUrl_example",
+                  "description": "",
+                  "disabled": false
+                }
+              ]
+            },
+            "description": ""
+          },
+          "response": []
+        },
+        {
+          "name": "searchVideos",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "*/*",
+                "description": "",
+                "disabled": false
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/{{reel}}/api/pexels/videos/search",
+              "host": [
+                "{{baseURL}}/{{reel}}"
+              ],
+              "path": [
+                "api",
+                "pexels",
+                "videos",
+                "search"
+              ],
+              "variable": [],
+              "query": [
+                {
+                  "key": "query",
+                  "value": "query_example",
+                  "description": "",
+                  "disabled": false
+                },
+                {
+                  "key": "perPage",
+                  "value": "56",
+                  "description": "",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": ""
+          },
+          "response": []
+        },
+        {
+          "name": "storePexelsVideo",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "*/*",
+                "description": "",
+                "disabled": false
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/{{reel}}/api/pexels/videos/store",
+              "host": [
+                "{{baseURL}}/{{reel}}"
+              ],
+              "path": [
+                "api",
+                "pexels",
+                "videos",
+                "store"
+              ],
+              "variable": [],
+              "query": [
+                {
+                  "key": "pexelsVideoUrl",
+                  "value": "pexelsVideoUrl_example",
+                  "description": "",
+                  "disabled": false
+                }
+              ]
+            },
+            "description": ""
+          },
+          "response": []
+        },
+        {
+          "name": "uploadVideo",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "description": "",
+                "disabled": false
+              },
+              {
+                "key": "Accept",
+                "value": "*/*",
+                "description": "",
+                "disabled": false
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n \"file\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/{{reel}}/api/pexels/videos/upload",
+              "host": [
+                "{{baseURL}}/{{reel}}"
+              ],
+              "path": [
+                "api",
+                "pexels",
+                "videos",
+                "upload"
+              ],
+              "variable": [],
+              "query": []
+            },
+            "description": ""
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseURL",
+      "value": "{{baseURL}}",
+      "type": "string"
+    },
+    {
+      "key": "reel",
+      "value": "services/reel",
+      "type": "string"
+    }
+  ]
+}

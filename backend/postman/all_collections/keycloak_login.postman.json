@@ -1,0 +1,75 @@
+{
+  "info": {
+    "name": "Login API",
+    "description": "Login API documentation",
+    "version": "0.0.1",
+    "schema": "https://schema.postman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Keycloak Login",
+      "request": {
+        "url": "{{keycloak_url}}/realms/jhipster/protocol/openid-connect/token",
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/x-www-form-urlencoded"
+          }
+        ],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "client_id",
+              "value": "web_app"
+            },
+            {
+              "key": "client_secret",
+              "value": "your_client_secret_here"
+            },
+            {
+              "key": "username",
+              "value": "admin"
+            },
+            {
+              "key": "password",
+              "value": "admin"
+            },
+            {
+              "key": "grant_type",
+              "value": "password"
+            }
+          ]
+        },
+        "description": "Logs in to Keycloak and stores the access token"
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "// Extract the access token and save it as an environment variable",
+              "pm.environment.set('access_token', pm.response.json().access_token);",
+              "// Optional: log token for debugging purposes",
+              "console.log('Access Token:', pm.environment.get('access_token'));"
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseURL",
+      "value": "{{baseURL}}",
+      "type": "string"
+    },
+    {
+      "key": "keycloak_login",
+      "value": "services/keycloak_login",
+      "type": "string"
+    }
+  ]
+}
