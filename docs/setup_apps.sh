@@ -167,6 +167,54 @@ update_mysql_connections() {
     fi
 }
 
+# Function to recursively replace com.f4.reel with com.f4.{serviceName} in all Java files in a directory
+global_replace_reel_package() {
+    local src_dir="$1"
+    local service_name="$2"
+    find "$src_dir" -type f -name "*.java" | while read -r java_file; do
+        sed -i "s/com\\.f4\\.reel/com.f4.${service_name}/g" "$java_file"
+        echo -e "${GREEN}Replaced package in $java_file${NC}"
+    done
+}
+
+# Function to copy and overwrite a file, creating the destination directory if needed
+overwrite_file() {
+    local src="$1"
+    local dest="$2"
+    mkdir -p "$(dirname "$dest")"
+    cp -f "$src" "$dest"
+    echo -e "${GREEN}Overwritten: $src -> $dest${NC}"
+}
+
+# Function to copy and overwrite a folder recursively, creating the destination directory if needed
+overwrite_folder() {
+    local src_dir="$1"
+    local dest_dir="$2"
+    mkdir -p "$dest_dir"
+    cp -rf "$src_dir"/* "$dest_dir"/
+    echo -e "${GREEN}Overwritten folder: $src_dir -> $dest_dir${NC}"
+}
+
+# Function to update import com.f4.reel to import com.f4.{serviceName} in all Java files of a service
+update_imports_in_service() {
+    local service_dir="$1"
+    local service_name="$2"
+    find "$service_dir/src" -type f -name "*.java" | while read -r java_file; do
+        sed -i "s/import com\\.f4\\.reel/import com.f4.${service_name}/g" "$java_file"
+        echo -e "${GREEN}Updated imports in $java_file${NC}"
+    done
+}
+
+# Function to update package com.f4.reel.* to package com.f4.{serviceName}.* in all Java files of a service
+update_package_declaration_in_service() {
+    local service_dir="$1"
+    local service_name="$2"
+    find "$service_dir/src" -type f -name "*.java" | while read -r java_file; do
+        sed -i "s/^package com\\.f4\\.reel\\./package com.f4.${service_name}./g" "$java_file"
+        echo -e "${GREEN}Updated package declaration in $java_file${NC}"
+    done
+}
+
 # Main script
 echo "Starting to copy template files to all apps..."
 
@@ -220,6 +268,88 @@ for app in "${apps[@]}"; do
     fi
     
     echo -e "${GREEN}Completed setup for $app${NC}"
+done
+
+# --- Custom logic for ms_reel with temp dir for safe replacement ---
+for app in "${apps[@]}"; do
+    clean_name=$(get_clean_name "$app")
+    if [ "$app" = "ms_reel" ]; then
+        temp_dir="/tmp/ms_reel_template_$$"
+        rm -rf "$temp_dir"
+        mkdir -p "$temp_dir"
+        cp -r template/microservice/* "$temp_dir"/
+        # Replace all com.f4.reel with com.f4.reel (for ms_reel) in temp_dir before copying
+        find "$temp_dir" -type f -name "*.java" | while read -r java_file; do
+            sed -i "s/com\\.f4\\.reel/com.f4.${clean_name}/g" "$java_file"
+            echo -e "${GREEN}Replaced package in $java_file${NC}"
+        done
+        # Overwrite MsReelKafkaResource.java
+        overwrite_file "$temp_dir/MsReelKafkaResource.java" "../backend/$app/src/main/java/com/f4/${clean_name}/web/rest/MsReelKafkaResource.java"
+        # Overwrite broker and handler folders
+        overwrite_folder "$temp_dir/broker" "../backend/$app/src/main/java/com/f4/${clean_name}/broker"
+        overwrite_folder "$temp_dir/handler" "../backend/$app/src/main/java/com/f4/${clean_name}/handler"
+        rm -rf "$temp_dir"
+    fi
+done
+
+# Apply template copying for all microservices except gateway and ms_user
+for app in "${apps[@]}"; do
+    clean_name=$(get_clean_name "$app")
+    # Apply template copying for all microservices except gateway and ms_user
+    if [ "$app" != "gateway" ] && [ "$app" != "ms_user" ]; then
+        echo -e "${BLUE}Applying microservice templates to $app...${NC}"
+        temp_dir="/tmp/${app}_template_$$"
+        rm -rf "$temp_dir"
+        mkdir -p "$temp_dir"
+        cp -r template/microservice/* "$temp_dir"/
+        # Replace all com.f4.reel with com.f4.${clean_name} in temp_dir before copying
+        find "$temp_dir" -type f -name "*.java" | while read -r java_file; do
+            sed -i "s/com\\.f4\\.reel/com.f4.${clean_name}/g" "$java_file"
+            echo -e "${GREEN}Replaced package in $java_file${NC}"
+        done
+        
+        # Create resource filename based on service name
+        resource_filename="Ms${clean_name^}KafkaResource.java"
+        resource_orig_filename="MsReelKafkaResource.java"
+        
+        # Rename MsReelKafkaResource.java to appropriate service name if it exists
+        if [ -f "$temp_dir/$resource_orig_filename" ]; then
+            mv "$temp_dir/$resource_orig_filename" "$temp_dir/$resource_filename"
+            # Update class name inside the file
+            sed -i "s/MsReelKafkaResource/Ms${clean_name^}KafkaResource/g" "$temp_dir/$resource_filename"
+            echo -e "${GREEN}Renamed and updated $resource_orig_filename to $resource_filename${NC}"
+        fi
+        
+        # Rename PostReelHandler.java to {serviceName}ReelHandler.java if it exists
+        if [ -f "$temp_dir/handler/PostReelHandler.java" ]; then
+            handler_filename="${clean_name^}ReelHandler.java"
+            mv "$temp_dir/handler/PostReelHandler.java" "$temp_dir/handler/$handler_filename"
+            # Update class name inside the file
+            sed -i "s/PostReelHandler/${clean_name^}ReelHandler/g" "$temp_dir/handler/$handler_filename"
+            echo -e "${GREEN}Renamed and updated PostReelHandler.java to $handler_filename${NC}"
+        fi
+        
+        # Overwrite KafkaResource file
+        overwrite_file "$temp_dir/$resource_filename" "../backend/$app/src/main/java/com/f4/${clean_name}/web/rest/$resource_filename"
+        
+        # Overwrite broker and handler folders
+        overwrite_folder "$temp_dir/broker" "../backend/$app/src/main/java/com/f4/${clean_name}/broker"
+        overwrite_folder "$temp_dir/handler" "../backend/$app/src/main/java/com/f4/${clean_name}/handler"
+        rm -rf "$temp_dir"
+    fi
+done
+
+# Update imports for all ms_* services
+declare -a ms_services=("ms_user" "ms_commentlike" "ms_reel" "ms_feed" "ms_notification")
+for ms in "${ms_services[@]}"; do
+    clean_name=$(get_clean_name "$ms")
+    update_imports_in_service "../backend/$ms" "$clean_name"
+done
+
+# Update package declarations for all ms_* services
+for ms in "${ms_services[@]}"; do
+    clean_name=$(get_clean_name "$ms")
+    update_package_declaration_in_service "../backend/$ms" "$clean_name"
 done
 
 echo -e "\n${GREEN}All applications have been updated with template files!${NC}"
