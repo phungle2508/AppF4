@@ -1,0 +1,45 @@
+@startuml
+skinparam sequence {
+  ArrowColor Black
+  ParticipantBorderColor Black
+  ParticipantBackgroundColor White
+  LifeLineBorderColor Black
+  LifeLineBackgroundColor #EEEEEE
+}
+
+actor "Reel Service\n(Producer)" as Producer
+participant "kafkaProducer-out-0\nbinder (Supplier)" as ProdBinder
+database "Kafka Cluster\nTopic: ssh-service-name-input\nPartitions: [P0,P1,P2]" as Kafka
+participant "kafkaConsumer-in-0\nbinder (Consumer Group: ssh-service-name)" as ConsBinder
+actor "Consumer Instance A\n(group=ssh-service-name)" as C1
+actor "Consumer Instance B\n(group=ssh-service-name)" as C2
+participant "EventDispatcher" as Dispatcher
+actor "SSE Clients" as SSE
+
+== Publishing ==
+Producer -> ProdBinder: get() → rawJson
+activate ProdBinder
+ProdBinder -> Kafka: publish(rawJson) to partition (round-robin)
+deactivate ProdBinder
+
+== Consumer Group Rebalance ==
+Kafka -> ConsBinder: onPartitionAssignment([P0,P1,P2])
+activate ConsBinder
+ConsBinder -> C1: assign partitions [P0,P1]
+ConsBinder -> C2: assign partition [P2]
+deactivate ConsBinder
+
+== Message Delivery ==
+Kafka -> C1: send message from P0
+activate C1
+C1 -> Dispatcher: dispatch(env)
+C1 -> SSE: send SSE event
+deactivate C1
+
+Kafka -> C2: send message from P2
+activate C2
+C2 -> Dispatcher: dispatch(env)
+C2 -> SSE: send SSE event
+deactivate C2
+
+@enduml

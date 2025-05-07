@@ -320,15 +320,7 @@ for app in "${apps[@]}"; do
             echo -e "${GREEN}Renamed and updated $resource_orig_filename to $resource_filename${NC}"
         fi
         
-        # Rename PostReelHandler.java to {serviceName}ReelHandler.java if it exists
-        if [ -f "$temp_dir/handler/PostReelHandler.java" ]; then
-            handler_filename="${clean_name^}ReelHandler.java"
-            mv "$temp_dir/handler/PostReelHandler.java" "$temp_dir/handler/$handler_filename"
-            # Update class name inside the file
-            sed -i "s/PostReelHandler/${clean_name^}ReelHandler/g" "$temp_dir/handler/$handler_filename"
-            echo -e "${GREEN}Renamed and updated PostReelHandler.java to $handler_filename${NC}"
-        fi
-        
+
         # Overwrite KafkaResource file
         overwrite_file "$temp_dir/$resource_filename" "../backend/$app/src/main/java/com/f4/${clean_name}/web/rest/$resource_filename"
         
