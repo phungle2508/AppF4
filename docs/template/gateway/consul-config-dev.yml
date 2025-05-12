@@ -8,7 +8,7 @@ ssh:
   forwarding:
     enabled: true  # Set to true to enable SSH port forwarding
   remote:
-    host: appf4.io.vn
+    host: appf4s.io.vn
   user: root
   password: ledinhde788De
   service-name: remote-apigateway
@@ -22,7 +22,7 @@ spring:
   cloud:
     consul:
       enabled: true
-      host: consul.appf4.io.vn
+      host: consul. appf4s.io.vn
       port: 443
       scheme: https
       tls:
@@ -31,7 +31,7 @@ spring:
         enabled: true
         service-name: ${ssh.service-name}
         prefer-ip-address: true
-        ip-address: appf4.io.vn
+        ip-address: appf4s.io.vn
         port: ${ssh.remote.port}
         acl-token: ${CONSUL_HTTP_TOKEN:}
       config:
@@ -54,7 +54,7 @@ spring:
           contentType: application/json
       kafka:
         binder:
-          brokers: appf4.io.vn:9092
+          brokers: appf4s.io.vn:9092
           auto-create-topics: true
           configuration:
             security.protocol: SSL
@@ -89,7 +89,7 @@ spring:
       client:
         provider:
           oidc:
-            issuer-uri: https://keycloak.appf4.io.vn/realms/jhipster
+            issuer-uri: https://keycloak. appf4s.io.vn/realms/jhipster
         registration:
           oidc:
             client-id: web_app
@@ -100,11 +100,11 @@ spring:
         secure: false  # Set to true in production with HTTPS
         same-site: Lax
   r2dbc:
-    url: r2dbc:mysql://microservices.appf4.io.vn:${ssh.mysql_port}/${ssh.mysql_database}
+    url: r2dbc:mysql://microservices. appf4s.io.vn:${ssh.mysql_port}/${ssh.mysql_database}
   liquibase:
-    url: jdbc:mysql://microservices.appf4.io.vn:${ssh.mysql_port}/${ssh.mysql_database}?useUnicode=true&characterEncoding=utf8&useSSL=false&createDatabaseIfNotExist=true
+    url: jdbc:mysql://microservices. appf4s.io.vn:${ssh.mysql_port}/${ssh.mysql_database}?useUnicode=true&characterEncoding=utf8&useSSL=false&createDatabaseIfNotExist=true
   kafka:
-    bootstrap-servers: appf4.io.vn:9092
+    bootstrap-servers: appf4s.io.vn:9092
     security-protocol: SSL
     ssl:
       endpoint-identification-algorithm: ""
@@ -124,7 +124,7 @@ spring:
 
 # Redis server config
 redis:
-  server: redis://appf4.io.vn:6379
+  server: redis:// appf4s.io.vn:6379
 
 
 

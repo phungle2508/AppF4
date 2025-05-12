@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # Set the base URL for your Swagger API docs
-BASE_URL="${BASE_URL:-https://appf4.io.vn}"
+BASE_URL="${BASE_URL:-https:// appf4s.io.vn}"
 
 # Keycloak credentials and endpoint
-KEYCLOAK_URL="https://keycloak.appf4.io.vn/realms/jhipster/protocol/openid-connect/token"
+KEYCLOAK_URL="https://keycloak. appf4s.io.vn/realms/jhipster/protocol/openid-connect/token"
 CLIENT_ID="web_app"
 CLIENT_SECRET="your_client_secret_here"  # Update if needed
 USERNAME="admin"
@@ -159,7 +159,7 @@ create_postman_environment() {
   done
 
   # Add the keycloak_url
-  ENV_JSON+="{\"key\": \"keycloak_url\", \"value\": \"https://keycloak.appf4.io.vn\", \"enabled\": true}"
+  ENV_JSON+="{\"key\": \"keycloak_url\", \"value\": \"https://keycloak. appf4s.io.vn\", \"enabled\": true}"
 
   ENV_JSON+="]}"
 
