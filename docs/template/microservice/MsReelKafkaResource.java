@@ -1,7 +1,7 @@
 package com.f4.reel.web.rest;
 
-import com.f4.reel.broker.KafkaConsumer;
-import com.f4.reel.handler.EventEnvelope;
+import com.f4.reel.kafka.broker.KafkaConsumer;
+import com.f4.reel.kafka.handler.EventEnvelope;
 import com.fasterxml.jackson.databind.JsonNode;
 
 import java.security.Principal;

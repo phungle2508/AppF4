@@ -22,7 +22,7 @@ spring:
   cloud:
     consul:
       enabled: true
-      host: consul. appf4s.io.vn
+      host: consul.appf4s.io.vn
       port: 443
       scheme: https
       tls:
@@ -89,7 +89,7 @@ spring:
       client:
         provider:
           oidc:
-            issuer-uri: https://keycloak. appf4s.io.vn/realms/jhipster
+            issuer-uri: https://keycloak.appf4s.io.vn/realms/jhipster
         registration:
           oidc:
             client-id: web_app
@@ -100,9 +100,9 @@ spring:
         secure: false  # Set to true in production with HTTPS
         same-site: Lax
   r2dbc:
-    url: r2dbc:mysql://microservices. appf4s.io.vn:${ssh.mysql_port}/${ssh.mysql_database}
+    url: r2dbc:mysql://microservices.appf4s.io.vn:${ssh.mysql_port}/${ssh.mysql_database}
   liquibase:
-    url: jdbc:mysql://microservices. appf4s.io.vn:${ssh.mysql_port}/${ssh.mysql_database}?useUnicode=true&characterEncoding=utf8&useSSL=false&createDatabaseIfNotExist=true
+    url: jdbc:mysql://microservices.appf4s.io.vn:${ssh.mysql_port}/${ssh.mysql_database}?useUnicode=true&characterEncoding=utf8&useSSL=false&createDatabaseIfNotExist=true
   kafka:
     bootstrap-servers: appf4s.io.vn:9092
     security-protocol: SSL
@@ -124,7 +124,7 @@ spring:
 
 # Redis server config
 redis:
-  server: redis:// appf4s.io.vn:6379
+  server: redis://appf4s.io.vn:6379
 
 
 

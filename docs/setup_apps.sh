@@ -108,10 +108,10 @@ update_consul_config() {
         # Update MySQL port
         sed -i "s/mysql_port:.*/mysql_port: ${mysql_port}/" "$file"
         
-        # Update jdbc URL to use microservices. appf4s.io.vn with correct database name
-        sed -i "s|jdbc:mysql://localhost:[0-9][0-9]*/[^/]*|jdbc:mysql://microservices. appf4s.io.vn:${mysql_port}/${app_name}|g" "$file"
+        # Update jdbc URL to use microservices.appf4s.io.vn with correct database name
+        sed -i "s|jdbc:mysql://localhost:[0-9][0-9]*/[^/]*|jdbc:mysql://microservices.appf4s.io.vn:${mysql_port}/${app_name}|g" "$file"
         
-        echo -e "${GREEN}Updated consul config for ${app_name} with MySQL port ${mysql_port} and host microservices. appf4s.io.vn${NC}"
+        echo -e "${GREEN}Updated consul config for ${app_name} with MySQL port ${mysql_port} and host microservices.appf4s.io.vn${NC}"
     fi
 }
 
@@ -127,13 +127,13 @@ update_mysql_connections() {
         
         # Replace jdbc URL in the file with correct database name
         if grep -q "jdbc:mysql://localhost:[0-9]" "$config_file"; then
-            sed -i "s|jdbc:mysql://localhost:[0-9][0-9]*/[^/]*|jdbc:mysql://microservices. appf4s.io.vn:$mysql_port/$clean_name|g" "$config_file"
-            echo -e "${GREEN}Updated MySQL connection in $config_file to jdbc:mysql://microservices. appf4s.io.vn:$mysql_port/$clean_name${NC}"
+            sed -i "s|jdbc:mysql://localhost:[0-9][0-9]*/[^/]*|jdbc:mysql://microservices.appf4s.io.vn:$mysql_port/$clean_name|g" "$config_file"
+            echo -e "${GREEN}Updated MySQL connection in $config_file to jdbc:mysql://microservices.appf4s.io.vn:$mysql_port/$clean_name${NC}"
         fi
         
         # Also update any existing URLs that might have the wrong database name
-        if grep -q "jdbc:mysql://microservices. appf4s.io.vn" "$config_file"; then
-            sed -i "s|jdbc:mysql://microservices. appf4s.io.vn:[0-9][0-9]*/[^/]*|jdbc:mysql://microservices. appf4s.io.vn:$mysql_port/$clean_name|g" "$config_file"
+        if grep -q "jdbc:mysql://microservices.appf4s.io.vn" "$config_file"; then
+            sed -i "s|jdbc:mysql://microservices.appf4s.io.vn:[0-9][0-9]*/[^/]*|jdbc:mysql://microservices.appf4s.io.vn:$mysql_port/$clean_name|g" "$config_file"
             echo -e "${GREEN}Fixed existing MySQL connection in $config_file to use database name $clean_name${NC}"
         fi
     done
@@ -146,21 +146,21 @@ update_mysql_connections() {
         # Replace jdbc URL in the file with correct database name - more careful with XML tags
         if grep -q "jdbc:mysql://localhost:[0-9]" "$pom_file"; then
             # For regular JDBC URLs in properties
-            sed -i "s|jdbc:mysql://localhost:[0-9][0-9]*/[^<]*|jdbc:mysql://microservices. appf4s.io.vn:$mysql_port/$clean_name|g" "$pom_file"
+            sed -i "s|jdbc:mysql://localhost:[0-9][0-9]*/[^<]*|jdbc:mysql://microservices.appf4s.io.vn:$mysql_port/$clean_name|g" "$pom_file"
             
             # For liquibase-plugin.url tags specifically
-            sed -i "s|<liquibase-plugin.url>jdbc:mysql://localhost:[0-9][0-9]*/[^<]*</liquibase-plugin.url>|<liquibase-plugin.url>jdbc:mysql://microservices. appf4s.io.vn:$mysql_port/$clean_name</liquibase-plugin.url>|g" "$pom_file"
+            sed -i "s|<liquibase-plugin.url>jdbc:mysql://localhost:[0-9][0-9]*/[^<]*</liquibase-plugin.url>|<liquibase-plugin.url>jdbc:mysql://microservices.appf4s.io.vn:$mysql_port/$clean_name</liquibase-plugin.url>|g" "$pom_file"
             
-            echo -e "${GREEN}Updated MySQL connection in $pom_file to jdbc:mysql://microservices. appf4s.io.vn:$mysql_port/$clean_name${NC}"
+            echo -e "${GREEN}Updated MySQL connection in $pom_file to jdbc:mysql://microservices.appf4s.io.vn:$mysql_port/$clean_name${NC}"
         fi
         
         # Also update any existing URLs that might have the wrong database name
-        if grep -q "jdbc:mysql://microservices. appf4s.io.vn" "$pom_file"; then
+        if grep -q "jdbc:mysql://microservices.appf4s.io.vn" "$pom_file"; then
             # For regular JDBC URLs in properties
-            sed -i "s|jdbc:mysql://microservices. appf4s.io.vn:[0-9][0-9]*/[^<]*|jdbc:mysql://microservices. appf4s.io.vn:$mysql_port/$clean_name|g" "$pom_file"
+            sed -i "s|jdbc:mysql://microservices.appf4s.io.vn:[0-9][0-9]*/[^<]*|jdbc:mysql://microservices.appf4s.io.vn:$mysql_port/$clean_name|g" "$pom_file"
             
             # For liquibase-plugin.url tags specifically
-            sed -i "s|<liquibase-plugin.url>jdbc:mysql://microservices. appf4s.io.vn:[0-9][0-9]*/[^<]*</liquibase-plugin.url>|<liquibase-plugin.url>jdbc:mysql://microservices. appf4s.io.vn:$mysql_port/$clean_name</liquibase-plugin.url>|g" "$pom_file"
+            sed -i "s|<liquibase-plugin.url>jdbc:mysql://microservices.appf4s.io.vn:[0-9][0-9]*/[^<]*</liquibase-plugin.url>|<liquibase-plugin.url>jdbc:mysql://microservices.appf4s.io.vn:$mysql_port/$clean_name</liquibase-plugin.url>|g" "$pom_file"
             
             echo -e "${GREEN}Fixed existing MySQL connection in $pom_file to use database name $clean_name${NC}"
         fi
@@ -173,7 +173,7 @@ global_replace_reel_package() {
     local service_name="$2"
     find "$src_dir" -type f -name "*.java" | while read -r java_file; do
         sed -i "s/com\\.f4\\.reel/com.f4.${service_name}/g" "$java_file"
-        echo -e "${GREEN}Replaced package in $java_file${NC}"
+        # echo -e "${GREEN}Replaced package in $java_file${NC}"
     done
 }
 
@@ -192,7 +192,7 @@ overwrite_folder() {
     local dest_dir="$2"
     mkdir -p "$dest_dir"
     cp -rf "$src_dir"/* "$dest_dir"/
-    echo -e "${GREEN}Overwritten folder: $src_dir -> $dest_dir${NC}"
+    # echo -e "${GREEN}Overwritten folder: $src_dir -> $dest_dir${NC}"
 }
 
 # Function to update import com.f4.reel to import com.f4.{serviceName} in all Java files of a service
@@ -201,7 +201,7 @@ update_imports_in_service() {
     local service_name="$2"
     find "$service_dir/src" -type f -name "*.java" | while read -r java_file; do
         sed -i "s/import com\\.f4\\.reel/import com.f4.${service_name}/g" "$java_file"
-        echo -e "${GREEN}Updated imports in $java_file${NC}"
+        # echo -e "${GREEN}Updated imports in $java_file${NC}"
     done
 }
 
@@ -211,7 +211,41 @@ update_package_declaration_in_service() {
     local service_name="$2"
     find "$service_dir/src" -type f -name "*.java" | while read -r java_file; do
         sed -i "s/^package com\\.f4\\.reel\\./package com.f4.${service_name}./g" "$java_file"
-        echo -e "${GREEN}Updated package declaration in $java_file${NC}"
+        # echo -e "${GREEN}Updated package declaration in $java_file${NC}"
+    done
+}
+# Function to update "ReelDTO" to "{ServiceName}DTO" in all Java files in a service
+update_dto_name_in_service() {
+    local service_dir="$1"  # This should be like "../backend/ms_commentlike"
+    local service_name="$2"  # This should be like "Commentlike"
+    
+    echo -e "${BLUE}Updating DTO class names in $service_dir from ReelDTO to ${service_name}DTO${NC}"
+    
+    # Make sure the path is correct by using the full service directory
+    find "$service_dir/src" -type f -name "*.java" | while read -r java_file; do
+    # Check if file contains ReelDTO before attempting replacement
+    # Inside your function or loop for each Java file:
+        if [ "$service_name" = "Feed" ]; then
+            if grep -q "ReelService" "$java_file"; then
+                sed -i -E "s/(^|[^a-zA-Z0-9_])ReelService([^a-zA-Z0-9_]|$)/\1FeedItemService\2/g" "$java_file"
+                echo -e "${GREEN}Updated ReelService to FeedService in $java_file${NC}"
+            fi
+            if grep -q "ReelDTO" "$java_file"; then
+                sed -i -E "s/(^|[^a-zA-Z0-9_])ReelDTO([^a-zA-Z0-9_]|$)/\1FeedItemDTO\2/g" "$java_file"
+                echo -e "${GREEN}Updated ReelDTO to FeedDTO in $java_file${NC}"
+            fi
+        else
+            # For other services, you can do the simple replace
+            if grep -q "ReelService" "$java_file"; then
+                sed -i "s/ReelService/${service_name}Service/g" "$java_file"
+                echo -e "${GREEN}Updated ReelService to ${service_name}Service in $java_file${NC}"
+            fi
+            if grep -q "ReelDTO" "$java_file"; then
+                sed -i "s/ReelDTO/${service_name}DTO/g" "$java_file"
+                echo -e "${GREEN}Updated ReelDTO to ${service_name}DTO in $java_file${NC}"
+            fi
+        fi
+
     done
 }
 
@@ -281,13 +315,14 @@ for app in "${apps[@]}"; do
         # Replace all com.f4.reel with com.f4.reel (for ms_reel) in temp_dir before copying
         find "$temp_dir" -type f -name "*.java" | while read -r java_file; do
             sed -i "s/com\\.f4\\.reel/com.f4.${clean_name}/g" "$java_file"
-            echo -e "${GREEN}Replaced package in $java_file${NC}"
+            # echo -e "${GREEN}Replaced package in $java_file${NC}"
         done
         # Overwrite MsReelKafkaResource.java
         overwrite_file "$temp_dir/MsReelKafkaResource.java" "../backend/$app/src/main/java/com/f4/${clean_name}/web/rest/MsReelKafkaResource.java"
         # Overwrite broker and handler folders
-        overwrite_folder "$temp_dir/broker" "../backend/$app/src/main/java/com/f4/${clean_name}/broker"
-        overwrite_folder "$temp_dir/handler" "../backend/$app/src/main/java/com/f4/${clean_name}/handler"
+        overwrite_folder "$temp_dir/kafka" "../backend/$app/src/main/java/com/f4/${clean_name}/kafka"
+        update_dto_name_in_service "/$ms" "$clean_name"
+  
         rm -rf "$temp_dir"
     fi
 done
@@ -305,14 +340,14 @@ for app in "${apps[@]}"; do
         # Replace all com.f4.reel with com.f4.${clean_name} in temp_dir before copying
         find "$temp_dir" -type f -name "*.java" | while read -r java_file; do
             sed -i "s/com\\.f4\\.reel/com.f4.${clean_name}/g" "$java_file"
-            echo -e "${GREEN}Replaced package in $java_file${NC}"
+            # echo -e "${GREEN}Replaced package in $java_file${NC}"
         done
         
         # Create resource filename based on service name
         resource_filename="Ms${clean_name^}KafkaResource.java"
         resource_orig_filename="MsReelKafkaResource.java"
         
-        # Rename MsReelKafkaResource.java to appropriate service name if it exists
+    # Rename MsReelKafkaResource.java to appropriate service name if it exists
         if [ -f "$temp_dir/$resource_orig_filename" ]; then
             mv "$temp_dir/$resource_orig_filename" "$temp_dir/$resource_filename"
             # Update class name inside the file
@@ -325,8 +360,12 @@ for app in "${apps[@]}"; do
         overwrite_file "$temp_dir/$resource_filename" "../backend/$app/src/main/java/com/f4/${clean_name}/web/rest/$resource_filename"
         
         # Overwrite broker and handler folders
-        overwrite_folder "$temp_dir/broker" "../backend/$app/src/main/java/com/f4/${clean_name}/broker"
-        overwrite_folder "$temp_dir/handler" "../backend/$app/src/main/java/com/f4/${clean_name}/handler"
+        overwrite_folder "$temp_dir/kafka" "../backend/$app/src/main/java/com/f4/${clean_name}/kafka"
+        # Capitalize first letter of service name for DTO
+        capitalized_name="${clean_name^}"
+        # Pass the complete path to the service directory
+        update_dto_name_in_service "../backend/$app" "$capitalized_name"
+        
         rm -rf "$temp_dir"
     fi
 done

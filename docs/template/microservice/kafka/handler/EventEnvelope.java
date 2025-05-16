@@ -1,4 +1,4 @@
-package com.f4.reel.handler;
+package com.f4.reel.kafka.handler;
 
 // wraps any payload with an eventName
 

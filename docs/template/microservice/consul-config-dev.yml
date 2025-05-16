@@ -11,10 +11,10 @@ ssh:
     host: appf4s.io.vn
   user: root
   password: ledinhde788De
-  service-name: remote-msmedia-dev
-  mysql_database: msmedia
+  service-name: reel
+  mysql_database: reel
   redis_password: Hiendepzaikhoaitonhatxom
-  mysql_port: 3306
+  mysql_port: 3382
 spring:
   application:
     name: ${ssh.service-name}
@@ -23,14 +23,14 @@ spring:
   cloud:
     consul:
       enabled: true
-      host: consul. appf4s.io.vn
+      host: consul.appf4s.io.vn
       port: 443
       scheme: https
       tls:
         skip-verify: true
       discovery:
         enabled: true
-        service-name: ${ssh.service-name}
+        service-name: reel
         prefer-ip-address: true
         ip-address: appf4s.io.vn
         port: ${ssh.remote.port}
@@ -48,11 +48,32 @@ spring:
       bindings:
         kafkaConsumer-in-0:
           destination: ${ssh.service-name}-input
-          contentType: application/json
+          contentType: application/avro
           group: ${ssh.service-name}
+          consumer:
+            autoCommitOffset: true
+            startOffset: latest
+            enableDlq: false
+            maxAttempts: 3
+            backOffInitialInterval: 1000
+            backOffMaxInterval: 10000
+            backOffMultiplier: 2.0
+            defaultRetryable: true
+            retryableExceptions:
+              org.springframework.kafka.KafkaException: true
+              org.springframework.messaging.MessagingException: true
+              com.fasterxml.jackson.databind.exc.InvalidFormatException: true
+            partitioned: true
+            instanceCount: 3
+            concurrency: 1
         kafkaProducer-out-0:
-          destination: ${ssh.service-name}-output
-          contentType: application/json
+          destination: ${ssh.service-name}-input
+          contentType: application/avro
+          producer:
+            useNativeEncoding: true
+            sync: false
+            bufferSize: 16384
+            errorChannelEnabled: true
       kafka:
         binder:
           brokers: appf4s.io.vn:9092
@@ -65,16 +86,17 @@ spring:
             ssl.keystore.location: classpath:config/tls/kafka.keystore.jks
             ssl.keystore.password: f4security
             ssl.key.password: f4security
-        bindings:
-          kafkaConsumer-in-0:
-            consumer:
-              autoCommitOffset: true
-              startOffset: latest
-              enableDlq: true
-          kafkaProducer-out-0:
-            producer:
-              sync: false
-              bufferSize: 16384
+          producer-properties:
+            key.serializer: org.apache.kafka.common.serialization.StringSerializer
+            value.serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
+            schema.registry.url: http://appf4s.io.vn:8081
+          consumer-properties:
+            key.deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
+            value.deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
+            spring.deserializer.key.delegate.class: org.apache.kafka.common.serialization.StringDeserializer
+            spring.deserializer.value.delegate.class: io.confluent.kafka.serializers.KafkaAvroDeserializer
+            schema.registry.url: http://appf4s.io.vn:8081
+            specific.avro.reader: true
       # Configure task scheduler for graceful shutdown
       task:
         scheduler:
@@ -90,7 +112,7 @@ spring:
       client:
         provider:
           oidc:
-            issuer-uri: https://keycloak. appf4s.io.vn/realms/jhipster
+            issuer-uri: https://keycloak.appf4s.io.vn/realms/jhipster
         registration:
           oidc:
             client-id: web_app
@@ -101,9 +123,9 @@ spring:
         secure: false # Set to true in production with HTTPS
         same-site: Lax
   datasource:
-    url: jdbc:mysql://microservices. appf4s.io.vn:${ssh.mysql_port}/${ssh.mysql_database}
+    url: jdbc:mysql://microservices.appf4s.io.vn:${ssh.mysql_port}/${ssh.mysql_database}
   liquibase:
-    url: jdbc:mysql://microservices. appf4s.io.vn:${ssh.mysql_port}/${ssh.mysql_database}?useUnicode=true&characterEncoding=utf8&useSSL=false&createDatabaseIfNotExist=true
+    url: jdbc:mysql://microservices.appf4s.io.vn:${ssh.mysql_port}/${ssh.mysql_database}?useUnicode=true&characterEncoding=utf8&useSSL=false&createDatabaseIfNotExist=true
   kafka:
     bootstrap-servers: appf4s.io.vn:9092
     security-protocol: SSL
@@ -123,21 +145,21 @@ spring:
   lifecycle:
     timeout-per-shutdown-phase: 20s
   elasticsearch:
-    uris: http:// appf4s.io.vn:9200
+    uris: http://appf4s.io.vn:9200
     username: elastic
     password: admin
 # Redis server config
 jhipster:
   cache:
     redis:
-      server: redis://${ssh.redis_password}@ appf4s.io.vn:6379
+      server: redis://${ssh.redis_password}@appf4s.io.vn:6379
 
 pexels:
   api-key: ${PEXELS_API_KEY:E95y4qkSdeaH7cT2bZxgd7fMpxl6KnOiLGohb7LvRQL1RPEOLhEH1f5K}
   base-url: https://api.pexels.com/v1
 
 minio:
-  endpoint: https://minio. appf4s.io.vn
+  endpoint: https://minio.appf4s.io.vn
   access-key: minioadmin
   secret-key: minioadmin
   bucket-name: pexels-images
