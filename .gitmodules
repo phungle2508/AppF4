@@ -1,6 +1,6 @@
 [submodule "microfrontends"]
 	path = microfrontends
-	url = https://github.com/minhhiennn/microfrontends.git
+	url = https://github.com/shegga9x/microfrontends
 
 	branch = main
 [submodule "infra/vps-config"]
