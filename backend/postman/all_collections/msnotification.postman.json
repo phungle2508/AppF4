@@ -1,0 +1,470 @@
+{
+  "info": {
+    "name": "Ms Notification API",
+    "description": {
+      "content": "Ms Notification API documentation",
+      "type": "text/markdown"
+    },
+    "version": "0.0.1",
+    "schema": "https://schema.postman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "ms-notification-kafka-resource",
+      "item": [
+        {
+          "name": "publish",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/{{msnotification}}/api/ms-notification-kafka/publish",
+              "host": [
+                "{{baseURL}}/{{msnotification}}"
+              ],
+              "path": [
+                "api",
+                "ms-notification-kafka",
+                "publish"
+              ],
+              "variable": [],
+              "query": [
+                {
+                  "key": "message",
+                  "value": "message_example",
+                  "description": "",
+                  "disabled": false
+                }
+              ]
+            },
+            "description": ""
+          },
+          "response": []
+        },
+        {
+          "name": "register",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "*/*",
+                "description": "",
+                "disabled": false
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/{{msnotification}}/api/ms-notification-kafka/register",
+              "host": [
+                "{{baseURL}}/{{msnotification}}"
+              ],
+              "path": [
+                "api",
+                "ms-notification-kafka",
+                "register"
+              ],
+              "variable": [],
+              "query": []
+            },
+            "description": ""
+          },
+          "response": []
+        },
+        {
+          "name": "unregister",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/{{msnotification}}/api/ms-notification-kafka/unregister",
+              "host": [
+                "{{baseURL}}/{{msnotification}}"
+              ],
+              "path": [
+                "api",
+                "ms-notification-kafka",
+                "unregister"
+              ],
+              "variable": [],
+              "query": []
+            },
+            "description": ""
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "notification-resource",
+      "item": [
+        {
+          "name": "createNotification",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "description": "",
+                "disabled": false
+              },
+              {
+                "key": "Accept",
+                "value": "*/*",
+                "description": "",
+                "disabled": false
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n \"id\": \"<string>\",\n \"recipientId\": \"<string>\",\n \"type\": \"<string>\",\n \"message\": \"<string>\",\n \"isRead\": \"<string>\",\n \"createdAt\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/{{msnotification}}/api/notifications",
+              "host": [
+                "{{baseURL}}/{{msnotification}}"
+              ],
+              "path": [
+                "api",
+                "notifications"
+              ],
+              "variable": [],
+              "query": []
+            },
+            "description": ""
+          },
+          "response": []
+        },
+        {
+          "name": "getAllNotifications",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "*/*",
+                "description": "",
+                "disabled": false
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/{{msnotification}}/api/notifications",
+              "host": [
+                "{{baseURL}}/{{msnotification}}"
+              ],
+              "path": [
+                "api",
+                "notifications"
+              ],
+              "variable": [],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "56",
+                  "description": "Zero-based page index (0..N)",
+                  "disabled": true
+                },
+                {
+                  "key": "size",
+                  "value": "56",
+                  "description": "The size of the page to be returned",
+                  "disabled": true
+                },
+                {
+                  "key": "sort",
+                  "value": "",
+                  "description": "Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": ""
+          },
+          "response": []
+        },
+        {
+          "name": "deleteNotification",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/{{msnotification}}/api/notifications/:id",
+              "host": [
+                "{{baseURL}}/{{msnotification}}"
+              ],
+              "path": [
+                "api",
+                "notifications",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "",
+                  "description": ""
+                }
+              ],
+              "query": []
+            },
+            "description": ""
+          },
+          "response": []
+        },
+        {
+          "name": "getNotification",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "*/*",
+                "description": "",
+                "disabled": false
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/{{msnotification}}/api/notifications/:id",
+              "host": [
+                "{{baseURL}}/{{msnotification}}"
+              ],
+              "path": [
+                "api",
+                "notifications",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "",
+                  "description": ""
+                }
+              ],
+              "query": []
+            },
+            "description": ""
+          },
+          "response": []
+        },
+        {
+          "name": "partialUpdateNotification",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "description": "",
+                "disabled": false
+              },
+              {
+                "key": "Accept",
+                "value": "*/*",
+                "description": "",
+                "disabled": false
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n \"id\": \"<string>\",\n \"recipientId\": \"<string>\",\n \"type\": \"<string>\",\n \"message\": \"<string>\",\n \"isRead\": \"<string>\",\n \"createdAt\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/{{msnotification}}/api/notifications/:id",
+              "host": [
+                "{{baseURL}}/{{msnotification}}"
+              ],
+              "path": [
+                "api",
+                "notifications",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "",
+                  "description": ""
+                }
+              ],
+              "query": []
+            },
+            "description": ""
+          },
+          "response": []
+        },
+        {
+          "name": "updateNotification",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "description": "",
+                "disabled": false
+              },
+              {
+                "key": "Accept",
+                "value": "*/*",
+                "description": "",
+                "disabled": false
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n \"id\": \"<string>\",\n \"recipientId\": \"<string>\",\n \"type\": \"<string>\",\n \"message\": \"<string>\",\n \"isRead\": \"<string>\",\n \"createdAt\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/{{msnotification}}/api/notifications/:id",
+              "host": [
+                "{{baseURL}}/{{msnotification}}"
+              ],
+              "path": [
+                "api",
+                "notifications",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "",
+                  "description": ""
+                }
+              ],
+              "query": []
+            },
+            "description": ""
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseURL",
+      "value": "{{baseURL}}",
+      "type": "string"
+    },
+    {
+      "key": "msnotification",
+      "value": "services/msnotification",
+      "type": "string"
+    }
+  ]
+}

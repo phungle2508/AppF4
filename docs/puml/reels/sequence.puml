@@ -1,0 +1,64 @@
+@startuml
+skinparam sequence {
+  ArrowColor Black
+  ActorBorderColor Black
+  ActorBackgroundColor White
+  ParticipantBorderColor Black
+  ParticipantBackgroundColor White
+  LifeLineBorderColor Black
+  LifeLineBackgroundColor #EEEEEE
+}
+
+actor "Client App" as Client
+participant "JHipster Gateway" as Gateway
+participant Keycloak
+participant "Reel Service" as ReelService
+database "Reel DB" as ReelDB
+participant MinIO
+participant Kafka
+participant Elasticsearch
+participant "Feed Service" as FeedService
+participant "Notification Service" as NotificationService
+
+== Client uploads a reel ==
+Client -> Gateway: POST /api/reels\nAuthorization: Bearer <token>
+activate Gateway
+
+Gateway -> Keycloak: Validate token
+activate Keycloak
+Keycloak --> Gateway: 200 OK
+deactivate Keycloak
+
+Gateway -> ReelService: createReel(request, userId)
+activate ReelService
+
+ReelService -> ReelDB: INSERT reel metadata
+activate ReelDB
+ReelDB --> ReelService: reelId
+deactivate ReelDB
+
+ReelService -> MinIO: uploadVideo(file)
+activate MinIO
+MinIO --> ReelService: videoURL
+deactivate MinIO
+
+ReelService -> Kafka: produce ReelCreated(reelId, userId)
+deactivate ReelService
+
+Gateway --> Client: 201 Created\n{reel metadata}
+deactivate Gateway
+
+== Asynchronous processing ==
+Kafka -> FeedService: ReelCreated event
+activate FeedService
+FeedService -> "Feed DB": save feed
+FeedService -> Elasticsearch: index reel
+deactivate FeedService
+
+Kafka -> NotificationService: ReelCreated event
+activate NotificationService
+NotificationService -> "Notification DB": save notification
+NotificationService -> Redis: cache notifications
+deactivate NotificationService
+
+@enduml
