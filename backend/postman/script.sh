@@ -18,7 +18,7 @@ CURL_TIMEOUT=30
 MAX_RETRIES=3
 
 # Services to generate collections for
-declare -a service_names=( "msuser" "msreels" "mscommentlike" "msnotification" "msfeed" "reel")
+declare -a service_names=(  "reel")
 
 # 1) Obtain Keycloak token
 token_response=""
@@ -63,6 +63,22 @@ generate_postman_collection() {
     -o "$OUTPUT_DIR/$svc" \
     --skip-validate-spec \
     --additional-properties=useTags=true,folderStrategy=Tags
+}
+# 3a) Generate TypeScript Axios client + DTOs for Next.js
+generate_ts_client() {
+  local svc="$1" spec="openapi_spec_${svc}.json"
+  local out_dir="generated-ts/$svc"
+  echo "Generating TypeScript Axios client for $svc in $out_dir..."
+
+  openapi-generator-cli generate \
+    -i "$spec" \
+    -g typescript-axios \
+    -o "$out_dir" \
+    --skip-validate-spec \
+    --additional-properties=supportsES6=true,withSeparateModelsAndApi=true,apiPackage=api,modelPackage=model
+
+
+  echo "✔ TypeScript client generated for $svc."
 }
 
 # 4) Inject Auth header via external Node script
@@ -182,7 +198,7 @@ create_postman_environment
 for svc in "${service_names[@]}"; do
   fetch_openapi_spec "$svc" || continue
   generate_postman_collection "$svc"
-
+  generate_ts_client "$svc"
   col_file="$OUTPUT_DIR/$svc/postman.json"
   add_authorization_header "$col_file"
   flatten_by_class "$col_file"
