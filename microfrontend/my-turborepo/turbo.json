@@ -1,37 +1,30 @@
 {
-  "globalDependencies": [
-    ".env"
-  ],
+  "$schema": "https://turborepo.com/schema.json",
   "ui": "tui",
   "tasks": {
     "build": {
-      "dependsOn": [
-        "^build"
-      ],
-      "env": [
-        "DOCS_URL",
-        "POST_URL"
-      ],
-      "inputs": [
-        "$TURBO_DEFAULT$",
-        ".env*"
-      ],
+      "inputs": ["$TURBO_DEFAULT$", ".env*"],
+      "dependsOn": ["^build"],
       "outputs": [
+        "build/**",
+        ".vercel/**",
+        "dist/**",
         ".next/**",
         "!.next/cache/**"
       ]
     },
+    "test": {
+      "outputs": ["coverage/**"],
+      "dependsOn": []
+    },
     "lint": {
-      "dependsOn": [
-        "^lint"
-      ]
+      "dependsOn": ["^build", "^lint"]
     },
     "check-types": {
-      "dependsOn": [
-        "^check-types"
-      ]
+      "dependsOn": ["^build", "^check-types"]
     },
     "dev": {
+      "dependsOn": ["^build"],
       "cache": false,
       "persistent": true
     }

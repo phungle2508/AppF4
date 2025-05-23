@@ -1,24 +1,21 @@
 {
-  "name": "my-turborepo",
+  "name": "kitchen-sink",
   "private": true,
   "scripts": {
     "build": "turbo run build",
+    "clean": "turbo run clean",
     "dev": "turbo run dev",
-    "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "lint": "turbo run lint",
+    "test": "turbo run test",
     "check-types": "turbo run check-types"
   },
   "devDependencies": {
     "prettier": "^3.5.3",
-    "turbo": "^2.5.3",
-    "typescript": "5.8.2"
+    "turbo": "^2.5.3"
   },
+  "packageManager": "pnpm@8.15.6",
   "engines": {
     "node": ">=18"
-  },
-  "packageManager": "npm@10.9.2",
-  "workspaces": [
-    "apps/*",
-    "packages/*"
-  ]
+  }
 }
