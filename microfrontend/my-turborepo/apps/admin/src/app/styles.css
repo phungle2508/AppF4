@@ -1,3 +1,5 @@
+@import "@repo/tailwind-config";
+
 .container {
   min-height: 100vh;
   display: flex;
@@ -29,10 +31,8 @@
   color: #9ca3af;
   font-weight: 500;
 }
-
 .description a {
-  color: #3b82f6;
-  text-decoration: none;
+  @apply text-blue-500 no-underline;
 }
 
 .description a:hover {

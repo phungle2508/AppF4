@@ -11,8 +11,13 @@
         "dist/**",
         ".next/**",
         "!.next/cache/**"
+      ],
+      "env": [
+        "DOCS_URL",
+        "POST_URL"
       ]
     },
+    
     "test": {
       "outputs": ["coverage/**"],
       "dependsOn": []
@@ -26,7 +31,11 @@
     "dev": {
       "dependsOn": ["^build"],
       "cache": false,
-      "persistent": true
+      "persistent": true,
+      "env": [
+        "DOCS_URL",
+        "POST_URL"
+      ]
     }
   }
 }
