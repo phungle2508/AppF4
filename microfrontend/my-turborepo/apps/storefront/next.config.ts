@@ -9,9 +9,13 @@ const nextConfig: NextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
+  reactStrictMode: true,
+  transpilePackages: ["@repo/ui"],
+  output: "standalone",
+
   async rewrites() {
     console.log('DOCS_URL', DOCS_URL);
-    
+
     return [
       // Rewrites for Multi-Zones
       {

@@ -14,7 +14,8 @@
       ],
       "env": [
         "DOCS_URL",
-        "POST_URL"
+        "POST_URL",
+        "PORT"
       ]
     },
     
@@ -34,7 +35,8 @@
       "persistent": true,
       "env": [
         "DOCS_URL",
-        "POST_URL"
+        "POST_URL",
+        "PORT"
       ]
     }
   }
