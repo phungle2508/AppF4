@@ -1,0 +1,23 @@
+{
+  "name": "@repo/api-client",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc --outDir dist --declaration"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "axios": "^1.9.0",
+    "zustand": "^5.0.5"
+  },
+  "devDependencies": {
+    "typescript": "^5.8.3"
+  }
+}

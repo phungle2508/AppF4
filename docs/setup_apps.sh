@@ -108,10 +108,10 @@ update_consul_config() {
         # Update MySQL port
         sed -i "s/mysql_port:.*/mysql_port: ${mysql_port}/" "$file"
         
-        # Update jdbc URL to use microservices.appf4s.io.vn with correct database name
-        sed -i "s|jdbc:mysql://localhost:[0-9][0-9]*/[^/]*|jdbc:mysql://microservices.appf4s.io.vn:${mysql_port}/${app_name}|g" "$file"
+        # Update jdbc URL to use microservices.appf4.io.vn with correct database name
+        sed -i "s|jdbc:mysql://localhost:[0-9][0-9]*/[^/]*|jdbc:mysql://microservices.appf4.io.vn:${mysql_port}/${app_name}|g" "$file"
         
-        echo -e "${GREEN}Updated consul config for ${app_name} with MySQL port ${mysql_port} and host microservices.appf4s.io.vn${NC}"
+        echo -e "${GREEN}Updated consul config for ${app_name} with MySQL port ${mysql_port} and host microservices.appf4.io.vn${NC}"
     fi
 }
 
@@ -127,13 +127,13 @@ update_mysql_connections() {
         
         # Replace jdbc URL in the file with correct database name
         if grep -q "jdbc:mysql://localhost:[0-9]" "$config_file"; then
-            sed -i "s|jdbc:mysql://localhost:[0-9][0-9]*/[^/]*|jdbc:mysql://microservices.appf4s.io.vn:$mysql_port/$clean_name|g" "$config_file"
-            echo -e "${GREEN}Updated MySQL connection in $config_file to jdbc:mysql://microservices.appf4s.io.vn:$mysql_port/$clean_name${NC}"
+            sed -i "s|jdbc:mysql://localhost:[0-9][0-9]*/[^/]*|jdbc:mysql://microservices.appf4.io.vn:$mysql_port/$clean_name|g" "$config_file"
+            echo -e "${GREEN}Updated MySQL connection in $config_file to jdbc:mysql://microservices.appf4.io.vn:$mysql_port/$clean_name${NC}"
         fi
         
         # Also update any existing URLs that might have the wrong database name
-        if grep -q "jdbc:mysql://microservices.appf4s.io.vn" "$config_file"; then
-            sed -i "s|jdbc:mysql://microservices.appf4s.io.vn:[0-9][0-9]*/[^/]*|jdbc:mysql://microservices.appf4s.io.vn:$mysql_port/$clean_name|g" "$config_file"
+        if grep -q "jdbc:mysql://microservices.appf4.io.vn" "$config_file"; then
+            sed -i "s|jdbc:mysql://microservices.appf4.io.vn:[0-9][0-9]*/[^/]*|jdbc:mysql://microservices.appf4.io.vn:$mysql_port/$clean_name|g" "$config_file"
             echo -e "${GREEN}Fixed existing MySQL connection in $config_file to use database name $clean_name${NC}"
         fi
     done
@@ -146,21 +146,21 @@ update_mysql_connections() {
         # Replace jdbc URL in the file with correct database name - more careful with XML tags
         if grep -q "jdbc:mysql://localhost:[0-9]" "$pom_file"; then
             # For regular JDBC URLs in properties
-            sed -i "s|jdbc:mysql://localhost:[0-9][0-9]*/[^<]*|jdbc:mysql://microservices.appf4s.io.vn:$mysql_port/$clean_name|g" "$pom_file"
+            sed -i "s|jdbc:mysql://localhost:[0-9][0-9]*/[^<]*|jdbc:mysql://microservices.appf4.io.vn:$mysql_port/$clean_name|g" "$pom_file"
             
             # For liquibase-plugin.url tags specifically
-            sed -i "s|<liquibase-plugin.url>jdbc:mysql://localhost:[0-9][0-9]*/[^<]*</liquibase-plugin.url>|<liquibase-plugin.url>jdbc:mysql://microservices.appf4s.io.vn:$mysql_port/$clean_name</liquibase-plugin.url>|g" "$pom_file"
+            sed -i "s|<liquibase-plugin.url>jdbc:mysql://localhost:[0-9][0-9]*/[^<]*</liquibase-plugin.url>|<liquibase-plugin.url>jdbc:mysql://microservices.appf4.io.vn:$mysql_port/$clean_name</liquibase-plugin.url>|g" "$pom_file"
             
-            echo -e "${GREEN}Updated MySQL connection in $pom_file to jdbc:mysql://microservices.appf4s.io.vn:$mysql_port/$clean_name${NC}"
+            echo -e "${GREEN}Updated MySQL connection in $pom_file to jdbc:mysql://microservices.appf4.io.vn:$mysql_port/$clean_name${NC}"
         fi
         
         # Also update any existing URLs that might have the wrong database name
-        if grep -q "jdbc:mysql://microservices.appf4s.io.vn" "$pom_file"; then
+        if grep -q "jdbc:mysql://microservices.appf4.io.vn" "$pom_file"; then
             # For regular JDBC URLs in properties
-            sed -i "s|jdbc:mysql://microservices.appf4s.io.vn:[0-9][0-9]*/[^<]*|jdbc:mysql://microservices.appf4s.io.vn:$mysql_port/$clean_name|g" "$pom_file"
+            sed -i "s|jdbc:mysql://microservices.appf4.io.vn:[0-9][0-9]*/[^<]*|jdbc:mysql://microservices.appf4.io.vn:$mysql_port/$clean_name|g" "$pom_file"
             
             # For liquibase-plugin.url tags specifically
-            sed -i "s|<liquibase-plugin.url>jdbc:mysql://microservices.appf4s.io.vn:[0-9][0-9]*/[^<]*</liquibase-plugin.url>|<liquibase-plugin.url>jdbc:mysql://microservices.appf4s.io.vn:$mysql_port/$clean_name</liquibase-plugin.url>|g" "$pom_file"
+            sed -i "s|<liquibase-plugin.url>jdbc:mysql://microservices.appf4.io.vn:[0-9][0-9]*/[^<]*</liquibase-plugin.url>|<liquibase-plugin.url>jdbc:mysql://microservices.appf4.io.vn:$mysql_port/$clean_name</liquibase-plugin.url>|g" "$pom_file"
             
             echo -e "${GREEN}Fixed existing MySQL connection in $pom_file to use database name $clean_name${NC}"
         fi

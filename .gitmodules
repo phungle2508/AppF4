@@ -1,8 +1,7 @@
-[submodule "microfrontends"]
-	path = microfrontends
-	url = https://github.com/shegga9x/microfrontends
-
-	branch = main
+[submodule "microfrontend"]
+	path = microfrontend
+	url = https://github.com/shegga9x/appf4-microfrontends
+	branch = master
 [submodule "infra/vps-config"]
 	path = infra/vps-config
 	url = https://github.com/shegga9x/f4-vps-configuration

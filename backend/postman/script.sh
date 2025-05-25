@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # Set the base URL for your Swagger API docs
-BASE_URL="${BASE_URL:-https://appf4s.io.vn}"
+BASE_URL="${BASE_URL:-https://appf4.io.vn}"
 
 # Keycloak credentials and endpoint
-KEYCLOAK_URL="https://keycloak.appf4s.io.vn/realms/jhipster/protocol/openid-connect/token"
+KEYCLOAK_URL="https://keycloak.appf4.io.vn/realms/jhipster/protocol/openid-connect/token"
 CLIENT_ID="web_app"
 CLIENT_SECRET="your_client_secret_here"  # Update if needed
 USERNAME="admin"
@@ -18,7 +18,7 @@ CURL_TIMEOUT=30
 MAX_RETRIES=3
 
 # Services to generate collections for
-declare -a service_names=(  "reel")
+declare -a service_names=(  "msfeed" "msreels")
 
 # 1) Obtain Keycloak token
 token_response=""
@@ -65,10 +65,68 @@ generate_postman_collection() {
     --additional-properties=useTags=true,folderStrategy=Tags
 }
 # 3a) Generate TypeScript Axios client + DTOs for Next.js
+
+merge_ts_clients() {
+  local merged_dir="generated-ts/all-services"
+  echo "Merging all generated TypeScript clients into $merged_dir..."
+  mkdir -p "$merged_dir"
+
+  # clean old merged folder if exists
+  rm -rf "$merged_dir"/*
+
+  for svc in "${service_names[@]}"; do
+    local svc_dir="generated-ts/$svc"
+    if [ -d "$svc_dir" ]; then
+      echo "Copying from $svc_dir..."
+      # Copy all files into merged folder, overwriting if necessary
+      cp -r "$svc_dir"/* "$merged_dir"/
+    else
+      echo "Warning: directory $svc_dir does not exist, skipping..."
+    fi
+  done
+
+  echo "Merge complete."
+}
+merge_openapi_specs() {
+  local merged_spec="openapi_spec_all.json"
+  echo "Merging all OpenAPI specs into $merged_spec..."
+
+  # Initialize merged JSON with an empty OpenAPI base object
+  echo '{}' > "$merged_spec"
+
+  for svc in "${service_names[@]}"; do
+    local spec="openapi_spec_${svc}.json"
+    if [ ! -f "$spec" ]; then
+      echo "Spec file $spec not found, skipping..."
+      continue
+    fi
+
+    # Merge paths and components deeply
+    jq -s ' 
+      reduce .[] as $item (
+        {};
+        .info = ($item.info // .info) 
+        | .openapi = ($item.openapi // .openapi)
+        | .servers = ($item.servers // .servers)
+        | .paths += ($item.paths // {}) 
+        | .components.schemas += (($item.components.schemas) // {}) 
+        | .components.responses += (($item.components.responses) // {})
+        | .components.parameters += (($item.components.parameters) // {})
+        | .components.requestBodies += (($item.components.requestBodies) // {})
+        | .components.securitySchemes += (($item.components.securitySchemes) // {})
+      )
+    ' "$merged_spec" "$spec" > tmp_merged.json
+
+    mv tmp_merged.json "$merged_spec"
+  done
+
+  echo "Merged OpenAPI spec saved to $merged_spec"
+}
+
 generate_ts_client() {
-  local svc="$1" spec="openapi_spec_${svc}.json"
-  local out_dir="generated-ts/$svc"
-  echo "Generating TypeScript Axios client for $svc in $out_dir..."
+  local spec="openapi_spec_all.json"
+  local out_dir="../../microfrontend/services/api-client/src"
+  echo "Generating unified TypeScript Axios client in $out_dir..."
 
   openapi-generator-cli generate \
     -i "$spec" \
@@ -76,10 +134,8 @@ generate_ts_client() {
     -o "$out_dir" \
     --skip-validate-spec \
     --additional-properties=supportsES6=true,withSeparateModelsAndApi=true,apiPackage=api,modelPackage=model
-
-
-  echo "✔ TypeScript client generated for $svc."
 }
+
 
 # 4) Inject Auth header via external Node script
 add_authorization_header() {
@@ -175,7 +231,7 @@ create_postman_environment() {
   done
 
   # Add the keycloak_url
-  ENV_JSON+="{\"key\": \"keycloak_url\", \"value\": \"https://keycloak.appf4s.io.vn\", \"enabled\": true}"
+  ENV_JSON+="{\"key\": \"keycloak_url\", \"value\": \"https://keycloak.appf4.io.vn\", \"enabled\": true}"
 
   ENV_JSON+="]}"
 
@@ -209,7 +265,8 @@ for svc in "${service_names[@]}"; do
 
   mv "$col_file" "./all_collections/${svc}.postman.json"
 done
-
+merge_openapi_specs
+generate_ts_client
 # Run the JavaScript file to update the URLs and variables
 node rewriteUrls.js
 
