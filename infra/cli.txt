@@ -19,3 +19,12 @@ kubectl port-forward svc/keycloak 9080:9080 -n f4space
 minikube delete 
 
 minikube start
+
+Get-ChildItem -Recurse -Path .\packages\ -Filter package.json | ForEach-Object {
+  $json = Get-Content $_.FullName | ConvertFrom-Json
+  $pkgName = $json.name
+  if ($json.dependencies.$pkgName) {
+    Write-Host "🚫 Removing self-dependency from $pkgName"
+    npm pkg delete dependencies.$pkgName --prefix ($_.DirectoryName)
+  }
+}
