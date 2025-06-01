@@ -18,7 +18,7 @@ CURL_TIMEOUT=30
 MAX_RETRIES=3
 
 # Services to generate collections for
-declare -a service_names=(  "msfeed" "msreels")
+declare -a service_names=(  "msfeed" "msreels" "reel")
 
 # 1) Obtain Keycloak token
 token_response=""
