@@ -17,13 +17,14 @@ public class AvroConverter {
 
     /**
      * Creates an Avro EventEnvelope for a 'postReel' event.
+     * @param eventName 
      *
      * @param userId   The UUID of the user.
      * @param title    The title of the reel.
      * @param videoUrl The video URL of the reel.
      * @return The created Avro EventEnvelope.
      */
-    public static EventEnvelope createPostReelEvent(UUID userId, String title, String videoUrl) {
+    public static EventEnvelope createPostReelEvent(String eventName, UUID userId, String title, String videoUrl) {
         LOG.debug("Creating Avro ReelDTO for userId: {}, title: {}", userId, title);
         ReelDTO avroReelDTO = ReelDTO.newBuilder()
                 .setVersion(1) // Defaulting version, or could be a parameter
@@ -35,7 +36,8 @@ public class AvroConverter {
 
         LOG.debug("Creating Avro EventEnvelope with eventName 'postReel' and payload: {}", avroReelDTO);
         return EventEnvelope.newBuilder()
-                .setEventName("postReel")
+                .setEventName(
+                        eventName)
                 .setPayload(avroReelDTO)
                 .build();
     }

@@ -2,6 +2,8 @@ package com.f4.reel.kafka.service;
 
 import com.f4.reel.avro.EventEnvelope;
 import com.f4.reel.service.dto.ReelDTO;
+import com.f4.reel.kafka.handler.EventDispatcher;
+import com.f4.reel.kafka.runner.KafkaJobRunner;
 import com.f4.reel.kafka.util.AvroConverter;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -9,8 +11,10 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.http.MediaType;
+import org.springframework.retry.support.RetryTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
@@ -25,58 +29,131 @@ public class KafkaUtilityService {
 
     private static final Logger PRODUCER_LOG = LoggerFactory.getLogger("KafkaProducerHelper");
     private static final Logger CONSUMER_LOG = LoggerFactory.getLogger("KafkaConsumerHelper");
-
+    private final KafkaJobRunner jobRunner;
     private final StreamBridge streamBridge;
     private final ObjectMapper objectMapper;
+    private final RetryTemplate retryTemplate;
+    private final EventDispatcher dispatcher;
+    private final Map<String, SseEmitter> emitters;
+    @Value("${ssh.service-name}-input.dlq")
+    private String dlqTopic;
+
+    @Value("${kafka.dlq.enabled:true}")
+    private boolean dlqEnabled;
 
     @Autowired
-    public KafkaUtilityService(StreamBridge streamBridge) {
+    public KafkaUtilityService(StreamBridge streamBridge, KafkaJobRunner jobRunner, RetryTemplate retryTemplate,
+            EventDispatcher dispatcher, Map<String, SseEmitter> emitters) {
+        this.jobRunner = jobRunner;
         this.streamBridge = streamBridge;
         this.objectMapper = new ObjectMapper();
         this.objectMapper.registerModule(new JavaTimeModule());
+        this.retryTemplate = retryTemplate;
+        this.dispatcher = dispatcher;
+        this.emitters = emitters;
     }
 
     // --- Helper for KafkaProducer ---
 
-    public boolean producer_prepareAndAttemptDirectSendReelEvent(
-            UUID userId, String title, String videoUrl,
+    public String producer_prepareAndAttemptDirectSendReelEvent(
+            String eventName, UUID userId, String title, String videoUrl,
             String configuredOutputTopic,
-            AtomicReference<EventEnvelope> messageToSupplyRef) {
-        PRODUCER_LOG.info("Helper: Preparing Avro reel event. Target topic from config for 'kafkaProducer-out-0': {}",
-                configuredOutputTopic);
-        boolean sentDirectly = false;
+            AtomicReference<EventEnvelope> messageToSupply, AtomicReference<String> keyToSupply) {
         try {
-            // Use AvroConverter to create the envelope
-            EventEnvelope envelope = AvroConverter.createPostReelEvent(userId, title, videoUrl);
-
-            messageToSupplyRef.set(envelope);
-            PRODUCER_LOG.info("Helper: Reel event prepared and stored for supplier pattern via reference.");
-
-            String directSendBinding = "kafkaProducer-out-0"; // This is the binding name
-            PRODUCER_LOG.info("Helper: Attempting direct send to binding: '{}' with message for event: {}",
-                    directSendBinding, envelope.getEventName());
-
-            sentDirectly = streamBridge.send(directSendBinding, envelope);
-
-            if (sentDirectly) {
-                PRODUCER_LOG.info(
-                        "Helper: SUCCESS: StreamBridge.send(\"{}\") returned true. The binder accepted the message.",
-                        directSendBinding);
-            } else {
-                PRODUCER_LOG.warn(
-                        "Helper: FAILURE: StreamBridge.send(\"{}\") returned false. Message was not accepted by the binder for sending.",
-                        directSendBinding);
-            }
-            return sentDirectly;
-
+            // Generate a unique key per message
+            EventEnvelope envelope = AvroConverter.createPostReelEvent(eventName, userId, title, videoUrl);
+            messageToSupply.set(envelope);
+            String uniqueKey = UUID.randomUUID().toString();
+            keyToSupply.set(uniqueKey);
+            PRODUCER_LOG.info("Generated unique key for Kafka message: {}", uniqueKey);
+            return uniqueKey;
         } catch (Exception e) {
-            PRODUCER_LOG.error("Helper: Error during prepareAndAttemptDirectSendReelEvent: {}", e.getMessage(), e);
-            messageToSupplyRef.set(null); // Clear if preparation or send fails
-            throw new RuntimeException("Helper: Error in prepareAndAttemptDirectSendReelEvent: " + e.getMessage(), e);
+            PRODUCER_LOG.error("Error delegating to KafkaUtilityService: {}", e.getMessage(), e);
+            messageToSupply.set(null);
+            keyToSupply.set(null);
+            return null;
         }
     }
 
     // --- Helpers for KafkaConsumer ---
+
+    public void submitEventJob(EventEnvelope avroMessage, String keyStr) {
+        jobRunner.submitEventJob(avroMessage, keyStr, () -> consumeAndProcessMessage(avroMessage));
+    }
+
+    public void consumeAndProcessMessage(EventEnvelope avroMessage) {
+        try {
+            retryTemplate.execute(context -> {
+                String eventName = null;
+                ReelDTO serviceReelDTO = null;
+
+                try {
+                    eventName = avroMessage.getEventName();
+                    if (eventName == null) {
+                        throw new IllegalArgumentException("Event name cannot be null");
+                    }
+
+                    if (avroMessage.getPayload() != null) {
+                        // Map Avro DTO to Service DTO
+                        serviceReelDTO = consumer_mapAvroToServiceReelDTO(avroMessage.getPayload());
+
+                        if (serviceReelDTO != null) {
+                            // Prepare envelope for dispatcher
+                            com.f4.reel.kafka.handler.EventEnvelope<JsonNode> envelopeForDispatcher = consumer_prepareEventEnvelopeForDispatcher(
+                                    eventName, serviceReelDTO);
+                            if (envelopeForDispatcher != null) {
+                                dispatcher.dispatch(envelopeForDispatcher);
+                            } else {
+                                CONSUMER_LOG.warn("Envelope for dispatcher was null after preparation for event: {}",
+                                        eventName);
+                            }
+                        } else {
+                            CONSUMER_LOG.warn("Service ReelDTO was null after mapping for event: {}", eventName);
+                        }
+                    } else {
+                        CONSUMER_LOG.warn("Unsupported event type or missing payload: {}", eventName);
+                    }
+
+                    // SSE dispatch
+                    consumer_dispatchToSseClients(eventName, serviceReelDTO, emitters);
+
+                    CONSUMER_LOG.info("Successfully processed Avro message for event: {}", eventName);
+
+                    // Send notification to completion topic
+                    String completionTopic = "reel-processing-complete";
+                    streamBridge.send(completionTopic,
+                            "Completed processing for event " + eventName + " with ID " + UUID.randomUUID());
+
+                    return null;
+                } catch (Exception e) {
+                    CONSUMER_LOG.error("Error processing Avro message (event: {}, attempt {}): {}",
+                            (eventName != null ? eventName : "UNKNOWN_EVENT"),
+                            context.getRetryCount() + 1,
+                            e.getMessage(), e);
+                    throw e;
+                }
+            }, context -> {
+                CONSUMER_LOG.error("Message processing failed after {} attempts, sending to DLQ. Event: {}",
+                        context.getRetryCount(),
+                        (avroMessage.getEventName() != null ? avroMessage.getEventName() : "UNKNOWN_EVENT"));
+                Exception exception = (Exception) context.getLastThrowable();
+                consumer_sendToDlq(avroMessage, exception, dlqTopic, dlqEnabled, avroMessage.toString());
+                throw exception; // Rethrow to ensure the retry mechanism handles it
+            });
+        } catch (Exception e) {
+            CONSUMER_LOG.error(
+                    "Fatal error in message processing that couldn't be recovered with retries: {}. Sending to DLQ. Event: {}",
+                    e.getMessage(),
+                    (avroMessage.getEventName() != null ? avroMessage.getEventName() : "UNKNOWN_EVENT"), e);
+            consumer_sendToDlq(avroMessage, e, dlqTopic, dlqEnabled, avroMessage.toString());
+            throw new RuntimeException(
+                    "Fatal error in message processing, sent to DLQ: " + e.getMessage(), e);
+        }
+    }
+
+    // existing helper methods: consumer_mapAvroToServiceReelDTO,
+    // consumer_prepareEventEnvelopeForDispatcher, consumer_dispatchToSseClients,
+    // consumer_sendToDlq etc.
 
     public SseEmitter consumer_registerSseEmitter(String key, Map<String, SseEmitter> emittersMap) {
         CONSUMER_LOG.debug("Helper: Registering sse client for {}", key);
@@ -123,7 +200,8 @@ public class KafkaUtilityService {
     }
 
     public void consumer_dispatchToSseClients(String eventName, ReelDTO reelDTO, Map<String, SseEmitter> emittersMap) {
-        CONSUMER_LOG.debug("Helper: Dispatching event {} to {} SSE clients using Service DTO", eventName, emittersMap.size());
+        CONSUMER_LOG.debug("Helper: Dispatching event {} to {} SSE clients using Service DTO", eventName,
+                emittersMap.size());
         emittersMap.forEach((key, emitter) -> {
             try {
                 emitter.send(
@@ -141,12 +219,17 @@ public class KafkaUtilityService {
 
     // consumer_mapAvroToServiceReelDTO now delegates to AvroConverter
     public ReelDTO consumer_mapAvroToServiceReelDTO(com.f4.reel.avro.ReelDTO avroPayload) {
-        CONSUMER_LOG.debug("KafkaUtilityService: Delegating Avro to Service DTO conversion to AvroConverter for payload: {}", avroPayload);
+        CONSUMER_LOG.debug(
+                "KafkaUtilityService: Delegating Avro to Service DTO conversion to AvroConverter for payload: {}",
+                avroPayload);
         try {
             return AvroConverter.convertToServiceReelDTO(avroPayload);
         } catch (Exception e) {
-            CONSUMER_LOG.error("KafkaUtilityService: Error during Avro to Service DTO conversion delegated to AvroConverter: {}", e.getMessage(), e);
-            // Rethrow or handle as per requirements, ensuring consistency with how consumer handles it
+            CONSUMER_LOG.error(
+                    "KafkaUtilityService: Error during Avro to Service DTO conversion delegated to AvroConverter: {}",
+                    e.getMessage(), e);
+            // Rethrow or handle as per requirements, ensuring consistency with how consumer
+            // handles it
             throw e; // Propagate the exception (e.g., RuntimeException from AvroConverter)
         }
     }
@@ -172,5 +255,9 @@ public class KafkaUtilityService {
                     e);
             throw new RuntimeException("Helper: Failed to prepare EventEnvelope for dispatcher", e);
         }
+    }
+
+    public Map<String, SseEmitter> getEmitters() {
+        return emitters;
     }
 }

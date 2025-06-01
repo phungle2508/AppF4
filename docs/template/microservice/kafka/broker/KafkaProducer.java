@@ -1,6 +1,11 @@
 package com.f4.reel.kafka.broker;
 
+import java.util.UUID;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Supplier;
+
+import org.springframework.messaging.Message;
+import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Component;
 
 import com.f4.reel.avro.EventEnvelope;
@@ -9,16 +14,14 @@ import com.f4.reel.kafka.service.KafkaUtilityService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import java.util.UUID;
-import java.util.concurrent.atomic.AtomicReference;
+import org.springframework.kafka.support.KafkaHeaders;
 
 @Component("kafkaProducer")
-public class KafkaProducer implements Supplier<EventEnvelope> {
-    private static final Logger log = LoggerFactory.getLogger(KafkaProducer.class);
-
+public class KafkaProducer implements Supplier<Message<EventEnvelope>> {
     private final KafkaUtilityService kafkaUtilityService;
     private final AtomicReference<EventEnvelope> messageToSupply = new AtomicReference<>();
-
+    private final AtomicReference<String> keyToSupply = new AtomicReference<>();
+    private static final Logger log = LoggerFactory.getLogger(KafkaProducer.class);
     @Value("${spring.cloud.stream.bindings.kafkaProducer-out-0.destination}")
     private String configuredOutputTopic;
 
@@ -26,32 +29,26 @@ public class KafkaProducer implements Supplier<EventEnvelope> {
         this.kafkaUtilityService = kafkaUtilityService;
     }
 
-    public boolean triggerReelEventPreparationAndDirectSend(UUID userId, String title, String videoUrl) {
-        log.info("KafkaProducer: Delegating reel event preparation and direct send to KafkaUtilityService.");
-        try {
-            return kafkaUtilityService.producer_prepareAndAttemptDirectSendReelEvent(
-                    userId, 
-                    title, 
-                    videoUrl, 
-                    this.configuredOutputTopic, 
-                    this.messageToSupply
-            );
-        } catch (Exception e) {
-            log.error("KafkaProducer: Error while delegating to KafkaUtilityService for reel event: {}", e.getMessage(), e);
-            this.messageToSupply.set(null);
-            return false;
-        }
+    public String send(String eventName, UUID userId, String title, String videoUrl) {
+        log.info("KafkaProducer: Preparing reel event and generating unique key.");
+        return kafkaUtilityService.producer_prepareAndAttemptDirectSendReelEvent(
+                eventName, userId, title, videoUrl,
+                configuredOutputTopic, messageToSupply, keyToSupply);
     }
 
     @Override
-    public EventEnvelope get() {
-        EventEnvelope event = this.messageToSupply.getAndSet(null);
+    public Message<EventEnvelope> get() {
+        EventEnvelope event = messageToSupply.getAndSet(null);
+        String key = keyToSupply.getAndSet(null);
         if (event != null) {
-            log.info("Supplier get() is supplying prepared message for event: {} to 'kafkaProducer-out-0' binding", event.getEventName());
+            log.info("Supplying event with unique key: {} to kafkaProducer-out-0 binding", key);
+            return MessageBuilder.withPayload(event)
+                    .setHeader(KafkaHeaders.KEY, key)
+                    .build();
         } else {
-            log.trace("Supplier get() is returning null as no event was prepared or already taken.");
+            log.trace("No event to supply, returning null.");
+            return null;
         }
-        return event;
     }
 
 }

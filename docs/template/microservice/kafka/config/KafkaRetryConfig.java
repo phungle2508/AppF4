@@ -17,9 +17,9 @@ import org.springframework.retry.support.RetryTemplate;
  */
 @Configuration
 @EnableRetry
-public class RetryConfig {
+public class KafkaRetryConfig {
 
-    private static final Logger log = LoggerFactory.getLogger(RetryConfig.class);
+    private static final Logger log = LoggerFactory.getLogger(KafkaRetryConfig.class);
 
     /**
      * Custom RetryListener to log each retry attempt.
@@ -37,7 +37,7 @@ public class RetryConfig {
                         ? (int) context.getAttribute("maxAttempts")
                         : 3;
 
-                if (context.getRetryCount() < maxAttempts - 1) {
+                if (context.getRetryCount() < maxAttempts ) {
                     log.info("Will retry in a moment... (attempt {}/{})",
                             context.getRetryCount() + 1, maxAttempts);
                 } else {
