@@ -51,22 +51,58 @@ update_package() {
     fi
 }
 
-# Function to add dependency if not exists
 add_dependency_if_not_exists() {
     local pom_file="$1"
-    if [ -f "$pom_file" ]; then
-        if ! grep -q "com.jcraft" "$pom_file"; then
-            # Find the dependencies section and add our new dependency
-            sed -i '/<dependencies>/a \
-        <dependency>\
-            <groupId>com.jcraft</groupId>\
-            <artifactId>jsch</artifactId>\
-            <version>0.1.55</version>\
-        </dependency>' "$pom_file"
-            echo -e "${GREEN}Added JSch dependency to $pom_file${NC}"
+    local ms_name="$2"  # microservice name, e.g., "commentlike"
+    local template_pom="template/microservice/pom.xml"
+echo "Adding dependency to $pom_file for microservice '$ms_name'"
+    # If ms_name is user or gateway, skip the entire copy + replacement block
+    if [[ "$ms_name" == "user" || "$ms_name" == "gateway" ]]; then
+        echo "ℹ️ Skipping template copy and replacement for '$ms_name'"
+    else
+        if [ ! -f "$template_pom" ]; then
+            echo "❌ Template file $template_pom not found."
+            return 1
         fi
+
+        if [ ! -f "$pom_file" ]; then
+            echo "❌ Target file $pom_file not found."
+            return 1
+        fi
+
+        # Capitalize first letter for replacing "Reel"
+        local ms_name_cap="$(tr '[:lower:]' '[:upper:]' <<< ${ms_name:0:1})${ms_name:1}"
+
+        # Copy template to target pom.xml
+        cp "$template_pom" "$pom_file"
+        echo "✅ Replaced $pom_file with $template_pom"
+
+        # Replace lowercase "reel" with microservice name
+        sed -i "s/reel/${ms_name}/g" "$pom_file"
+        # Replace capitalized "Reel" with capitalized microservice name
+        sed -i "s/Reel/${ms_name_cap}/g" "$pom_file"
+
+        echo "✅ Replaced 'reel' with '${ms_name}' and 'Reel' with '${ms_name_cap}' in $pom_file"
+    fi
+
+    # For all ms_names except user and gateway, add JSch dependency if not already present
+    if [[ "$ms_name" != "user" && "$ms_name" != "gateway" ]]; then
+        if ! grep -q "com.jcraft" "$pom_file"; then
+            sed -i '/<dependencies>/a \
+    <dependency>\
+        <groupId>com.jcraft</groupId>\
+        <artifactId>jsch</artifactId>\
+        <version>0.1.55</version>\
+    </dependency>' "$pom_file"
+            echo "✅ Added JSch dependency to $pom_file"
+        else
+            echo "ℹ️ JSch dependency already present in $pom_file, skipping insertion."
+        fi
+    else
+        echo "ℹ️ Skipping JSch dependency insertion for '$ms_name'"
     fi
 }
+
 
 # Function to get MySQL port from server port
 get_mysql_port() {
@@ -294,7 +330,7 @@ for app in "${apps[@]}"; do
     update_consul_config "../backend/$app/src/main/resources/config/consul-config-dev.yml" "${clean_name}"
     
     # Add dependency to pom.xml
-    add_dependency_if_not_exists "../backend/$app/pom.xml"
+    add_dependency_if_not_exists "../backend/$app/pom.xml"  "$clean_name"
     
     # Update MySQL connections in configuration files
     if [ "$app" != "gateway" ]; then
