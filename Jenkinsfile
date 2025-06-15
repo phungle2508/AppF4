@@ -1,5 +1,3 @@
-// Jenkinsfile (Final Version with the correct sshCommand)
-
 pipeline {
     agent any
 
@@ -32,31 +30,20 @@ pipeline {
             }
         }
 
-        stage('2. Trigger Deployment on VPS') {
+        stage('2. Deploy via sshpass') {
             when {
                 expression { return env.CHANGED_SERVICES != null && !env.CHANGED_SERVICES.isEmpty() }
             }
             steps {
-                script {
-                    def servicesToDeploy = env.CHANGED_SERVICES.split(',')
-                    
-                    def remote = [
-                        name:          'vps-server',
-                        host:          env.VPS_HOST,
-                        user:          'root',
-                        allowAnyHosts: true,
-                        credentialsId: 'vps-password-credentials',
-                        identity: ''
-
-                    ]
-
-                    for (String service : servicesToDeploy) {
-                        echo "--- Triggering deployment for service: ${service} ---"
-                        
-                        // ######################################################
-                        // ## FINAL FIX: Replaced 'sshScript' with 'sshCommand'##
-                        // ######################################################
-                        sshCommand remote: remote, command: "bash ${env.REMOTE_SCRIPT_PATH} ${service}"
+                withCredentials([string(credentialsId: 'vps-root-password', variable: 'ROOT_PASSWORD')]) {
+                    script {
+                        def services = env.CHANGED_SERVICES.split(',')
+                        for (String service : services) {
+                            echo "Deploying ${service}..."
+                            sh """
+                                sshpass -p "$ROOT_PASSWORD" ssh -o StrictHostKeyChecking=no root@${env.VPS_HOST} "bash ${env.REMOTE_SCRIPT_PATH} ${service}"
+                            """
+                        }
                     }
                 }
             }
@@ -66,6 +53,22 @@ pipeline {
     post { always { echo 'Pipeline finished.' } }
 }
 
-// --- HELPER FUNCTIONS ---
-def getChangedFiles() { def changedFiles = []; def diff = sh(script: "git diff-tree --no-commit-id --name-only -r HEAD", returnStdout: true).trim(); if (diff) { changedFiles.addAll(diff.split('\n')) }; return changedFiles }
-def findChangedServices(List filePaths) { def services = new HashSet<String>(); filePaths.each { path -> def matcher = (path =~ /^backend\/([^\/]+)\/?/); if (matcher.find()) { services.add(matcher.group(1)) } }; return services }
+def getChangedFiles() {
+    def changedFiles = []
+    def diff = sh(script: "git diff-tree --no-commit-id --name-only -r HEAD", returnStdout: true).trim()
+    if (diff) {
+        changedFiles.addAll(diff.split('\n'))
+    }
+    return changedFiles
+}
+
+def findChangedServices(List filePaths) {
+    def services = new HashSet<String>()
+    filePaths.each { path ->
+        def matcher = (path =~ /^backend\/([^\/]+)\/?/)
+        if (matcher.find()) {
+            services.add(matcher.group(1))
+        }
+    }
+    return services
+}
