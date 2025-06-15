@@ -45,7 +45,9 @@ pipeline {
                         host:          env.VPS_HOST,
                         user:          'root',
                         allowAnyHosts: true,
-                        credentialsId: 'vps-password-credentials'
+                        credentialsId: 'vps-password-credentials',
+                        identity: ''
+
                     ]
 
                     for (String service : servicesToDeploy) {
