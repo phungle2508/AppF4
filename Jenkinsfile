@@ -19,12 +19,20 @@ pipeline {
                     // ######################################################
                     // ## THIS 'CHECKOUT' BLOCK HAS BEEN CORRECTED         ##
                     // ######################################################
-                    checkout([
+                   checkout([
                         $class: 'GitSCM',
-                        // FIX 1: Changed branch to 'main' to match your repo
                         branches: [[name: 'origin/main']],
-                        // FIX 2: Removed credentials since the repo is public
-                        userRemoteConfigs: [[url: 'https://github.com/shegga9x/AppF4.git']]
+                        userRemoteConfigs: [[
+                            url: 'https://github.com/shegga9x/AppF4.git'
+                        ]],
+                        extensions: [
+                            [$class: 'SubmoduleOption',
+                                disableSubmodules: false,
+                                parentCredentials: true,
+                                recursiveSubmodules: true,
+                                trackingSubmodules: false
+                            ]
+                        ]
                     ])
 
                     def changedFiles = getChangedFiles()
