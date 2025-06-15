@@ -35,7 +35,7 @@ pipeline {
                 expression { return env.CHANGED_SERVICES != null && !env.CHANGED_SERVICES.isEmpty() }
             }
             steps {
-                withCredentials([string(credentialsId: 'vps-root-password', variable: 'ROOT_PASSWORD')]) {
+                withCredentials([string(credentialsId: 'vps-password-credentials', variable: 'ROOT_PASSWORD')]) {
                     script {
                         def services = env.CHANGED_SERVICES.split(',')
                         for (String service : services) {
