@@ -1,4 +1,4 @@
-// Jenkinsfile (Final Version with sshScript fix)
+// Jenkinsfile (Final Version, correcting the sshScript parameter)
 
 pipeline {
     agent any
@@ -40,21 +40,21 @@ pipeline {
                 script {
                     def servicesToDeploy = env.CHANGED_SERVICES.split(',')
                     
-                    // ######################################################
-                    // ## THIS 'remote' AND 'sshScript' BLOCK IS CORRECTED ##
-                    // ######################################################
                     def remote = [
                         name:          'vps-server',
                         host:          env.VPS_HOST,
                         user:          'root',
                         allowAnyHosts: true,
-                        credentialsId: 'vps-password-credentials' // FIX 1: credentialsId moved here
+                        credentialsId: 'vps-password-credentials' // This part is correct
                     ]
 
                     for (String service : servicesToDeploy) {
                         echo "--- Triggering deployment for service: ${service} ---"
-                        // FIX 2: Changed 'script:' to 'command:'
-                        sshScript remote: remote, command: "bash ${env.REMOTE_SCRIPT_PATH} ${service}"
+                        
+                        // ######################################################
+                        // ## FINAL FIX: Changed 'command:' back to 'script:'  ##
+                        // ######################################################
+                        sshScript remote: remote, script: "bash ${env.REMOTE_SCRIPT_PATH} ${service}"
                     }
                 }
             }
