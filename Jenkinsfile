@@ -5,7 +5,7 @@ pipeline {
 
     environment {
         VPS_HOST = '152.42.195.205' // It is better to keep this here
-        REMOTE_SCRIPT_PATH = '/home/ubuntu/AppF4/deploy_service.sh'
+        REMOTE_SCRIPT_PATH = '/root/f4-microserices-vps-configuration/AppF4'
     }
 
     stages {
