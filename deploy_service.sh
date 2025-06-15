@@ -1,4 +1,5 @@
 #!/bin/bash
+# Correct deploy_service.sh script
 
 # A script to update and rebuild a specific submodule service
 # VERSION 2: Handles mapping from folder name (e.g., ms_user) to service name (e.g., user)
@@ -37,12 +38,8 @@ echo "  > Git Folder:      $FOLDER_NAME"
 echo "  > Docker Service:  $DOCKER_SERVICE_NAME"
 echo "---------------------------"
 
-
-# --- SCRIPT LOGIC ---
-# Navigate to the main project directory
 cd $PROJECT_DIR
 
-# 1. Update the source code for the main repo and all submodules
 echo "1. Pulling latest changes from Git..."
 git pull origin main
 git submodule update --init --recursive --remote
