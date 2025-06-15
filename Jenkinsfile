@@ -1,4 +1,4 @@
-// Jenkinsfile (Final Version, correcting the sshScript parameter)
+// Jenkinsfile (Final Version with the correct sshCommand)
 
 pipeline {
     agent any
@@ -45,16 +45,16 @@ pipeline {
                         host:          env.VPS_HOST,
                         user:          'root',
                         allowAnyHosts: true,
-                        credentialsId: 'vps-password-credentials' // This part is correct
+                        credentialsId: 'vps-password-credentials'
                     ]
 
                     for (String service : servicesToDeploy) {
                         echo "--- Triggering deployment for service: ${service} ---"
                         
                         // ######################################################
-                        // ## FINAL FIX: Changed 'command:' back to 'script:'  ##
+                        // ## FINAL FIX: Replaced 'sshScript' with 'sshCommand'##
                         // ######################################################
-                        sshScript remote: remote, script: "bash ${env.REMOTE_SCRIPT_PATH} ${service}"
+                        sshCommand remote: remote, command: "bash ${env.REMOTE_SCRIPT_PATH} ${service}"
                     }
                 }
             }
