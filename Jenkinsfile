@@ -22,7 +22,7 @@ pipeline {
                     checkout([
                         $class: 'GitSCM',
                         // FIX 1: Changed branch to 'main' to match your repo
-                        branches: [[name: '*/main']],
+                        branches: [[name: 'origin/main']],
                         // FIX 2: Removed credentials since the repo is public
                         userRemoteConfigs: [[url: 'https://github.com/shegga9x/AppF4.git']]
                     ])
