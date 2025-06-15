@@ -5,9 +5,9 @@ pipeline {
 
     environment {
         // --- CHANGE THESE VALUES ---
-        VPS_HOST = 'your_vps_ip_address' // Make sure this is your correct IP
+        VPS_HOST = '152.42.195.205' // Make sure this is your correct IP
         // The path to your deployment script on the VPS
-        REMOTE_SCRIPT_PATH = '/home/ubuntu/AppF4/deploy_service.sh'
+        REMOTE_SCRIPT_PATH = '/root/f4-microserices-vps-configuration/AppF4/deploy_service.sh'
     }
 
     stages {
