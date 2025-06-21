@@ -28,7 +28,7 @@ for folder in "${!repos[@]}"; do
     # Check for changes
     if [ -n "$(git status --porcelain)" ]; then
       git add .
-      git commit -m "Update: $(date '+%Y-%m-%d %H:%M:%S')"
+      git commit -m "Update: $(date '+%Y-%m-%d %H:%M:%S') liquibase init csv"
       git push origin master
       echo "✅ Changes pushed for $folder"
     else
