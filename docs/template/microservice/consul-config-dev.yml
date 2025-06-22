@@ -20,6 +20,19 @@ spring:
     name: ${ssh.service-name}
   profiles:
     active: dev,api-docs
+  cache:
+    type: redis
+    redis:
+      time-to-live: 3600000
+  jpa:
+    properties:
+      hibernate:
+        cache:
+          use_second_level_cache: false
+          use_query_cache: false
+          region:
+            factory_class: org.hibernate.cache.internal.NoCachingRegionFactory
+
   cloud:
     consul:
       enabled: true
