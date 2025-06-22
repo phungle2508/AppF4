@@ -919,6 +919,9 @@
                         <logging>debug</logging>
                         <contexts>!test</contexts>
                         <diffExcludeObjects>oauth_access_token, oauth_approvals, oauth_client_details, oauth_client_token, oauth_code, oauth_refresh_token</diffExcludeObjects>
+                        <expressionVars>
+                            <csv_path>${project.basedir}/../data</csv_path>
+                        </expressionVars>
                     </configuration>
                     <dependencies>
                         <dependency>
@@ -996,7 +999,7 @@
             <properties>
                 <!-- default Spring profiles -->
                 <liquibase-plugin.password/>
-                <liquibase-plugin.url>jdbc:mysql://microservices.appf4.io.vn:3382/reel</liquibase-plugin.url>
+                <liquibase-plugin.url>jdbc:mysql://microservices.appf4.io.vn:3382/reel?allowLoadLocalInfile=true</liquibase-plugin.url>
                 <liquibase-plugin.username>root</liquibase-plugin.username>
                 <profile.test>test,testdev</profile.test>
                 <spring.profiles.active>dev${profile.tls}${profile.no-liquibase}</spring.profiles.active>

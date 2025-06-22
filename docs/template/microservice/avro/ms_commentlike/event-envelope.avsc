@@ -1,0 +1,50 @@
+{
+  "namespace": "com.f4.commentlike.avro",
+  "type": "record",
+  "name": "EventEnvelope",
+  "fields": [
+    {
+      "name": "eventName",
+      "type": "string"
+    },
+    {
+      "name": "payload",
+      "type": [
+        "null",
+        {
+          "type": "record",
+          "name": "LikeDTO",
+          "fields": [
+            {
+              "name": "id",
+              "type": ["null", "string"],
+              "default": null
+            },
+            {
+              "name": "reelId",
+              "type": ["null", "string"],
+              "default": null
+            },
+            {
+              "name": "userId",
+              "type": ["null", "string"],
+              "default": null
+            },
+            {
+              "name": "createdAt",
+              "type": [
+                "null",
+                {
+                  "type": "long",
+                  "logicalType": "timestamp-millis"
+                }
+              ],
+              "default": null
+            }
+          ]
+        }
+      ],
+      "default": null
+    }
+  ]
+}

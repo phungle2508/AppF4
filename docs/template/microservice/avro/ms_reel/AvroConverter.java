@@ -13,15 +13,17 @@ public class AvroConverter {
     private static final Logger LOG = LoggerFactory.getLogger(AvroConverter.class);
 
     // Private constructor to prevent instantiation of utility class
-    private AvroConverter() {}
+    private AvroConverter() {
+    }
 
     /**
      * Creates an Avro EventEnvelope for a 'postReel' event.
-     * @param eventName 
+     * 
+     * @param eventName
      *
-     * @param userId   The UUID of the user.
-     * @param title    The title of the reel.
-     * @param videoUrl The video URL of the reel.
+     * @param userId    The UUID of the user.
+     * @param title     The title of the reel.
+     * @param videoUrl  The video URL of the reel.
      * @return The created Avro EventEnvelope.
      */
     public static EventEnvelope createPostReelEvent(String eventName, UUID userId, String title, String videoUrl) {
@@ -56,16 +58,15 @@ public class AvroConverter {
         LOG.debug("Converting Avro ReelDTO to service DTO: {}", avroPayload);
         com.f4.reel.service.dto.ReelDTO serviceDto = new com.f4.reel.service.dto.ReelDTO();
         try {
-            if (avroPayload.getVersion() != null) {
-                serviceDto.setVersion(avroPayload.getVersion().longValue());
-            }
+
             if (avroPayload.getUserId() != null) {
                 try {
                     serviceDto.setUserId(UUID.fromString(avroPayload.getUserId()));
                 } catch (IllegalArgumentException e) {
                     LOG.error("Invalid UUID format for userId from Avro: {}", avroPayload.getUserId(), e);
                     // Optionally rethrow or handle as per application requirements
-                    throw new IllegalArgumentException("Invalid UUID format in Avro payload for userId: " + avroPayload.getUserId(), e);
+                    throw new IllegalArgumentException(
+                            "Invalid UUID format in Avro payload for userId: " + avroPayload.getUserId(), e);
                 }
             }
             if (avroPayload.getTitle() != null) {
@@ -80,15 +81,17 @@ public class AvroConverter {
                 } catch (Exception e) {
                     LOG.error("Invalid date format for createdAt from Avro: {}", avroPayload.getCreatedAt(), e);
                     // Optionally rethrow or handle
-                    throw new IllegalArgumentException("Invalid date format in Avro payload for createdAt: " + avroPayload.getCreatedAt(), e);
+                    throw new IllegalArgumentException(
+                            "Invalid date format in Avro payload for createdAt: " + avroPayload.getCreatedAt(), e);
                 }
             }
             LOG.debug("Successfully converted Avro ReelDTO to service DTO: {}", serviceDto);
             return serviceDto;
         } catch (Exception e) {
             LOG.error("Error converting Avro ReelDTO to service DTO: {}", e.getMessage(), e);
-            // Rethrow as a runtime exception that can be caught by the calling service/consumer
+            // Rethrow as a runtime exception that can be caught by the calling
+            // service/consumer
             throw new RuntimeException("Failed to convert Avro ReelDTO to service DTO", e);
         }
     }
-} 
+}

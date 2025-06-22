@@ -1,0 +1,44 @@
+{
+  "namespace": "com.f4.feed.avro",
+  "type": "record",
+  "name": "EventEnvelope",
+  "fields": [
+    {
+      "name": "eventName",
+      "type": "string"
+    },
+    {
+      "name": "payload",
+      "type": [
+        "null",
+        {
+          "type": "record",
+          "name": "FeedItemDTO",
+          "fields": [
+            {
+              "name": "id",
+              "type": ["null", "string"],
+              "default": null
+            },
+            {
+              "name": "userId",
+              "type": ["null", "string"],
+              "default": null
+            },
+            {
+              "name": "reelId",
+              "type": ["null", "string"],
+              "default": null
+            },
+            {
+              "name": "timestamp",
+              "type": ["null", "string"],
+              "default": null
+            }
+          ]
+        }
+      ],
+      "default": null
+    }
+  ]
+}

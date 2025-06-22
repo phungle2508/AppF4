@@ -1,0 +1,49 @@
+{
+  "namespace": "com.f4.reel.avro",
+  "type": "record",
+  "name": "EventEnvelope",
+  "fields": [
+    {
+      "name": "eventName",
+      "type": "string"
+    },
+    {
+      "name": "payload",
+      "type": [
+        "null", 
+        {
+          "type": "record",
+          "name": "ReelDTO",
+          "fields": [
+            {
+              "name": "version",
+              "type": ["null", "int"],
+              "default": null
+            },
+            {
+              "name": "userId",
+              "type": ["null", "string"],
+              "default": null
+            },
+            {
+              "name": "title",
+              "type": ["null", "string"],
+              "default": null
+            },
+            {
+              "name": "videoUrl",
+              "type": ["null", "string"],
+              "default": null
+            },
+            {
+              "name": "createdAt",
+              "type": ["null", "string"],
+              "default": null
+            }
+          ]
+        }
+      ],
+      "default": null
+    }
+  ]
+} 

@@ -133,7 +133,8 @@ entity Reel {
 
 entity Comment {
     id UUID required
-    reelId UUID required
+    parentType String required
+    parentId UUID required
     userId UUID required
     content TextBlob required
     createdAt Instant required
@@ -141,7 +142,8 @@ entity Comment {
 
 entity Like {
     id UUID required
-    reelId UUID required
+    parentType String required
+    parentId UUID required
     userId UUID required
     createdAt Instant required
 }

@@ -30,6 +30,7 @@ get_clean_name() {
     local app_name="$1"
     echo "${app_name#ms_}"
 }
+# Function to remove broker directory from microservice
 
 # Function to update package name in Java file
 update_package() {
@@ -50,12 +51,87 @@ update_package() {
         echo -e "${GREEN}Updated package names and class references for ${clean_name}${NC}"
     fi
 }
+# Function to copy Avro schema files
+# Function to copy Avro schema and utility files
+copy_avro_files() {
+    local service="$1"
+    local clean_name=$(get_clean_name "$service")
+    local avro_schema_src="template/microservice/avro/${clean_name}/event-envelope.avsc"
+    local avro_schema_dest="../backend/$service/src/main/resources/avro"
+    local avro_util_src="template/microservice/avro/${service}/AvroConverter.java"
+    local avro_util_dest="../backend/$service/src/main/java/com/f4/${clean_name}/kafka/util"
+    local kafka_util_src="template/microservice/avro/${service}/KafkaUtilityService.java"
+    local kafka_util_dest="../backend/$service/src/main/java/com/f4/${clean_name}/kafka/service"
+    local kafka_job_runner_src="template/microservice/avro/${service}/KafkaJobRunner.java"
+    local kafka_job_runner_dest="../backend/$service/src/main/java/com/f4/${clean_name}/kafka/runner"
+    local post_reel_handler_src="template/microservice/avro/${service}/PostReelHandler.java"
+    local post_reel_handler_dest="../backend/$service/src/main/java/com/f4/${clean_name}/kafka/handler/events"
 
+    # Copy Avro schema file
+    if [ -f "$avro_schema_src" ]; then
+        create_dir_if_not_exists "$avro_schema_dest"
+        copy_file "$avro_schema_src" "$avro_schema_dest/event-envelope.avsc"
+        echo -e "${GREEN}Copied Avro schema for ${clean_name}${NC}"
+    else
+        echo "Warning: Avro schema not found: $avro_schema_src"
+    fi
+    
+    # Copy and rename AvroConverter to AvroConverter
+    if [ -f "$avro_util_src" ]; then
+        create_dir_if_not_exists "$avro_util_dest"
+        copy_file "$avro_util_src" "$avro_util_dest/AvroConverter.java"
+        
+        
+        echo -e "${GREEN}Copied and renamed AvroConverter  for ${clean_name}${NC}"
+    else
+        echo "Warning: AvroConverter not found: $avro_util_src"
+    fi
+
+      # Copy and rename KafkaUtilityService to KafkaUtilityService
+    if [ -f "$kafka_util_src" ]; then
+        create_dir_if_not_exists "$kafka_util_dest"
+        copy_file "$kafka_util_src" "$kafka_util_dest/KafkaUtilityService.java"
+        
+        
+        echo -e "${GREEN}Copied and renamed KafkaUtilityService  for ${clean_name}${NC}"
+    else
+        echo "Warning: KafkaUtilityService not found: $kafka_util_src"
+    fi
+       # Copy KafkaJobRunner
+    if [ -f "$kafka_job_runner_src" ]; then
+        create_dir_if_not_exists "$kafka_job_runner_dest"
+        copy_file "$kafka_job_runner_src" "$kafka_job_runner_dest/KafkaJobRunner.java"
+        
+        # Update package in the copied file
+        sed -i "s/package com\.f4\.reel/package com.f4.${clean_name}/" "$kafka_job_runner_dest/KafkaJobRunner.java"
+        
+        echo -e "${GREEN}Copied KafkaJobRunner for ${clean_name}${NC}"
+    else
+        echo "Warning: KafkaJobRunner not found: $kafka_job_runner_src"
+    fi
+
+    # Copy PostReelHandler
+    if [ -f "$post_reel_handler_src" ]; then
+        create_dir_if_not_exists "$post_reel_handler_dest"
+        copy_file "$post_reel_handler_src" "$post_reel_handler_dest/PostReelHandler.java"
+        
+        # Update package and class name in the copied file
+        sed -i "s/package com\.f4\.reel/package com.f4.${clean_name}/" "$post_reel_handler_dest/PostReelHandler.java"
+        sed -i "s/PostReelHandler/Post${clean_name^}Handler/g" "$post_reel_handler_dest/PostReelHandler.java"
+        
+        # Rename the file to match the service
+        mv "$post_reel_handler_dest/PostReelHandler.java" "$post_reel_handler_dest/Post${clean_name^}Handler.java"
+        
+        echo -e "${GREEN}Copied and renamed PostReelHandler to Post${clean_name^}Handler for ${clean_name}${NC}"
+    else
+        echo "Warning: PostReelHandler not found: $post_reel_handler_src"
+    fi
+}
 add_dependency_if_not_exists() {
     local pom_file="$1"
     local ms_name="$2"  # microservice name, e.g., "commentlike"
     local template_pom="template/microservice/pom.xml"
-echo "Adding dependency to $pom_file for microservice '$ms_name'"
+    echo "Adding dependency to $pom_file for microservice '$ms_name'"
     # If ms_name is user or gateway, skip the entire copy + replacement block
     if [[ "$ms_name" == "user" || "$ms_name" == "gateway" ]]; then
         echo "ℹ️ Skipping template copy and replacement for '$ms_name'"
@@ -86,20 +162,16 @@ echo "Adding dependency to $pom_file for microservice '$ms_name'"
     fi
 
     # For all ms_names except user and gateway, add JSch dependency if not already present
-    if [[ "$ms_name" != "user" && "$ms_name" != "gateway" ]]; then
-        if ! grep -q "com.jcraft" "$pom_file"; then
+    if ! grep -q "com.jcraft" "$pom_file"; then
             sed -i '/<dependencies>/a \
-    <dependency>\
-        <groupId>com.jcraft</groupId>\
-        <artifactId>jsch</artifactId>\
-        <version>0.1.55</version>\
-    </dependency>' "$pom_file"
+                    <dependency>\
+                        <groupId>com.jcraft</groupId>\
+                        <artifactId>jsch</artifactId>\
+                        <version>0.1.55</version>\
+                    </dependency>' "$pom_file"
             echo "✅ Added JSch dependency to $pom_file"
-        else
-            echo "ℹ️ JSch dependency already present in $pom_file, skipping insertion."
-        fi
     else
-        echo "ℹ️ Skipping JSch dependency insertion for '$ms_name'"
+            echo "ℹ️ JSch dependency already present in $pom_file, skipping insertion."
     fi
 }
 
@@ -182,23 +254,23 @@ update_mysql_connections() {
         # Replace jdbc URL in the file with correct database name - more careful with XML tags
         if grep -q "jdbc:mysql://localhost:[0-9]" "$pom_file"; then
             # For regular JDBC URLs in properties
-            sed -i "s|jdbc:mysql://localhost:[0-9][0-9]*/[^<]*|jdbc:mysql://microservices.appf4.io.vn:$mysql_port/$clean_name|g" "$pom_file"
+            sed -i "s|jdbc:mysql://localhost:[0-9][0-9]*/[^<]*|jdbc:mysql://microservices.appf4.io.vn:$mysql_port/$clean_name?allowLoadLocalInfile=true|g" "$pom_file"
             
             # For liquibase-plugin.url tags specifically
-            sed -i "s|<liquibase-plugin.url>jdbc:mysql://localhost:[0-9][0-9]*/[^<]*</liquibase-plugin.url>|<liquibase-plugin.url>jdbc:mysql://microservices.appf4.io.vn:$mysql_port/$clean_name</liquibase-plugin.url>|g" "$pom_file"
+            sed -i "s|<liquibase-plugin.url>jdbc:mysql://localhost:[0-9][0-9]*/[^<]*</liquibase-plugin.url>|<liquibase-plugin.url>jdbc:mysql://microservices.appf4.io.vn:$mysql_port/$clean_name?allowLoadLocalInfile=true</liquibase-plugin.url>|g" "$pom_file"
             
-            echo -e "${GREEN}Updated MySQL connection in $pom_file to jdbc:mysql://microservices.appf4.io.vn:$mysql_port/$clean_name${NC}"
+            echo -e "${GREEN}Updated MySQL connection in $pom_file to jdbc:mysql://microservices.appf4.io.vn:$mysql_port/$clean_name?allowLoadLocalInfile=true${NC}"
         fi
         
         # Also update any existing URLs that might have the wrong database name
         if grep -q "jdbc:mysql://microservices.appf4.io.vn" "$pom_file"; then
             # For regular JDBC URLs in properties
-            sed -i "s|jdbc:mysql://microservices.appf4.io.vn:[0-9][0-9]*/[^<]*|jdbc:mysql://microservices.appf4.io.vn:$mysql_port/$clean_name|g" "$pom_file"
+            sed -i "s|jdbc:mysql://microservices.appf4.io.vn:[0-9][0-9]*/[^<]*|jdbc:mysql://microservices.appf4.io.vn:$mysql_port/$clean_name?allowLoadLocalInfile=true|g" "$pom_file"
             
             # For liquibase-plugin.url tags specifically
-            sed -i "s|<liquibase-plugin.url>jdbc:mysql://microservices.appf4.io.vn:[0-9][0-9]*/[^<]*</liquibase-plugin.url>|<liquibase-plugin.url>jdbc:mysql://microservices.appf4.io.vn:$mysql_port/$clean_name</liquibase-plugin.url>|g" "$pom_file"
+            sed -i "s|<liquibase-plugin.url>jdbc:mysql://microservices.appf4.io.vn:[0-9][0-9]*/[^<]*</liquibase-plugin.url>|<liquibase-plugin.url>jdbc:mysql://microservices.appf4.io.vn:$mysql_port/$clean_name?allowLoadLocalInfile=true</liquibase-plugin.url>|g" "$pom_file"
             
-            echo -e "${GREEN}Fixed existing MySQL connection in $pom_file to use database name $clean_name${NC}"
+            echo -e "${GREEN}Fixed existing MySQL connection in $pom_file to use database name $clean_name?allowLoadLocalInfile=true${NC}"
         fi
     fi
 }
@@ -302,11 +374,12 @@ apps=(
 for app in "${apps[@]}"; do
     echo -e "\n${BLUE}Processing $app...${NC}"
     clean_name=$(get_clean_name "$app")
-    
+    rm -rf "../backend/$app/src/main/java/com/f4/${clean_name}/broker"
     # Create necessary directories
     create_dir_if_not_exists "../backend/$app/src/main/java/com/f4/${clean_name}"
     create_dir_if_not_exists "../backend/$app/src/main/resources/config/tls"
     
+
     # Copy Main.java, rename it, and update package
     copy_file "template/Main.java" "../backend/$app/src/main/java/com/f4/${clean_name}/Dev${clean_name^}.java"
     update_package "../backend/$app/src/main/java/com/f4/${clean_name}/Dev${clean_name^}.java" "${app}"
@@ -448,6 +521,7 @@ for app in "${apps[@]}"; do
     else
         echo "✗ consul-config-dev.yml is missing"
     fi
+    copy_avro_files "$app"
 done
 
 echo -e "\n${GREEN}Script completed!${NC}"
