@@ -2,12 +2,15 @@
 	path = microfrontend
 	url = https://github.com/shegga9x/appf4-microfrontends
 	branch = master
+
 [submodule "infra/vps-config"]
 	path = infra/vps-config
 	url = https://github.com/shegga9x/f4-vps-configuration
+
 [submodule "infra/microservices-vps-config"]
   path = infra/microservices-vps-config
-  url = https://github.com/shegga9x/f4-microservices-vps-configuration
+  url = https://github.com/shegga9x/f4-microserices-vps-configuration
+
 [submodule "backend/gateway"]
 	path = backend/gateway
 	url = https://github.com/shegga9x/f4-apigateway
