@@ -20,6 +20,7 @@ if [ -z "$FOLDER_NAME" ]; then
   exit 1
 fi
 
+
 # ===================================================================
 # === NEW LOGIC: Determine the Docker Compose service name        ===
 # ===================================================================
@@ -43,6 +44,13 @@ cd $PROJECT_DIR
 echo "1. Pulling latest changes from Git..."
 git pull origin main
 git submodule update --init --recursive --remote
+
+ALLOWED_SERVICES=("gateway" "ms_user" "ms_feed" "ms_commentlike" "ms_notification" "ms_reel")
+
+if [[ ! " ${ALLOWED_SERVICES[@]} " =~ " $FOLDER_NAME " ]]; then
+  echo "⚠️ Folder '$FOLDER_NAME' is not a deployable service. Skipping build but continuing gracefully."
+  exit 0
+fi
 
 # 2. Navigate to the specific submodule directory (using the FOLDER_NAME)
 SUBMODULE_DIR="$PROJECT_DIR/backend/$FOLDER_NAME"
