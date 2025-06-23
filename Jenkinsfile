@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         VPS_HOST = '152.42.195.205'
-        REMOTE_SCRIPT_PATH = '/root/f4-microserices-vps-configuration/AppF4/deploy_service.sh'
+        REMOTE_SCRIPT_PATH = '/root/f4-microserices-vps-configuration/AppF4/scripts/deploy_service.sh'
     }
 
     stages {

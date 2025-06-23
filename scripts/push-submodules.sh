@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd backend || exit
+cd ../backend || exit
 
 declare -A repos=(
   ["ms_user"]="https://github.com/shegga9x/f4-user-service.git"

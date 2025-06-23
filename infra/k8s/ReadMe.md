@@ -1,3 +1,0 @@
-minikube
-
-kubectl
