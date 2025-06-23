@@ -18,6 +18,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.context.annotation.Lazy;
 
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
+
 @Configuration
 public class FeignClientConfiguration {
 
@@ -54,59 +58,99 @@ public class FeignClientConfiguration {
         return new JacksonDecoder(objectMapper);
     }
 
-    // === One bean per API client ===
+    // === Lazy Feign Beans ===
 
     @Bean
     @Lazy
     public UserResourceApi userResourceApi(RequestInterceptor auth, Encoder enc, Decoder dec) {
-        return feignFor("msuser", UserResourceApi.class, auth, enc, dec);
+        return lazyFeignFor("msuser", UserResourceApi.class, auth, enc, dec);
     }
 
     @Bean
     @Lazy
     public FeedItemResourceApi feedItemResourceApi(RequestInterceptor auth, Encoder enc, Decoder dec) {
-        return feignFor("msfeed", FeedItemResourceApi.class, auth, enc, dec);
+        return lazyFeignFor("msfeed", FeedItemResourceApi.class, auth, enc, dec);
     }
 
     @Bean
     @Lazy
     public ReelResourceApi reelResourceApi(RequestInterceptor auth, Encoder enc, Decoder dec) {
-        return feignFor("msreel", ReelResourceApi.class, auth, enc, dec);
+        return lazyFeignFor("msreel", ReelResourceApi.class, auth, enc, dec);
     }
 
     @Bean
     @Lazy
     public NotificationResourceApi notificationResourceApi(RequestInterceptor auth, Encoder enc, Decoder dec) {
-        return feignFor("msnotification", NotificationResourceApi.class, auth, enc, dec);
+        return lazyFeignFor("msnotification", NotificationResourceApi.class, auth, enc, dec);
     }
 
     @Bean
     @Lazy
     public MsNotificationKafkaResourceApi kafkaNotificationApi(RequestInterceptor auth, Encoder enc, Decoder dec) {
-        return feignFor("msnotification", MsNotificationKafkaResourceApi.class, auth, enc, dec);
+        return lazyFeignFor("msnotification", MsNotificationKafkaResourceApi.class, auth, enc, dec);
     }
 
     @Bean
     @Lazy
     public KeycloakUserResourceApi keycloakUserApi(RequestInterceptor auth, Encoder enc, Decoder dec) {
-        return feignFor("msuser", KeycloakUserResourceApi.class, auth, enc, dec);
+        return lazyFeignFor("msuser", KeycloakUserResourceApi.class, auth, enc, dec);
     }
 
-    // Add more beans as needed...
+    // === Lazy proxy factory ===
+    private <T> T lazyFeignFor(String serviceName, Class<T> clazz, RequestInterceptor auth, Encoder enc, Decoder dec) {
+        return (T) Proxy.newProxyInstance(
+                clazz.getClassLoader(),
+                new Class<?>[] { clazz },
+                new LazyFeignHandler<>(serviceName, clazz, auth, enc, dec));
+    }
 
-    // === Generic builder method ===
-    private <T> T feignFor(String serviceName, Class<T> clazz, RequestInterceptor auth, Encoder enc, Decoder dec) {
-        var instance = loadBalancerClient.choose(serviceName);
-        if (instance == null) {
-            throw new IllegalStateException("Service [" + serviceName + "] not found via discovery");
+    // === Lazy Feign client handler ===
+    private class LazyFeignHandler<T> implements InvocationHandler {
+        private final String serviceName;
+        private final Class<T> clazz;
+        private final RequestInterceptor auth;
+        private final Encoder encoder;
+        private final Decoder decoder;
+        private T feignClient;
+
+        LazyFeignHandler(String serviceName, Class<T> clazz, RequestInterceptor auth, Encoder encoder,
+                Decoder decoder) {
+            this.serviceName = serviceName;
+            this.clazz = clazz;
+            this.auth = auth;
+            this.encoder = encoder;
+            this.decoder = decoder;
         }
-        String baseUrl = instance.getUri().toString();
-        return Feign.builder()
-                .encoder(enc)
-                .decoder(dec)
-                .requestInterceptor(auth)
-                .logger(new Slf4jLogger(clazz))
-                .logLevel(Logger.Level.FULL)
-                .target(clazz, baseUrl);
+
+        @Override
+        public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+            // Handle Object methods without triggering remote discovery
+            switch (method.getName()) {
+                case "hashCode":
+                    return System.identityHashCode(proxy);
+                case "toString":
+                    return "LazyFeignProxy(" + clazz.getSimpleName() + ")";
+                case "equals":
+                    return proxy == args[0];
+            }
+
+            // Lazy init the Feign client
+            if (feignClient == null) {
+                var instance = loadBalancerClient.choose(serviceName);
+                if (instance == null) {
+                    throw new IllegalStateException("Service [" + serviceName + "] not found via discovery");
+                }
+                String baseUrl = instance.getUri().toString();
+                feignClient = Feign.builder()
+                        .encoder(encoder)
+                        .decoder(decoder)
+                        .requestInterceptor(auth)
+                        .logger(new Slf4jLogger(clazz))
+                        .logLevel(Logger.Level.FULL)
+                        .target(clazz, baseUrl);
+            }
+
+            return method.invoke(feignClient, args);
+        }
     }
 }
