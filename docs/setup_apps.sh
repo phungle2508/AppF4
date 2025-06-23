@@ -416,6 +416,59 @@ copy_config_files() {
     fi
 }
 
+# Function to remove Avro Maven plugin from pom.xml
+remove_avro_plugin_from_user() {
+    local pom_file="$1"
+    if [ -f "$pom_file" ]; then
+        awk '
+        BEGIN {
+            in_plugin = 0
+            found_avro = 0
+        }
+        {
+            if ($0 ~ /<plugin>/) {
+                in_plugin = 1
+                plugin_block = $0 "\n"
+                next
+            }
+
+            if (in_plugin) {
+                plugin_block = plugin_block $0 "\n"
+                if ($0 ~ /<groupId>org\.apache\.avro<\/groupId>/)
+                    found_group = 1
+                if ($0 ~ /<artifactId>avro-maven-plugin<\/artifactId>/)
+                    found_artifact = 1
+                if ($0 ~ /<\/plugin>/) {
+                    if (found_group && found_artifact) {
+                        # skip this block
+                        in_plugin = 0
+                        found_group = 0
+                        found_artifact = 0
+                        plugin_block = ""
+                        next
+                    } else {
+                        printf "%s", plugin_block
+                        in_plugin = 0
+                        found_group = 0
+                        found_artifact = 0
+                        plugin_block = ""
+                        next
+                    }
+                }
+                next
+            }
+
+            print
+        }' "$pom_file" > "${pom_file}.tmp" && mv "${pom_file}.tmp" "$pom_file"
+
+        echo -e "${GREEN:-}[✔] Removed Avro Maven plugin from $pom_file${NC:-}"
+    else
+        echo -e "${RED:-}[✘] File $pom_file not found!${NC:-}"
+    fi
+}
+
+
+
 # Main script
 echo "Starting to copy template files to all apps..."
 
@@ -463,6 +516,11 @@ for app in "${apps[@]}"; do
     
     # Add dependency to pom.xml
     add_dependency_if_not_exists "../backend/$app/pom.xml"  "$clean_name"
+    
+    # Remove Avro plugin from user service pom.xml
+    if [ "$app" = "ms_user" ]; then
+        remove_avro_plugin_from_user "../backend/$app/pom.xml"
+    fi
     
     # Copy client and config template files
     copy_config_files "$app"

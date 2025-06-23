@@ -2,6 +2,15 @@
 
 cd ../backend || exit
 
+# Prompt for commit message
+echo "Enter commit message (or press Enter for default):"
+read -r commit_message
+
+# Use default message if none provided
+if [ -z "$commit_message" ]; then
+  commit_message="Update: $(date '+%Y-%m-%d %H:%M:%S') liquibase init csv"
+fi
+
 declare -A repos=(
   ["ms_user"]="https://github.com/shegga9x/f4-user-service.git"
   ["ms_commentlike"]="https://github.com/shegga9x/f4-commentlike-service.git"
@@ -28,7 +37,7 @@ for folder in "${!repos[@]}"; do
     # Check for changes
     if [ -n "$(git status --porcelain)" ]; then
       git add .
-      git commit -m "Update: $(date '+%Y-%m-%d %H:%M:%S') liquibase init csv"
+      git commit -m "$commit_message"
       git push origin master
       echo "✅ Changes pushed for $folder"
     else
