@@ -132,9 +132,10 @@ add_dependency_if_not_exists() {
     local ms_name="$2"  # microservice name, e.g., "commentlike"
     local template_pom="template/microservice/pom.xml"
     echo "Adding dependency to $pom_file for microservice '$ms_name'"
-    # If ms_name is user or gateway, skip the entire copy + replacement block
-    if [[ "$ms_name" == "user" || "$ms_name" == "gateway" ]]; then
+    # If ms_name is gateway, skip the entire copy + replacement block
+    if [[ "$ms_name" == "gateway" ]]; then
         echo "ℹ️ Skipping template copy and replacement for '$ms_name'"
+    # If ms_name is user, skip template copy but add JSch dependency
     else
         if [ ! -f "$template_pom" ]; then
             echo "❌ Template file $template_pom not found."
@@ -161,17 +162,19 @@ add_dependency_if_not_exists() {
         echo "✅ Replaced 'reel' with '${ms_name}' and 'Reel' with '${ms_name_cap}' in $pom_file"
     fi
 
-    # For all ms_names except user and gateway, add JSch dependency if not already present
-    if ! grep -q "com.jcraft" "$pom_file"; then
-            sed -i '/<dependencies>/a \
-                    <dependency>\
-                        <groupId>com.jcraft</groupId>\
-                        <artifactId>jsch</artifactId>\
-                        <version>0.1.55</version>\
-                    </dependency>' "$pom_file"
-            echo "✅ Added JSch dependency to $pom_file"
-    else
-            echo "ℹ️ JSch dependency already present in $pom_file, skipping insertion."
+    # For all ms_names except gateway, add JSch dependency if not already present
+    if [[ "$ms_name" != "gateway" ]]; then
+        if ! grep -q "com.jcraft" "$pom_file"; then
+                sed -i '/<dependencies>/a \
+                        <dependency>\
+                            <groupId>com.jcraft</groupId>\
+                            <artifactId>jsch</artifactId>\
+                            <version>0.1.55</version>\
+                        </dependency>' "$pom_file"
+                echo "✅ Added JSch dependency to $pom_file"
+        else
+                echo "ℹ️ JSch dependency already present in $pom_file, skipping insertion."
+        fi
     fi
 }
 
@@ -357,6 +360,62 @@ update_dto_name_in_service() {
     done
 }
 
+# Function to copy client template files
+copy_client_files() {
+    local service="$1"
+    local clean_name=$(get_clean_name "$service")
+    local client_src="template/client"
+    local client_dest="../backend/$service/src/main/java/com/f4/${clean_name}/client"
+    
+    # Skip gateway service
+    if [ "$service" = "gateway" ]; then
+        echo "Skipping client template files for gateway"
+        return
+    fi
+    
+    if [ -d "$client_src" ]; then
+        create_dir_if_not_exists "$client_dest"
+        cp -r "$client_src"/* "$client_dest"/
+        echo -e "${GREEN}Copied client template files for ${clean_name}${NC}"
+        
+        # Update package names in copied client files
+        find "$client_dest" -type f -name "*.java" | while read -r java_file; do
+            sed -i "s/com\\.f4\\.reel/com.f4.${clean_name}/g" "$java_file"
+        done
+        echo -e "${GREEN}Updated package names in client files for ${clean_name}${NC}"
+    else
+        echo "Warning: Client template directory not found: $client_src"
+    fi
+}
+
+# Function to copy config template files
+copy_config_files() {
+    local service="$1"
+    local clean_name=$(get_clean_name "$service")
+    local config_src="template/config"
+    local config_dest="../backend/$service/src/main/java/com/f4/${clean_name}/config"
+    
+    # Skip gateway service
+    if [ "$service" = "gateway" ]; then
+        echo "Skipping config template files for gateway"
+        return
+    fi
+    
+    if [ -d "$config_src" ]; then
+        create_dir_if_not_exists "$config_dest"
+        cp -r "$config_src"/* "$config_dest"/
+        echo -e "${GREEN}Copied config template files for ${clean_name}${NC}"
+        
+        # Update package names in copied config files
+        find "$config_dest" -type f -name "*.java" | while read -r java_file; do
+            sed -i "s/com\\.f4\\.reel/com.f4.${clean_name}/g" "$java_file"
+        done
+        echo -e "${GREEN}Updated package names in config files for ${clean_name}${NC}"
+    else
+        echo "Warning: Config template directory not found: $config_src"
+    fi
+}
+
 # Main script
 echo "Starting to copy template files to all apps..."
 
@@ -404,6 +463,16 @@ for app in "${apps[@]}"; do
     
     # Add dependency to pom.xml
     add_dependency_if_not_exists "../backend/$app/pom.xml"  "$clean_name"
+    
+    # Update DTO names before copying client and config files
+    if [ "$app" != "gateway" ]; then
+        capitalized_name="${clean_name^}"
+        update_dto_name_in_service "../backend/$app" "$capitalized_name"
+    fi
+    
+    # Copy client and config template files
+    copy_client_files "$app"
+    copy_config_files "$app"
     
     # Update MySQL connections in configuration files
     if [ "$app" != "gateway" ]; then
@@ -470,10 +539,6 @@ for app in "${apps[@]}"; do
         
         # Overwrite broker and handler folders
         overwrite_folder "$temp_dir/kafka" "../backend/$app/src/main/java/com/f4/${clean_name}/kafka"
-        # Capitalize first letter of service name for DTO
-        capitalized_name="${clean_name^}"
-        # Pass the complete path to the service directory
-        update_dto_name_in_service "../backend/$app" "$capitalized_name"
         
         rm -rf "$temp_dir"
     fi

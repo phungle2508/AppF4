@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 
 // Directory containing the collection files
-const collectionsDir = './all_collections/';
+const collectionsDir = 'output/all_collections/';
 
 // Load Postman environment JSON file
 const environmentFile = 'postman_environment.json';
