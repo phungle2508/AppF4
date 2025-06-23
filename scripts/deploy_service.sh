@@ -28,10 +28,7 @@ fi
 # It checks if the folder name starts with "ms_". If it does, it removes that prefix.
 # Otherwise, it uses the folder name as is (for services like 'gateway').
 
-DOCKER_SERVICE_NAME=$FOLDER_NAME
-if [[ "$FOLDER_NAME" == ms_* ]]; then
-  DOCKER_SERVICE_NAME=${FOLDER_NAME#ms_} # This removes the 'ms_' prefix
-fi
+DOCKER_SERVICE_NAME=${FOLDER_NAME//_/}
 # ===================================================================
 
 echo "--- Starting deployment ---"
@@ -69,6 +66,6 @@ chmod +x ./mvnw
 # 4. Restart the specific service using Docker Compose (using the DOCKER_SERVICE_NAME)
 echo "3. Restarting the Docker Compose service: $DOCKER_SERVICE_NAME..."
 cd $PROJECT_DIR
-docker-compose restart $DOCKER_SERVICE_NAME
+docker compose restart $DOCKER_SERVICE_NAME
 
 echo "--- Deployment for service '$DOCKER_SERVICE_NAME' completed successfully! ---"
