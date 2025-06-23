@@ -1,4 +1,6 @@
-// API Gateway
+// =======================================
+// 🔐 Gateway Application
+// =======================================
 application {
   config {
     baseName gateway
@@ -10,9 +12,12 @@ application {
     serviceDiscoveryType consul
     enableSwaggerCodegen true
   }
+  entities User, KeycloakUser, Reel, Comment, Like, Notification, FeedItem
 }
 
-// User Service
+// =======================================
+// 👤 User Microservice
+// =======================================
 application {
   config {
     baseName ms_user
@@ -29,7 +34,9 @@ application {
   entities User, KeycloakUser
 }
 
-// Reel Service
+// =======================================
+// 📹 Reel Microservice
+// =======================================
 application {
   config {
     baseName ms_reel
@@ -48,7 +55,9 @@ application {
   entities Reel
 }
 
-// CommentLike Service
+// =======================================
+// 💬 Comment & Like Microservice
+// =======================================
 application {
   config {
     baseName ms_commentlike
@@ -66,7 +75,9 @@ application {
   entities Comment, Like
 }
 
-// Notification Service
+// =======================================
+// 🔔 Notification Microservice
+// =======================================
 application {
   config {
     baseName ms_notification
@@ -85,7 +96,9 @@ application {
   entities Notification
 }
 
-// Feed Service
+// =======================================
+// 📰 Feed Microservice
+// =======================================
 application {
   config {
     baseName ms_feed
@@ -105,72 +118,78 @@ application {
   entities FeedItem
 }
 
-// Entity Definitions
+// =======================================
+// 📦 Entities
+// =======================================
 entity User {
-    id UUID required
-    username String required unique
-    email String required unique
-    passwordHash String required
-    createdAt Instant required
-    keycloakUserId UUID required
+  id UUID required
+  username String required unique
+  email String required unique
+  passwordHash String required
+  createdAt Instant required
+  keycloakUserId UUID required
 }
-
 entity KeycloakUser {
-    id UUID required
-    username String required unique
-    email String required unique
-    realmId UUID required
-    userId UUID required
+  id UUID required
+  username String required unique
+  email String required unique
+  realmId UUID required
+  userId UUID required
 }
-
 entity Reel {
-    id UUID required
-    userId UUID required
-    title String required
-    videoUrl String required
-    createdAt Instant required
+  id UUID required
+  userId UUID required
+  title String required
+  videoUrl String required
+  createdAt Instant required
 }
-
 entity Comment {
-    id UUID required
-    parentType String required
-    parentId UUID required
-    userId UUID required
-    content TextBlob required
-    createdAt Instant required
+  id UUID required
+  parentType String required
+  parentId UUID required
+  userId UUID required
+  content TextBlob required
+  createdAt Instant required
 }
-
 entity Like {
-    id UUID required
-    parentType String required
-    parentId UUID required
-    userId UUID required
-    createdAt Instant required
+  id UUID required
+  parentType String required
+  parentId UUID required
+  userId UUID required
+  createdAt Instant required
 }
-
 entity Notification {
-    id UUID required
-    recipientId UUID required
-    type String required
-    message TextBlob required
-    isRead Boolean required
-    createdAt Instant required
+  id UUID required
+  recipientId UUID required
+  type String required
+  message TextBlob required
+  isRead Boolean required
+  createdAt Instant required
 }
-
 entity FeedItem {
-    id UUID required
-    userId UUID required
-    reelId UUID required
-    timestamp Instant required
+  id UUID required
+  userId UUID required
+  reelId UUID required
+  timestamp Instant required
 }
-
-// Global options
+// =======================================
+// ⚙️ Entity-to-Microservice Mapping
+// =======================================
+microservice User, KeycloakUser with ms_user
+microservice Reel with ms_reel
+microservice Comment, Like with ms_commentlike
+microservice Notification with ms_notification
+microservice FeedItem with ms_feed
+// =======================================
+// 🔁 Global Options
+// =======================================
 dto * with mapstruct
 service * with serviceImpl
-paginate * with infinite-scroll
+paginate Reel, Comment, Like, Notification, FeedItem with infinite-scroll
 search Reel, FeedItem with elasticsearch
-
-// Deployment configuration
+// =======================================
+// 🚀 Deployment Config
+// =======================================
 deployment {
   deploymentType docker-compose
   serviceDiscoveryType consul
