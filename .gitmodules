@@ -5,8 +5,9 @@
 [submodule "infra/vps-config"]
 	path = infra/vps-config
 	url = https://github.com/shegga9x/f4-vps-configuration
-
-
+[submodule "infra/microservices-vps-config"]
+  path = infra/microservices-vps-config
+	url = https://github.com/your-org/microservices-vps-config.git
 [submodule "backend/gateway"]
 	path = backend/gateway
 	url = https://github.com/shegga9x/f4-apigateway
