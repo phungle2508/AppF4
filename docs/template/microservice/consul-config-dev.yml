@@ -20,10 +20,7 @@ spring:
     name: ${ssh.service-name}
   profiles:
     active: dev,api-docs
-  cache:
-    type: redis
-    redis:
-      time-to-live: 3600000
+
   jpa:
     properties:
       hibernate:

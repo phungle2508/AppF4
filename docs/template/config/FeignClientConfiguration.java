@@ -16,6 +16,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
+import org.springframework.context.annotation.Lazy;
 
 @Configuration
 public class FeignClientConfiguration {
@@ -56,31 +57,37 @@ public class FeignClientConfiguration {
     // === One bean per API client ===
 
     @Bean
+    @Lazy
     public UserResourceApi userResourceApi(RequestInterceptor auth, Encoder enc, Decoder dec) {
         return feignFor("msuser", UserResourceApi.class, auth, enc, dec);
     }
 
     @Bean
+    @Lazy
     public FeedItemResourceApi feedItemResourceApi(RequestInterceptor auth, Encoder enc, Decoder dec) {
         return feignFor("msfeed", FeedItemResourceApi.class, auth, enc, dec);
     }
 
     @Bean
+    @Lazy
     public ReelResourceApi reelResourceApi(RequestInterceptor auth, Encoder enc, Decoder dec) {
         return feignFor("msreel", ReelResourceApi.class, auth, enc, dec);
     }
 
     @Bean
+    @Lazy
     public NotificationResourceApi notificationResourceApi(RequestInterceptor auth, Encoder enc, Decoder dec) {
         return feignFor("msnotification", NotificationResourceApi.class, auth, enc, dec);
     }
 
     @Bean
+    @Lazy
     public MsNotificationKafkaResourceApi kafkaNotificationApi(RequestInterceptor auth, Encoder enc, Decoder dec) {
         return feignFor("msnotification", MsNotificationKafkaResourceApi.class, auth, enc, dec);
     }
 
     @Bean
+    @Lazy
     public KeycloakUserResourceApi keycloakUserApi(RequestInterceptor auth, Encoder enc, Decoder dec) {
         return feignFor("msuser", KeycloakUserResourceApi.class, auth, enc, dec);
     }
