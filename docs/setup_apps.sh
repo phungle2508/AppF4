@@ -464,14 +464,7 @@ for app in "${apps[@]}"; do
     # Add dependency to pom.xml
     add_dependency_if_not_exists "../backend/$app/pom.xml"  "$clean_name"
     
-    # Update DTO names before copying client and config files
-    if [ "$app" != "gateway" ]; then
-        capitalized_name="${clean_name^}"
-        update_dto_name_in_service "../backend/$app" "$capitalized_name"
-    fi
-    
     # Copy client and config template files
-    copy_client_files "$app"
     copy_config_files "$app"
     
     # Update MySQL connections in configuration files
@@ -500,7 +493,6 @@ for app in "${apps[@]}"; do
         # Overwrite broker and handler folders
         overwrite_folder "$temp_dir/kafka" "../backend/$app/src/main/java/com/f4/${clean_name}/kafka"
         update_dto_name_in_service "/$ms" "$clean_name"
-  
         rm -rf "$temp_dir"
     fi
 done
@@ -557,6 +549,15 @@ for ms in "${ms_services[@]}"; do
     update_package_declaration_in_service "../backend/$ms" "$clean_name"
 done
 
+# Update DTO names for all ms_* services (should be last to affect all copied files)
+for ms in "${ms_services[@]}"; do
+    clean_name=$(get_clean_name "$ms")
+    if [ "$ms" != "gateway" ]; then
+        capitalized_name="${clean_name^}"
+        update_dto_name_in_service "../backend/$ms" "$capitalized_name"
+    fi
+done
+
 echo -e "\n${GREEN}All applications have been updated with template files!${NC}"
 
 # Verify the setup
@@ -587,6 +588,7 @@ for app in "${apps[@]}"; do
         echo "✗ consul-config-dev.yml is missing"
     fi
     copy_avro_files "$app"
+    copy_client_files "$app"
 done
 
 echo -e "\n${GREEN}Script completed!${NC}"
