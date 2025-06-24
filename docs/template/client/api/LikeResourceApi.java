@@ -4,8 +4,8 @@ import com.f4.reel.client.ApiClient;
 import com.f4.reel.client.EncodingUtils;
 import com.f4.reel.client.model.ApiResponse;
 
+import com.f4.reel.client.model.LikeDTO;
 import java.util.UUID;
-import com.f4.reel.client.model.UserDTO;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,35 +14,35 @@ import java.util.Map;
 import feign.*;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2025-06-24T10:08:24.663346251+07:00[Asia/Ho_Chi_Minh]", comments = "Generator version: 7.13.0")
-public interface UserResourceApi extends ApiClient.Api {
+public interface LikeResourceApi extends ApiClient.Api {
 
 
   /**
    * 
    * 
-   * @param userDTO  (required)
-   * @return UserDTO
+   * @param likeDTO  (required)
+   * @return LikeDTO
    */
-  @RequestLine("POST /api/users")
+  @RequestLine("POST /api/likes")
   @Headers({
     "Content-Type: application/json",
     "Accept: */*",
   })
-  UserDTO createUser(@javax.annotation.Nonnull UserDTO userDTO);
+  LikeDTO createLike(@javax.annotation.Nonnull LikeDTO likeDTO);
 
   /**
    * 
-   * Similar to <code>createUser</code> but it also returns the http response headers .
+   * Similar to <code>createLike</code> but it also returns the http response headers .
    * 
-   * @param userDTO  (required)
+   * @param likeDTO  (required)
    * @return A ApiResponse that wraps the response boyd and the http headers.
    */
-  @RequestLine("POST /api/users")
+  @RequestLine("POST /api/likes")
   @Headers({
     "Content-Type: application/json",
     "Accept: */*",
   })
-  ApiResponse<UserDTO> createUserWithHttpInfo(@javax.annotation.Nonnull UserDTO userDTO);
+  ApiResponse<LikeDTO> createLikeWithHttpInfo(@javax.annotation.Nonnull LikeDTO likeDTO);
 
 
 
@@ -51,23 +51,23 @@ public interface UserResourceApi extends ApiClient.Api {
    * 
    * @param id  (required)
    */
-  @RequestLine("DELETE /api/users/{id}")
+  @RequestLine("DELETE /api/likes/{id}")
   @Headers({
     "Accept: application/json",
   })
-  void deleteUser(@Param("id") @javax.annotation.Nonnull UUID id);
+  void deleteLike(@Param("id") @javax.annotation.Nonnull UUID id);
 
   /**
    * 
-   * Similar to <code>deleteUser</code> but it also returns the http response headers .
+   * Similar to <code>deleteLike</code> but it also returns the http response headers .
    * 
    * @param id  (required)
    */
-  @RequestLine("DELETE /api/users/{id}")
+  @RequestLine("DELETE /api/likes/{id}")
   @Headers({
     "Accept: application/json",
   })
-  ApiResponse<Void> deleteUserWithHttpInfo(@Param("id") @javax.annotation.Nonnull UUID id);
+  ApiResponse<Void> deleteLikeWithHttpInfo(@Param("id") @javax.annotation.Nonnull UUID id);
 
 
 
@@ -77,37 +77,37 @@ public interface UserResourceApi extends ApiClient.Api {
    * @param page Zero-based page index (0..N) (optional, default to 0)
    * @param size The size of the page to be returned (optional, default to 20)
    * @param sort Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported. (optional)
-   * @return List&lt;UserDTO&gt;
+   * @return List&lt;LikeDTO&gt;
    */
-  @RequestLine("GET /api/users?page={page}&size={size}&sort={sort}")
+  @RequestLine("GET /api/likes?page={page}&size={size}&sort={sort}")
   @Headers({
     "Accept: */*",
   })
-  List<UserDTO> getAllUsers(@Param("page") @javax.annotation.Nullable Integer page, @Param("size") @javax.annotation.Nullable Integer size, @Param("sort") @javax.annotation.Nullable List<String> sort);
+  List<LikeDTO> getAllLikes(@Param("page") @javax.annotation.Nullable Integer page, @Param("size") @javax.annotation.Nullable Integer size, @Param("sort") @javax.annotation.Nullable List<String> sort);
 
   /**
    * 
-   * Similar to <code>getAllUsers</code> but it also returns the http response headers .
+   * Similar to <code>getAllLikes</code> but it also returns the http response headers .
    * 
    * @param page Zero-based page index (0..N) (optional, default to 0)
    * @param size The size of the page to be returned (optional, default to 20)
    * @param sort Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported. (optional)
    * @return A ApiResponse that wraps the response boyd and the http headers.
    */
-  @RequestLine("GET /api/users?page={page}&size={size}&sort={sort}")
+  @RequestLine("GET /api/likes?page={page}&size={size}&sort={sort}")
   @Headers({
     "Accept: */*",
   })
-  ApiResponse<List<UserDTO>> getAllUsersWithHttpInfo(@Param("page") @javax.annotation.Nullable Integer page, @Param("size") @javax.annotation.Nullable Integer size, @Param("sort") @javax.annotation.Nullable List<String> sort);
+  ApiResponse<List<LikeDTO>> getAllLikesWithHttpInfo(@Param("page") @javax.annotation.Nullable Integer page, @Param("size") @javax.annotation.Nullable Integer size, @Param("sort") @javax.annotation.Nullable List<String> sort);
 
 
   /**
    * 
    * 
-   * Note, this is equivalent to the other <code>getAllUsers</code> method,
+   * Note, this is equivalent to the other <code>getAllLikes</code> method,
    * but with the query parameters collected into a single Map parameter. This
    * is convenient for services with optional query parameters, especially when
-   * used with the {@link GetAllUsersQueryParams} class that allows for
+   * used with the {@link GetAllLikesQueryParams} class that allows for
    * building up this map in a fluent style.
    * @param queryParams Map of query parameters as name-value pairs
    *   <p>The following elements may be specified in the query map:</p>
@@ -116,18 +116,18 @@ public interface UserResourceApi extends ApiClient.Api {
    *   <li>size - The size of the page to be returned (optional, default to 20)</li>
    *   <li>sort - Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported. (optional)</li>
    *   </ul>
-   * @return List&lt;UserDTO&gt;
+   * @return List&lt;LikeDTO&gt;
    */
-  @RequestLine("GET /api/users?page={page}&size={size}&sort={sort}")
+  @RequestLine("GET /api/likes?page={page}&size={size}&sort={sort}")
   @Headers({
   "Accept: */*",
   })
-  List<UserDTO> getAllUsers(@QueryMap(encoded=true) GetAllUsersQueryParams queryParams);
+  List<LikeDTO> getAllLikes(@QueryMap(encoded=true) GetAllLikesQueryParams queryParams);
 
   /**
   * 
   * 
-  * Note, this is equivalent to the other <code>getAllUsers</code> that receives the query parameters as a map,
+  * Note, this is equivalent to the other <code>getAllLikes</code> that receives the query parameters as a map,
   * but this one also exposes the Http response headers
       * @param queryParams Map of query parameters as name-value pairs
       *   <p>The following elements may be specified in the query map:</p>
@@ -136,29 +136,29 @@ public interface UserResourceApi extends ApiClient.Api {
           *   <li>size - The size of the page to be returned (optional, default to 20)</li>
           *   <li>sort - Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported. (optional)</li>
       *   </ul>
-          * @return List&lt;UserDTO&gt;
+          * @return List&lt;LikeDTO&gt;
       */
-      @RequestLine("GET /api/users?page={page}&size={size}&sort={sort}")
+      @RequestLine("GET /api/likes?page={page}&size={size}&sort={sort}")
       @Headers({
     "Accept: */*",
       })
-   ApiResponse<List<UserDTO>> getAllUsersWithHttpInfo(@QueryMap(encoded=true) GetAllUsersQueryParams queryParams);
+   ApiResponse<List<LikeDTO>> getAllLikesWithHttpInfo(@QueryMap(encoded=true) GetAllLikesQueryParams queryParams);
 
 
    /**
    * A convenience class for generating query parameters for the
-   * <code>getAllUsers</code> method in a fluent style.
+   * <code>getAllLikes</code> method in a fluent style.
    */
-  public static class GetAllUsersQueryParams extends HashMap<String, Object> {
-    public GetAllUsersQueryParams page(@javax.annotation.Nullable final Integer value) {
+  public static class GetAllLikesQueryParams extends HashMap<String, Object> {
+    public GetAllLikesQueryParams page(@javax.annotation.Nullable final Integer value) {
       put("page", EncodingUtils.encode(value));
       return this;
     }
-    public GetAllUsersQueryParams size(@javax.annotation.Nullable final Integer value) {
+    public GetAllLikesQueryParams size(@javax.annotation.Nullable final Integer value) {
       put("size", EncodingUtils.encode(value));
       return this;
     }
-    public GetAllUsersQueryParams sort(@javax.annotation.Nullable final List<String> value) {
+    public GetAllLikesQueryParams sort(@javax.annotation.Nullable final List<String> value) {
       put("sort", EncodingUtils.encodeCollection(value, "multi"));
       return this;
     }
@@ -168,26 +168,26 @@ public interface UserResourceApi extends ApiClient.Api {
    * 
    * 
    * @param id  (required)
-   * @return UserDTO
+   * @return LikeDTO
    */
-  @RequestLine("GET /api/users/{id}")
+  @RequestLine("GET /api/likes/{id}")
   @Headers({
     "Accept: */*",
   })
-  UserDTO getUser(@Param("id") @javax.annotation.Nonnull UUID id);
+  LikeDTO getLike(@Param("id") @javax.annotation.Nonnull UUID id);
 
   /**
    * 
-   * Similar to <code>getUser</code> but it also returns the http response headers .
+   * Similar to <code>getLike</code> but it also returns the http response headers .
    * 
    * @param id  (required)
    * @return A ApiResponse that wraps the response boyd and the http headers.
    */
-  @RequestLine("GET /api/users/{id}")
+  @RequestLine("GET /api/likes/{id}")
   @Headers({
     "Accept: */*",
   })
-  ApiResponse<UserDTO> getUserWithHttpInfo(@Param("id") @javax.annotation.Nonnull UUID id);
+  ApiResponse<LikeDTO> getLikeWithHttpInfo(@Param("id") @javax.annotation.Nonnull UUID id);
 
 
 
@@ -195,30 +195,30 @@ public interface UserResourceApi extends ApiClient.Api {
    * 
    * 
    * @param id  (required)
-   * @param userDTO  (required)
-   * @return UserDTO
+   * @param likeDTO  (required)
+   * @return LikeDTO
    */
-  @RequestLine("PATCH /api/users/{id}")
+  @RequestLine("PATCH /api/likes/{id}")
   @Headers({
     "Content-Type: application/json",
     "Accept: */*",
   })
-  UserDTO partialUpdateUser(@Param("id") @javax.annotation.Nonnull UUID id, @javax.annotation.Nonnull UserDTO userDTO);
+  LikeDTO partialUpdateLike(@Param("id") @javax.annotation.Nonnull UUID id, @javax.annotation.Nonnull LikeDTO likeDTO);
 
   /**
    * 
-   * Similar to <code>partialUpdateUser</code> but it also returns the http response headers .
+   * Similar to <code>partialUpdateLike</code> but it also returns the http response headers .
    * 
    * @param id  (required)
-   * @param userDTO  (required)
+   * @param likeDTO  (required)
    * @return A ApiResponse that wraps the response boyd and the http headers.
    */
-  @RequestLine("PATCH /api/users/{id}")
+  @RequestLine("PATCH /api/likes/{id}")
   @Headers({
     "Content-Type: application/json",
     "Accept: */*",
   })
-  ApiResponse<UserDTO> partialUpdateUserWithHttpInfo(@Param("id") @javax.annotation.Nonnull UUID id, @javax.annotation.Nonnull UserDTO userDTO);
+  ApiResponse<LikeDTO> partialUpdateLikeWithHttpInfo(@Param("id") @javax.annotation.Nonnull UUID id, @javax.annotation.Nonnull LikeDTO likeDTO);
 
 
 
@@ -226,30 +226,30 @@ public interface UserResourceApi extends ApiClient.Api {
    * 
    * 
    * @param id  (required)
-   * @param userDTO  (required)
-   * @return UserDTO
+   * @param likeDTO  (required)
+   * @return LikeDTO
    */
-  @RequestLine("PUT /api/users/{id}")
+  @RequestLine("PUT /api/likes/{id}")
   @Headers({
     "Content-Type: application/json",
     "Accept: */*",
   })
-  UserDTO updateUser(@Param("id") @javax.annotation.Nonnull UUID id, @javax.annotation.Nonnull UserDTO userDTO);
+  LikeDTO updateLike(@Param("id") @javax.annotation.Nonnull UUID id, @javax.annotation.Nonnull LikeDTO likeDTO);
 
   /**
    * 
-   * Similar to <code>updateUser</code> but it also returns the http response headers .
+   * Similar to <code>updateLike</code> but it also returns the http response headers .
    * 
    * @param id  (required)
-   * @param userDTO  (required)
+   * @param likeDTO  (required)
    * @return A ApiResponse that wraps the response boyd and the http headers.
    */
-  @RequestLine("PUT /api/users/{id}")
+  @RequestLine("PUT /api/likes/{id}")
   @Headers({
     "Content-Type: application/json",
     "Accept: */*",
   })
-  ApiResponse<UserDTO> updateUserWithHttpInfo(@Param("id") @javax.annotation.Nonnull UUID id, @javax.annotation.Nonnull UserDTO userDTO);
+  ApiResponse<LikeDTO> updateLikeWithHttpInfo(@Param("id") @javax.annotation.Nonnull UUID id, @javax.annotation.Nonnull LikeDTO likeDTO);
 
 
 }

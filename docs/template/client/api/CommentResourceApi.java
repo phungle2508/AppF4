@@ -4,8 +4,8 @@ import com.f4.reel.client.ApiClient;
 import com.f4.reel.client.EncodingUtils;
 import com.f4.reel.client.model.ApiResponse;
 
+import com.f4.reel.client.model.CommentDTO;
 import java.util.UUID;
-import com.f4.reel.client.model.UserDTO;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,35 +14,35 @@ import java.util.Map;
 import feign.*;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2025-06-24T10:08:24.663346251+07:00[Asia/Ho_Chi_Minh]", comments = "Generator version: 7.13.0")
-public interface UserResourceApi extends ApiClient.Api {
+public interface CommentResourceApi extends ApiClient.Api {
 
 
   /**
    * 
    * 
-   * @param userDTO  (required)
-   * @return UserDTO
+   * @param commentDTO  (required)
+   * @return CommentDTO
    */
-  @RequestLine("POST /api/users")
+  @RequestLine("POST /api/comments")
   @Headers({
     "Content-Type: application/json",
     "Accept: */*",
   })
-  UserDTO createUser(@javax.annotation.Nonnull UserDTO userDTO);
+  CommentDTO createComment(@javax.annotation.Nonnull CommentDTO commentDTO);
 
   /**
    * 
-   * Similar to <code>createUser</code> but it also returns the http response headers .
+   * Similar to <code>createComment</code> but it also returns the http response headers .
    * 
-   * @param userDTO  (required)
+   * @param commentDTO  (required)
    * @return A ApiResponse that wraps the response boyd and the http headers.
    */
-  @RequestLine("POST /api/users")
+  @RequestLine("POST /api/comments")
   @Headers({
     "Content-Type: application/json",
     "Accept: */*",
   })
-  ApiResponse<UserDTO> createUserWithHttpInfo(@javax.annotation.Nonnull UserDTO userDTO);
+  ApiResponse<CommentDTO> createCommentWithHttpInfo(@javax.annotation.Nonnull CommentDTO commentDTO);
 
 
 
@@ -51,23 +51,23 @@ public interface UserResourceApi extends ApiClient.Api {
    * 
    * @param id  (required)
    */
-  @RequestLine("DELETE /api/users/{id}")
+  @RequestLine("DELETE /api/comments/{id}")
   @Headers({
     "Accept: application/json",
   })
-  void deleteUser(@Param("id") @javax.annotation.Nonnull UUID id);
+  void deleteComment(@Param("id") @javax.annotation.Nonnull UUID id);
 
   /**
    * 
-   * Similar to <code>deleteUser</code> but it also returns the http response headers .
+   * Similar to <code>deleteComment</code> but it also returns the http response headers .
    * 
    * @param id  (required)
    */
-  @RequestLine("DELETE /api/users/{id}")
+  @RequestLine("DELETE /api/comments/{id}")
   @Headers({
     "Accept: application/json",
   })
-  ApiResponse<Void> deleteUserWithHttpInfo(@Param("id") @javax.annotation.Nonnull UUID id);
+  ApiResponse<Void> deleteCommentWithHttpInfo(@Param("id") @javax.annotation.Nonnull UUID id);
 
 
 
@@ -77,37 +77,37 @@ public interface UserResourceApi extends ApiClient.Api {
    * @param page Zero-based page index (0..N) (optional, default to 0)
    * @param size The size of the page to be returned (optional, default to 20)
    * @param sort Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported. (optional)
-   * @return List&lt;UserDTO&gt;
+   * @return List&lt;CommentDTO&gt;
    */
-  @RequestLine("GET /api/users?page={page}&size={size}&sort={sort}")
+  @RequestLine("GET /api/comments?page={page}&size={size}&sort={sort}")
   @Headers({
     "Accept: */*",
   })
-  List<UserDTO> getAllUsers(@Param("page") @javax.annotation.Nullable Integer page, @Param("size") @javax.annotation.Nullable Integer size, @Param("sort") @javax.annotation.Nullable List<String> sort);
+  List<CommentDTO> getAllComments(@Param("page") @javax.annotation.Nullable Integer page, @Param("size") @javax.annotation.Nullable Integer size, @Param("sort") @javax.annotation.Nullable List<String> sort);
 
   /**
    * 
-   * Similar to <code>getAllUsers</code> but it also returns the http response headers .
+   * Similar to <code>getAllComments</code> but it also returns the http response headers .
    * 
    * @param page Zero-based page index (0..N) (optional, default to 0)
    * @param size The size of the page to be returned (optional, default to 20)
    * @param sort Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported. (optional)
    * @return A ApiResponse that wraps the response boyd and the http headers.
    */
-  @RequestLine("GET /api/users?page={page}&size={size}&sort={sort}")
+  @RequestLine("GET /api/comments?page={page}&size={size}&sort={sort}")
   @Headers({
     "Accept: */*",
   })
-  ApiResponse<List<UserDTO>> getAllUsersWithHttpInfo(@Param("page") @javax.annotation.Nullable Integer page, @Param("size") @javax.annotation.Nullable Integer size, @Param("sort") @javax.annotation.Nullable List<String> sort);
+  ApiResponse<List<CommentDTO>> getAllCommentsWithHttpInfo(@Param("page") @javax.annotation.Nullable Integer page, @Param("size") @javax.annotation.Nullable Integer size, @Param("sort") @javax.annotation.Nullable List<String> sort);
 
 
   /**
    * 
    * 
-   * Note, this is equivalent to the other <code>getAllUsers</code> method,
+   * Note, this is equivalent to the other <code>getAllComments</code> method,
    * but with the query parameters collected into a single Map parameter. This
    * is convenient for services with optional query parameters, especially when
-   * used with the {@link GetAllUsersQueryParams} class that allows for
+   * used with the {@link GetAllCommentsQueryParams} class that allows for
    * building up this map in a fluent style.
    * @param queryParams Map of query parameters as name-value pairs
    *   <p>The following elements may be specified in the query map:</p>
@@ -116,18 +116,18 @@ public interface UserResourceApi extends ApiClient.Api {
    *   <li>size - The size of the page to be returned (optional, default to 20)</li>
    *   <li>sort - Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported. (optional)</li>
    *   </ul>
-   * @return List&lt;UserDTO&gt;
+   * @return List&lt;CommentDTO&gt;
    */
-  @RequestLine("GET /api/users?page={page}&size={size}&sort={sort}")
+  @RequestLine("GET /api/comments?page={page}&size={size}&sort={sort}")
   @Headers({
   "Accept: */*",
   })
-  List<UserDTO> getAllUsers(@QueryMap(encoded=true) GetAllUsersQueryParams queryParams);
+  List<CommentDTO> getAllComments(@QueryMap(encoded=true) GetAllCommentsQueryParams queryParams);
 
   /**
   * 
   * 
-  * Note, this is equivalent to the other <code>getAllUsers</code> that receives the query parameters as a map,
+  * Note, this is equivalent to the other <code>getAllComments</code> that receives the query parameters as a map,
   * but this one also exposes the Http response headers
       * @param queryParams Map of query parameters as name-value pairs
       *   <p>The following elements may be specified in the query map:</p>
@@ -136,29 +136,29 @@ public interface UserResourceApi extends ApiClient.Api {
           *   <li>size - The size of the page to be returned (optional, default to 20)</li>
           *   <li>sort - Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported. (optional)</li>
       *   </ul>
-          * @return List&lt;UserDTO&gt;
+          * @return List&lt;CommentDTO&gt;
       */
-      @RequestLine("GET /api/users?page={page}&size={size}&sort={sort}")
+      @RequestLine("GET /api/comments?page={page}&size={size}&sort={sort}")
       @Headers({
     "Accept: */*",
       })
-   ApiResponse<List<UserDTO>> getAllUsersWithHttpInfo(@QueryMap(encoded=true) GetAllUsersQueryParams queryParams);
+   ApiResponse<List<CommentDTO>> getAllCommentsWithHttpInfo(@QueryMap(encoded=true) GetAllCommentsQueryParams queryParams);
 
 
    /**
    * A convenience class for generating query parameters for the
-   * <code>getAllUsers</code> method in a fluent style.
+   * <code>getAllComments</code> method in a fluent style.
    */
-  public static class GetAllUsersQueryParams extends HashMap<String, Object> {
-    public GetAllUsersQueryParams page(@javax.annotation.Nullable final Integer value) {
+  public static class GetAllCommentsQueryParams extends HashMap<String, Object> {
+    public GetAllCommentsQueryParams page(@javax.annotation.Nullable final Integer value) {
       put("page", EncodingUtils.encode(value));
       return this;
     }
-    public GetAllUsersQueryParams size(@javax.annotation.Nullable final Integer value) {
+    public GetAllCommentsQueryParams size(@javax.annotation.Nullable final Integer value) {
       put("size", EncodingUtils.encode(value));
       return this;
     }
-    public GetAllUsersQueryParams sort(@javax.annotation.Nullable final List<String> value) {
+    public GetAllCommentsQueryParams sort(@javax.annotation.Nullable final List<String> value) {
       put("sort", EncodingUtils.encodeCollection(value, "multi"));
       return this;
     }
@@ -168,26 +168,26 @@ public interface UserResourceApi extends ApiClient.Api {
    * 
    * 
    * @param id  (required)
-   * @return UserDTO
+   * @return CommentDTO
    */
-  @RequestLine("GET /api/users/{id}")
+  @RequestLine("GET /api/comments/{id}")
   @Headers({
     "Accept: */*",
   })
-  UserDTO getUser(@Param("id") @javax.annotation.Nonnull UUID id);
+  CommentDTO getComment(@Param("id") @javax.annotation.Nonnull UUID id);
 
   /**
    * 
-   * Similar to <code>getUser</code> but it also returns the http response headers .
+   * Similar to <code>getComment</code> but it also returns the http response headers .
    * 
    * @param id  (required)
    * @return A ApiResponse that wraps the response boyd and the http headers.
    */
-  @RequestLine("GET /api/users/{id}")
+  @RequestLine("GET /api/comments/{id}")
   @Headers({
     "Accept: */*",
   })
-  ApiResponse<UserDTO> getUserWithHttpInfo(@Param("id") @javax.annotation.Nonnull UUID id);
+  ApiResponse<CommentDTO> getCommentWithHttpInfo(@Param("id") @javax.annotation.Nonnull UUID id);
 
 
 
@@ -195,30 +195,30 @@ public interface UserResourceApi extends ApiClient.Api {
    * 
    * 
    * @param id  (required)
-   * @param userDTO  (required)
-   * @return UserDTO
+   * @param commentDTO  (required)
+   * @return CommentDTO
    */
-  @RequestLine("PATCH /api/users/{id}")
+  @RequestLine("PATCH /api/comments/{id}")
   @Headers({
     "Content-Type: application/json",
     "Accept: */*",
   })
-  UserDTO partialUpdateUser(@Param("id") @javax.annotation.Nonnull UUID id, @javax.annotation.Nonnull UserDTO userDTO);
+  CommentDTO partialUpdateComment(@Param("id") @javax.annotation.Nonnull UUID id, @javax.annotation.Nonnull CommentDTO commentDTO);
 
   /**
    * 
-   * Similar to <code>partialUpdateUser</code> but it also returns the http response headers .
+   * Similar to <code>partialUpdateComment</code> but it also returns the http response headers .
    * 
    * @param id  (required)
-   * @param userDTO  (required)
+   * @param commentDTO  (required)
    * @return A ApiResponse that wraps the response boyd and the http headers.
    */
-  @RequestLine("PATCH /api/users/{id}")
+  @RequestLine("PATCH /api/comments/{id}")
   @Headers({
     "Content-Type: application/json",
     "Accept: */*",
   })
-  ApiResponse<UserDTO> partialUpdateUserWithHttpInfo(@Param("id") @javax.annotation.Nonnull UUID id, @javax.annotation.Nonnull UserDTO userDTO);
+  ApiResponse<CommentDTO> partialUpdateCommentWithHttpInfo(@Param("id") @javax.annotation.Nonnull UUID id, @javax.annotation.Nonnull CommentDTO commentDTO);
 
 
 
@@ -226,30 +226,30 @@ public interface UserResourceApi extends ApiClient.Api {
    * 
    * 
    * @param id  (required)
-   * @param userDTO  (required)
-   * @return UserDTO
+   * @param commentDTO  (required)
+   * @return CommentDTO
    */
-  @RequestLine("PUT /api/users/{id}")
+  @RequestLine("PUT /api/comments/{id}")
   @Headers({
     "Content-Type: application/json",
     "Accept: */*",
   })
-  UserDTO updateUser(@Param("id") @javax.annotation.Nonnull UUID id, @javax.annotation.Nonnull UserDTO userDTO);
+  CommentDTO updateComment(@Param("id") @javax.annotation.Nonnull UUID id, @javax.annotation.Nonnull CommentDTO commentDTO);
 
   /**
    * 
-   * Similar to <code>updateUser</code> but it also returns the http response headers .
+   * Similar to <code>updateComment</code> but it also returns the http response headers .
    * 
    * @param id  (required)
-   * @param userDTO  (required)
+   * @param commentDTO  (required)
    * @return A ApiResponse that wraps the response boyd and the http headers.
    */
-  @RequestLine("PUT /api/users/{id}")
+  @RequestLine("PUT /api/comments/{id}")
   @Headers({
     "Content-Type: application/json",
     "Accept: */*",
   })
-  ApiResponse<UserDTO> updateUserWithHttpInfo(@Param("id") @javax.annotation.Nonnull UUID id, @javax.annotation.Nonnull UserDTO userDTO);
+  ApiResponse<CommentDTO> updateCommentWithHttpInfo(@Param("id") @javax.annotation.Nonnull UUID id, @javax.annotation.Nonnull CommentDTO commentDTO);
 
 
 }

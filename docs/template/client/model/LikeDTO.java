@@ -26,46 +26,41 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
- * NotificationDTO
+ * LikeDTO
  */
 @JsonPropertyOrder({
-  NotificationDTO.JSON_PROPERTY_ID,
-  NotificationDTO.JSON_PROPERTY_RECIPIENT_ID,
-  NotificationDTO.JSON_PROPERTY_TYPE,
-  NotificationDTO.JSON_PROPERTY_MESSAGE,
-  NotificationDTO.JSON_PROPERTY_IS_READ,
-  NotificationDTO.JSON_PROPERTY_CREATED_AT
+  LikeDTO.JSON_PROPERTY_ID,
+  LikeDTO.JSON_PROPERTY_PARENT_TYPE,
+  LikeDTO.JSON_PROPERTY_PARENT_ID,
+  LikeDTO.JSON_PROPERTY_USER_ID,
+  LikeDTO.JSON_PROPERTY_CREATED_AT
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2025-06-24T10:08:24.663346251+07:00[Asia/Ho_Chi_Minh]", comments = "Generator version: 7.13.0")
-public class NotificationDTO {
+public class LikeDTO {
   public static final String JSON_PROPERTY_ID = "id";
   @javax.annotation.Nonnull
   private UUID id;
 
-  public static final String JSON_PROPERTY_RECIPIENT_ID = "recipientId";
+  public static final String JSON_PROPERTY_PARENT_TYPE = "parentType";
   @javax.annotation.Nonnull
-  private UUID recipientId;
+  private String parentType;
 
-  public static final String JSON_PROPERTY_TYPE = "type";
+  public static final String JSON_PROPERTY_PARENT_ID = "parentId";
   @javax.annotation.Nonnull
-  private String type;
+  private UUID parentId;
 
-  public static final String JSON_PROPERTY_MESSAGE = "message";
-  @javax.annotation.Nullable
-  private String message;
-
-  public static final String JSON_PROPERTY_IS_READ = "isRead";
+  public static final String JSON_PROPERTY_USER_ID = "userId";
   @javax.annotation.Nonnull
-  private Boolean isRead;
+  private UUID userId;
 
   public static final String JSON_PROPERTY_CREATED_AT = "createdAt";
   @javax.annotation.Nonnull
   private OffsetDateTime createdAt;
 
-  public NotificationDTO() {
+  public LikeDTO() {
   }
 
-  public NotificationDTO id(@javax.annotation.Nonnull UUID id) {
+  public LikeDTO id(@javax.annotation.Nonnull UUID id) {
     
     this.id = id;
     return this;
@@ -91,111 +86,85 @@ public class NotificationDTO {
   }
 
 
-  public NotificationDTO recipientId(@javax.annotation.Nonnull UUID recipientId) {
+  public LikeDTO parentType(@javax.annotation.Nonnull String parentType) {
     
-    this.recipientId = recipientId;
+    this.parentType = parentType;
     return this;
   }
 
   /**
-   * Get recipientId
-   * @return recipientId
+   * Get parentType
+   * @return parentType
    */
   @javax.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_RECIPIENT_ID)
+  @JsonProperty(JSON_PROPERTY_PARENT_TYPE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
-  public UUID getRecipientId() {
-    return recipientId;
+  public String getParentType() {
+    return parentType;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_RECIPIENT_ID)
+  @JsonProperty(JSON_PROPERTY_PARENT_TYPE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setRecipientId(@javax.annotation.Nonnull UUID recipientId) {
-    this.recipientId = recipientId;
+  public void setParentType(@javax.annotation.Nonnull String parentType) {
+    this.parentType = parentType;
   }
 
 
-  public NotificationDTO type(@javax.annotation.Nonnull String type) {
+  public LikeDTO parentId(@javax.annotation.Nonnull UUID parentId) {
     
-    this.type = type;
+    this.parentId = parentId;
     return this;
   }
 
   /**
-   * Get type
-   * @return type
+   * Get parentId
+   * @return parentId
    */
   @javax.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_TYPE)
+  @JsonProperty(JSON_PROPERTY_PARENT_ID)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
-  public String getType() {
-    return type;
+  public UUID getParentId() {
+    return parentId;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_TYPE)
+  @JsonProperty(JSON_PROPERTY_PARENT_ID)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setType(@javax.annotation.Nonnull String type) {
-    this.type = type;
+  public void setParentId(@javax.annotation.Nonnull UUID parentId) {
+    this.parentId = parentId;
   }
 
 
-  public NotificationDTO message(@javax.annotation.Nullable String message) {
+  public LikeDTO userId(@javax.annotation.Nonnull UUID userId) {
     
-    this.message = message;
+    this.userId = userId;
     return this;
   }
 
   /**
-   * Get message
-   * @return message
-   */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_MESSAGE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
-  public String getMessage() {
-    return message;
-  }
-
-
-  @JsonProperty(JSON_PROPERTY_MESSAGE)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setMessage(@javax.annotation.Nullable String message) {
-    this.message = message;
-  }
-
-
-  public NotificationDTO isRead(@javax.annotation.Nonnull Boolean isRead) {
-    
-    this.isRead = isRead;
-    return this;
-  }
-
-  /**
-   * Get isRead
-   * @return isRead
+   * Get userId
+   * @return userId
    */
   @javax.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_IS_READ)
+  @JsonProperty(JSON_PROPERTY_USER_ID)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
-  public Boolean getIsRead() {
-    return isRead;
+  public UUID getUserId() {
+    return userId;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_IS_READ)
+  @JsonProperty(JSON_PROPERTY_USER_ID)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setIsRead(@javax.annotation.Nonnull Boolean isRead) {
-    this.isRead = isRead;
+  public void setUserId(@javax.annotation.Nonnull UUID userId) {
+    this.userId = userId;
   }
 
 
-  public NotificationDTO createdAt(@javax.annotation.Nonnull OffsetDateTime createdAt) {
+  public LikeDTO createdAt(@javax.annotation.Nonnull OffsetDateTime createdAt) {
     
     this.createdAt = createdAt;
     return this;
@@ -229,29 +198,27 @@ public class NotificationDTO {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    NotificationDTO notificationDTO = (NotificationDTO) o;
-    return Objects.equals(this.id, notificationDTO.id) &&
-        Objects.equals(this.recipientId, notificationDTO.recipientId) &&
-        Objects.equals(this.type, notificationDTO.type) &&
-        Objects.equals(this.message, notificationDTO.message) &&
-        Objects.equals(this.isRead, notificationDTO.isRead) &&
-        Objects.equals(this.createdAt, notificationDTO.createdAt);
+    LikeDTO likeDTO = (LikeDTO) o;
+    return Objects.equals(this.id, likeDTO.id) &&
+        Objects.equals(this.parentType, likeDTO.parentType) &&
+        Objects.equals(this.parentId, likeDTO.parentId) &&
+        Objects.equals(this.userId, likeDTO.userId) &&
+        Objects.equals(this.createdAt, likeDTO.createdAt);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, recipientId, type, message, isRead, createdAt);
+    return Objects.hash(id, parentType, parentId, userId, createdAt);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class NotificationDTO {\n");
+    sb.append("class LikeDTO {\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    recipientId: ").append(toIndentedString(recipientId)).append("\n");
-    sb.append("    type: ").append(toIndentedString(type)).append("\n");
-    sb.append("    message: ").append(toIndentedString(message)).append("\n");
-    sb.append("    isRead: ").append(toIndentedString(isRead)).append("\n");
+    sb.append("    parentType: ").append(toIndentedString(parentType)).append("\n");
+    sb.append("    parentId: ").append(toIndentedString(parentId)).append("\n");
+    sb.append("    userId: ").append(toIndentedString(userId)).append("\n");
     sb.append("    createdAt: ").append(toIndentedString(createdAt)).append("\n");
     sb.append("}");
     return sb.toString();

@@ -31,7 +31,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   UploadVideoRequest.JSON_PROPERTY_FILE
 })
 @JsonTypeName("uploadVideo_request")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2025-06-23T12:26:39.485368339+07:00[Asia/Ho_Chi_Minh]", comments = "Generator version: 7.13.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2025-06-24T10:08:24.663346251+07:00[Asia/Ho_Chi_Minh]", comments = "Generator version: 7.13.0")
 public class UploadVideoRequest {
   public static final String JSON_PROPERTY_FILE = "file";
   @javax.annotation.Nonnull

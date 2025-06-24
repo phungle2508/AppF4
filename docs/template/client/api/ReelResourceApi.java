@@ -6,6 +6,7 @@ import com.f4.reel.client.model.ApiResponse;
 
 import com.f4.reel.client.model.ReelDTO;
 import java.util.UUID;
+import com.f4.reel.client.model.UserDTO;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 import feign.*;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2025-06-23T12:26:39.485368339+07:00[Asia/Ho_Chi_Minh]", comments = "Generator version: 7.13.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2025-06-24T10:08:24.663346251+07:00[Asia/Ho_Chi_Minh]", comments = "Generator version: 7.13.0")
 public interface ReelResourceApi extends ApiClient.Api {
 
 
@@ -319,6 +320,91 @@ public interface ReelResourceApi extends ApiClient.Api {
     }
     public SearchReelsQueryParams sort(@javax.annotation.Nullable final List<String> value) {
       put("sort", EncodingUtils.encodeCollection(value, "multi"));
+      return this;
+    }
+  }
+
+  /**
+   * 
+   * 
+   * @param page  (optional, default to 0)
+   * @param size  (optional, default to 20)
+   * @return List&lt;UserDTO&gt;
+   */
+  @RequestLine("GET /api/reels/test-users?page={page}&size={size}")
+  @Headers({
+    "Accept: */*",
+  })
+  List<UserDTO> testGetAllUsers(@Param("page") @javax.annotation.Nullable Integer page, @Param("size") @javax.annotation.Nullable Integer size);
+
+  /**
+   * 
+   * Similar to <code>testGetAllUsers</code> but it also returns the http response headers .
+   * 
+   * @param page  (optional, default to 0)
+   * @param size  (optional, default to 20)
+   * @return A ApiResponse that wraps the response boyd and the http headers.
+   */
+  @RequestLine("GET /api/reels/test-users?page={page}&size={size}")
+  @Headers({
+    "Accept: */*",
+  })
+  ApiResponse<List<UserDTO>> testGetAllUsersWithHttpInfo(@Param("page") @javax.annotation.Nullable Integer page, @Param("size") @javax.annotation.Nullable Integer size);
+
+
+  /**
+   * 
+   * 
+   * Note, this is equivalent to the other <code>testGetAllUsers</code> method,
+   * but with the query parameters collected into a single Map parameter. This
+   * is convenient for services with optional query parameters, especially when
+   * used with the {@link TestGetAllUsersQueryParams} class that allows for
+   * building up this map in a fluent style.
+   * @param queryParams Map of query parameters as name-value pairs
+   *   <p>The following elements may be specified in the query map:</p>
+   *   <ul>
+   *   <li>page -  (optional, default to 0)</li>
+   *   <li>size -  (optional, default to 20)</li>
+   *   </ul>
+   * @return List&lt;UserDTO&gt;
+   */
+  @RequestLine("GET /api/reels/test-users?page={page}&size={size}")
+  @Headers({
+  "Accept: */*",
+  })
+  List<UserDTO> testGetAllUsers(@QueryMap(encoded=true) TestGetAllUsersQueryParams queryParams);
+
+  /**
+  * 
+  * 
+  * Note, this is equivalent to the other <code>testGetAllUsers</code> that receives the query parameters as a map,
+  * but this one also exposes the Http response headers
+      * @param queryParams Map of query parameters as name-value pairs
+      *   <p>The following elements may be specified in the query map:</p>
+      *   <ul>
+          *   <li>page -  (optional, default to 0)</li>
+          *   <li>size -  (optional, default to 20)</li>
+      *   </ul>
+          * @return List&lt;UserDTO&gt;
+      */
+      @RequestLine("GET /api/reels/test-users?page={page}&size={size}")
+      @Headers({
+    "Accept: */*",
+      })
+   ApiResponse<List<UserDTO>> testGetAllUsersWithHttpInfo(@QueryMap(encoded=true) TestGetAllUsersQueryParams queryParams);
+
+
+   /**
+   * A convenience class for generating query parameters for the
+   * <code>testGetAllUsers</code> method in a fluent style.
+   */
+  public static class TestGetAllUsersQueryParams extends HashMap<String, Object> {
+    public TestGetAllUsersQueryParams page(@javax.annotation.Nullable final Integer value) {
+      put("page", EncodingUtils.encode(value));
+      return this;
+    }
+    public TestGetAllUsersQueryParams size(@javax.annotation.Nullable final Integer value) {
+      put("size", EncodingUtils.encode(value));
       return this;
     }
   }
