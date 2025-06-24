@@ -18,7 +18,7 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
+import java.nio.charset.StandardCharsets;
 /**
 * Utilities to support Swagger encoding formats in Feign.
 */
@@ -89,11 +89,7 @@ public final class EncodingUtils {
     if (parameter == null) {
       return null;
     }
-    try {
-      return URLEncoder.encode(parameter.toString(), "UTF-8").replaceAll("\\+", "%20");
-    } catch (UnsupportedEncodingException e) {
-      // Should never happen, UTF-8 is always supported
-      throw new RuntimeException(e);
-    }
+    return URLEncoder.encode(parameter.toString(), StandardCharsets.UTF_8).replace("+", "%20");
   }
+
 }
