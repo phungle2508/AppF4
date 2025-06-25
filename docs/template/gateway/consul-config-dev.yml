@@ -6,7 +6,7 @@
 # SSH port forwarding configuration
 ssh:
   forwarding:
-    enabled: true  # Set to true to enable SSH port forwarding
+    enabled: true # Set to true to enable SSH port forwarding
   remote:
     host: appf4.io.vn
   user: root
@@ -97,7 +97,7 @@ spring:
       cookie:
         name: XSRF-TOKEN
         path: /
-        secure: false  # Set to true in production with HTTPS
+        secure: false # Set to true in production with HTTPS
         same-site: Lax
   r2dbc:
     url: r2dbc:mysql://microservices.appf4.io.vn:${ssh.mysql_port}/${ssh.mysql_database}
@@ -122,9 +122,15 @@ spring:
   lifecycle:
     timeout-per-shutdown-phase: 20s
 
+jhipster:
+  cors:
+    # Allow Ionic for JHipster by default (* no longer allowed in Spring Boot 2.4+)
+    allowed-origins: "http://localhost:3000, https://appf4.io.vn"
+    allowed-methods: "*"
+    allowed-headers: "*"
+    exposed-headers: "Authorization,Link,X-Total-Count,X-${jhipster.clientApp.name}-alert,X-${jhipster.clientApp.name}-error,X-${jhipster.clientApp.name}-params"
+    allow-credentials: true
+    max-age: 1800
 # Redis server config
 redis:
   server: redis://appf4.io.vn:6379
-
-
-

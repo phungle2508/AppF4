@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 import feign.*;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2025-06-24T10:08:24.663346251+07:00[Asia/Ho_Chi_Minh]", comments = "Generator version: 7.13.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2025-06-25T20:17:20.430689056+07:00[Asia/Ho_Chi_Minh]", comments = "Generator version: 7.13.0")
 public interface KeycloakUserResourceApi extends ApiClient.Api {
 
 
@@ -74,95 +74,27 @@ public interface KeycloakUserResourceApi extends ApiClient.Api {
   /**
    * 
    * 
-   * @param page Zero-based page index (0..N) (optional, default to 0)
-   * @param size The size of the page to be returned (optional, default to 20)
-   * @param sort Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported. (optional)
    * @return List&lt;KeycloakUserDTO&gt;
    */
-  @RequestLine("GET /api/keycloak-users?page={page}&size={size}&sort={sort}")
+  @RequestLine("GET /api/keycloak-users")
   @Headers({
     "Accept: */*",
   })
-  List<KeycloakUserDTO> getAllKeycloakUsers(@Param("page") @javax.annotation.Nullable Integer page, @Param("size") @javax.annotation.Nullable Integer size, @Param("sort") @javax.annotation.Nullable List<String> sort);
+  List<KeycloakUserDTO> getAllKeycloakUsers();
 
   /**
    * 
    * Similar to <code>getAllKeycloakUsers</code> but it also returns the http response headers .
    * 
-   * @param page Zero-based page index (0..N) (optional, default to 0)
-   * @param size The size of the page to be returned (optional, default to 20)
-   * @param sort Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported. (optional)
    * @return A ApiResponse that wraps the response boyd and the http headers.
    */
-  @RequestLine("GET /api/keycloak-users?page={page}&size={size}&sort={sort}")
+  @RequestLine("GET /api/keycloak-users")
   @Headers({
     "Accept: */*",
   })
-  ApiResponse<List<KeycloakUserDTO>> getAllKeycloakUsersWithHttpInfo(@Param("page") @javax.annotation.Nullable Integer page, @Param("size") @javax.annotation.Nullable Integer size, @Param("sort") @javax.annotation.Nullable List<String> sort);
+  ApiResponse<List<KeycloakUserDTO>> getAllKeycloakUsersWithHttpInfo();
 
 
-  /**
-   * 
-   * 
-   * Note, this is equivalent to the other <code>getAllKeycloakUsers</code> method,
-   * but with the query parameters collected into a single Map parameter. This
-   * is convenient for services with optional query parameters, especially when
-   * used with the {@link GetAllKeycloakUsersQueryParams} class that allows for
-   * building up this map in a fluent style.
-   * @param queryParams Map of query parameters as name-value pairs
-   *   <p>The following elements may be specified in the query map:</p>
-   *   <ul>
-   *   <li>page - Zero-based page index (0..N) (optional, default to 0)</li>
-   *   <li>size - The size of the page to be returned (optional, default to 20)</li>
-   *   <li>sort - Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported. (optional)</li>
-   *   </ul>
-   * @return List&lt;KeycloakUserDTO&gt;
-   */
-  @RequestLine("GET /api/keycloak-users?page={page}&size={size}&sort={sort}")
-  @Headers({
-  "Accept: */*",
-  })
-  List<KeycloakUserDTO> getAllKeycloakUsers(@QueryMap(encoded=true) GetAllKeycloakUsersQueryParams queryParams);
-
-  /**
-  * 
-  * 
-  * Note, this is equivalent to the other <code>getAllKeycloakUsers</code> that receives the query parameters as a map,
-  * but this one also exposes the Http response headers
-      * @param queryParams Map of query parameters as name-value pairs
-      *   <p>The following elements may be specified in the query map:</p>
-      *   <ul>
-          *   <li>page - Zero-based page index (0..N) (optional, default to 0)</li>
-          *   <li>size - The size of the page to be returned (optional, default to 20)</li>
-          *   <li>sort - Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported. (optional)</li>
-      *   </ul>
-          * @return List&lt;KeycloakUserDTO&gt;
-      */
-      @RequestLine("GET /api/keycloak-users?page={page}&size={size}&sort={sort}")
-      @Headers({
-    "Accept: */*",
-      })
-   ApiResponse<List<KeycloakUserDTO>> getAllKeycloakUsersWithHttpInfo(@QueryMap(encoded=true) GetAllKeycloakUsersQueryParams queryParams);
-
-
-   /**
-   * A convenience class for generating query parameters for the
-   * <code>getAllKeycloakUsers</code> method in a fluent style.
-   */
-  public static class GetAllKeycloakUsersQueryParams extends HashMap<String, Object> {
-    public GetAllKeycloakUsersQueryParams page(@javax.annotation.Nullable final Integer value) {
-      put("page", EncodingUtils.encode(value));
-      return this;
-    }
-    public GetAllKeycloakUsersQueryParams size(@javax.annotation.Nullable final Integer value) {
-      put("size", EncodingUtils.encode(value));
-      return this;
-    }
-    public GetAllKeycloakUsersQueryParams sort(@javax.annotation.Nullable final List<String> value) {
-      put("sort", EncodingUtils.encodeCollection(value, "multi"));
-      return this;
-    }
-  }
 
   /**
    * 

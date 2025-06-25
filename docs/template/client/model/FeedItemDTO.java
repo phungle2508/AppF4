@@ -31,10 +31,18 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonPropertyOrder({
   FeedItemDTO.JSON_PROPERTY_ID,
   FeedItemDTO.JSON_PROPERTY_USER_ID,
-  FeedItemDTO.JSON_PROPERTY_REEL_ID,
-  FeedItemDTO.JSON_PROPERTY_TIMESTAMP
+  FeedItemDTO.JSON_PROPERTY_CONTENT,
+  FeedItemDTO.JSON_PROPERTY_IMAGE_URL,
+  FeedItemDTO.JSON_PROPERTY_VIDEO_URL,
+  FeedItemDTO.JSON_PROPERTY_VISIBILITY,
+  FeedItemDTO.JSON_PROPERTY_LOCATION,
+  FeedItemDTO.JSON_PROPERTY_LIKES_COUNT,
+  FeedItemDTO.JSON_PROPERTY_COMMENTS_COUNT,
+  FeedItemDTO.JSON_PROPERTY_SHARES_COUNT,
+  FeedItemDTO.JSON_PROPERTY_CREATED_AT,
+  FeedItemDTO.JSON_PROPERTY_UPDATED_AT
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2025-06-24T10:08:24.663346251+07:00[Asia/Ho_Chi_Minh]", comments = "Generator version: 7.13.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2025-06-25T20:17:20.430689056+07:00[Asia/Ho_Chi_Minh]", comments = "Generator version: 7.13.0")
 public class FeedItemDTO {
   public static final String JSON_PROPERTY_ID = "id";
   @javax.annotation.Nonnull
@@ -44,13 +52,82 @@ public class FeedItemDTO {
   @javax.annotation.Nonnull
   private UUID userId;
 
-  public static final String JSON_PROPERTY_REEL_ID = "reelId";
-  @javax.annotation.Nonnull
-  private UUID reelId;
+  public static final String JSON_PROPERTY_CONTENT = "content";
+  @javax.annotation.Nullable
+  private String content;
 
-  public static final String JSON_PROPERTY_TIMESTAMP = "timestamp";
+  public static final String JSON_PROPERTY_IMAGE_URL = "imageUrl";
+  @javax.annotation.Nullable
+  private String imageUrl;
+
+  public static final String JSON_PROPERTY_VIDEO_URL = "videoUrl";
+  @javax.annotation.Nullable
+  private String videoUrl;
+
+  /**
+   * Gets or Sets visibility
+   */
+  public enum VisibilityEnum {
+    PUBLIC(String.valueOf("PUBLIC")),
+    
+    PRIVATE(String.valueOf("PRIVATE")),
+    
+    FRIENDS_ONLY(String.valueOf("FRIENDS_ONLY"));
+
+    private String value;
+
+    VisibilityEnum(String value) {
+      this.value = value;
+    }
+
+    @JsonValue
+    public String getValue() {
+      return value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static VisibilityEnum fromValue(String value) {
+      for (VisibilityEnum b : VisibilityEnum.values()) {
+        if (b.value.equals(value)) {
+          return b;
+        }
+      }
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    }
+  }
+
+  public static final String JSON_PROPERTY_VISIBILITY = "visibility";
+  @javax.annotation.Nullable
+  private VisibilityEnum visibility;
+
+  public static final String JSON_PROPERTY_LOCATION = "location";
+  @javax.annotation.Nullable
+  private String location;
+
+  public static final String JSON_PROPERTY_LIKES_COUNT = "likesCount";
+  @javax.annotation.Nullable
+  private Integer likesCount;
+
+  public static final String JSON_PROPERTY_COMMENTS_COUNT = "commentsCount";
+  @javax.annotation.Nullable
+  private Integer commentsCount;
+
+  public static final String JSON_PROPERTY_SHARES_COUNT = "sharesCount";
+  @javax.annotation.Nullable
+  private Integer sharesCount;
+
+  public static final String JSON_PROPERTY_CREATED_AT = "createdAt";
   @javax.annotation.Nonnull
-  private OffsetDateTime timestamp;
+  private OffsetDateTime createdAt;
+
+  public static final String JSON_PROPERTY_UPDATED_AT = "updatedAt";
+  @javax.annotation.Nonnull
+  private OffsetDateTime updatedAt;
 
   public FeedItemDTO() {
   }
@@ -107,55 +184,263 @@ public class FeedItemDTO {
   }
 
 
-  public FeedItemDTO reelId(@javax.annotation.Nonnull UUID reelId) {
+  public FeedItemDTO content(@javax.annotation.Nullable String content) {
     
-    this.reelId = reelId;
+    this.content = content;
     return this;
   }
 
   /**
-   * Get reelId
-   * @return reelId
+   * Get content
+   * @return content
    */
-  @javax.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_REEL_ID)
-  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_CONTENT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public UUID getReelId() {
-    return reelId;
+  public String getContent() {
+    return content;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_REEL_ID)
-  @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setReelId(@javax.annotation.Nonnull UUID reelId) {
-    this.reelId = reelId;
+  @JsonProperty(JSON_PROPERTY_CONTENT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setContent(@javax.annotation.Nullable String content) {
+    this.content = content;
   }
 
 
-  public FeedItemDTO timestamp(@javax.annotation.Nonnull OffsetDateTime timestamp) {
+  public FeedItemDTO imageUrl(@javax.annotation.Nullable String imageUrl) {
     
-    this.timestamp = timestamp;
+    this.imageUrl = imageUrl;
     return this;
   }
 
   /**
-   * Get timestamp
-   * @return timestamp
+   * Get imageUrl
+   * @return imageUrl
    */
-  @javax.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_TIMESTAMP)
-  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_IMAGE_URL)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public OffsetDateTime getTimestamp() {
-    return timestamp;
+  public String getImageUrl() {
+    return imageUrl;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_TIMESTAMP)
+  @JsonProperty(JSON_PROPERTY_IMAGE_URL)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setImageUrl(@javax.annotation.Nullable String imageUrl) {
+    this.imageUrl = imageUrl;
+  }
+
+
+  public FeedItemDTO videoUrl(@javax.annotation.Nullable String videoUrl) {
+    
+    this.videoUrl = videoUrl;
+    return this;
+  }
+
+  /**
+   * Get videoUrl
+   * @return videoUrl
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_VIDEO_URL)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public String getVideoUrl() {
+    return videoUrl;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_VIDEO_URL)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setVideoUrl(@javax.annotation.Nullable String videoUrl) {
+    this.videoUrl = videoUrl;
+  }
+
+
+  public FeedItemDTO visibility(@javax.annotation.Nullable VisibilityEnum visibility) {
+    
+    this.visibility = visibility;
+    return this;
+  }
+
+  /**
+   * Get visibility
+   * @return visibility
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_VISIBILITY)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public VisibilityEnum getVisibility() {
+    return visibility;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_VISIBILITY)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setVisibility(@javax.annotation.Nullable VisibilityEnum visibility) {
+    this.visibility = visibility;
+  }
+
+
+  public FeedItemDTO location(@javax.annotation.Nullable String location) {
+    
+    this.location = location;
+    return this;
+  }
+
+  /**
+   * Get location
+   * @return location
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_LOCATION)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public String getLocation() {
+    return location;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_LOCATION)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setLocation(@javax.annotation.Nullable String location) {
+    this.location = location;
+  }
+
+
+  public FeedItemDTO likesCount(@javax.annotation.Nullable Integer likesCount) {
+    
+    this.likesCount = likesCount;
+    return this;
+  }
+
+  /**
+   * Get likesCount
+   * @return likesCount
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_LIKES_COUNT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public Integer getLikesCount() {
+    return likesCount;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_LIKES_COUNT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setLikesCount(@javax.annotation.Nullable Integer likesCount) {
+    this.likesCount = likesCount;
+  }
+
+
+  public FeedItemDTO commentsCount(@javax.annotation.Nullable Integer commentsCount) {
+    
+    this.commentsCount = commentsCount;
+    return this;
+  }
+
+  /**
+   * Get commentsCount
+   * @return commentsCount
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_COMMENTS_COUNT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public Integer getCommentsCount() {
+    return commentsCount;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_COMMENTS_COUNT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setCommentsCount(@javax.annotation.Nullable Integer commentsCount) {
+    this.commentsCount = commentsCount;
+  }
+
+
+  public FeedItemDTO sharesCount(@javax.annotation.Nullable Integer sharesCount) {
+    
+    this.sharesCount = sharesCount;
+    return this;
+  }
+
+  /**
+   * Get sharesCount
+   * @return sharesCount
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_SHARES_COUNT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public Integer getSharesCount() {
+    return sharesCount;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_SHARES_COUNT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setSharesCount(@javax.annotation.Nullable Integer sharesCount) {
+    this.sharesCount = sharesCount;
+  }
+
+
+  public FeedItemDTO createdAt(@javax.annotation.Nonnull OffsetDateTime createdAt) {
+    
+    this.createdAt = createdAt;
+    return this;
+  }
+
+  /**
+   * Get createdAt
+   * @return createdAt
+   */
+  @javax.annotation.Nonnull
+  @JsonProperty(JSON_PROPERTY_CREATED_AT)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setTimestamp(@javax.annotation.Nonnull OffsetDateTime timestamp) {
-    this.timestamp = timestamp;
+
+  public OffsetDateTime getCreatedAt() {
+    return createdAt;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_CREATED_AT)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  public void setCreatedAt(@javax.annotation.Nonnull OffsetDateTime createdAt) {
+    this.createdAt = createdAt;
+  }
+
+
+  public FeedItemDTO updatedAt(@javax.annotation.Nonnull OffsetDateTime updatedAt) {
+    
+    this.updatedAt = updatedAt;
+    return this;
+  }
+
+  /**
+   * Get updatedAt
+   * @return updatedAt
+   */
+  @javax.annotation.Nonnull
+  @JsonProperty(JSON_PROPERTY_UPDATED_AT)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+
+  public OffsetDateTime getUpdatedAt() {
+    return updatedAt;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_UPDATED_AT)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  public void setUpdatedAt(@javax.annotation.Nonnull OffsetDateTime updatedAt) {
+    this.updatedAt = updatedAt;
   }
 
 
@@ -170,13 +455,21 @@ public class FeedItemDTO {
     FeedItemDTO feedItemDTO = (FeedItemDTO) o;
     return Objects.equals(this.id, feedItemDTO.id) &&
         Objects.equals(this.userId, feedItemDTO.userId) &&
-        Objects.equals(this.reelId, feedItemDTO.reelId) &&
-        Objects.equals(this.timestamp, feedItemDTO.timestamp);
+        Objects.equals(this.content, feedItemDTO.content) &&
+        Objects.equals(this.imageUrl, feedItemDTO.imageUrl) &&
+        Objects.equals(this.videoUrl, feedItemDTO.videoUrl) &&
+        Objects.equals(this.visibility, feedItemDTO.visibility) &&
+        Objects.equals(this.location, feedItemDTO.location) &&
+        Objects.equals(this.likesCount, feedItemDTO.likesCount) &&
+        Objects.equals(this.commentsCount, feedItemDTO.commentsCount) &&
+        Objects.equals(this.sharesCount, feedItemDTO.sharesCount) &&
+        Objects.equals(this.createdAt, feedItemDTO.createdAt) &&
+        Objects.equals(this.updatedAt, feedItemDTO.updatedAt);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, userId, reelId, timestamp);
+    return Objects.hash(id, userId, content, imageUrl, videoUrl, visibility, location, likesCount, commentsCount, sharesCount, createdAt, updatedAt);
   }
 
   @Override
@@ -185,8 +478,16 @@ public class FeedItemDTO {
     sb.append("class FeedItemDTO {\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    userId: ").append(toIndentedString(userId)).append("\n");
-    sb.append("    reelId: ").append(toIndentedString(reelId)).append("\n");
-    sb.append("    timestamp: ").append(toIndentedString(timestamp)).append("\n");
+    sb.append("    content: ").append(toIndentedString(content)).append("\n");
+    sb.append("    imageUrl: ").append(toIndentedString(imageUrl)).append("\n");
+    sb.append("    videoUrl: ").append(toIndentedString(videoUrl)).append("\n");
+    sb.append("    visibility: ").append(toIndentedString(visibility)).append("\n");
+    sb.append("    location: ").append(toIndentedString(location)).append("\n");
+    sb.append("    likesCount: ").append(toIndentedString(likesCount)).append("\n");
+    sb.append("    commentsCount: ").append(toIndentedString(commentsCount)).append("\n");
+    sb.append("    sharesCount: ").append(toIndentedString(sharesCount)).append("\n");
+    sb.append("    createdAt: ").append(toIndentedString(createdAt)).append("\n");
+    sb.append("    updatedAt: ").append(toIndentedString(updatedAt)).append("\n");
     sb.append("}");
     return sb.toString();
   }

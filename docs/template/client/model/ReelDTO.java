@@ -29,19 +29,14 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
  * ReelDTO
  */
 @JsonPropertyOrder({
-  ReelDTO.JSON_PROPERTY_VERSION,
   ReelDTO.JSON_PROPERTY_ID,
   ReelDTO.JSON_PROPERTY_USER_ID,
   ReelDTO.JSON_PROPERTY_TITLE,
   ReelDTO.JSON_PROPERTY_VIDEO_URL,
   ReelDTO.JSON_PROPERTY_CREATED_AT
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2025-06-24T10:08:24.663346251+07:00[Asia/Ho_Chi_Minh]", comments = "Generator version: 7.13.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2025-06-25T20:17:20.430689056+07:00[Asia/Ho_Chi_Minh]", comments = "Generator version: 7.13.0")
 public class ReelDTO {
-  public static final String JSON_PROPERTY_VERSION = "version";
-  @javax.annotation.Nullable
-  private Long version;
-
   public static final String JSON_PROPERTY_ID = "id";
   @javax.annotation.Nonnull
   private UUID id;
@@ -64,32 +59,6 @@ public class ReelDTO {
 
   public ReelDTO() {
   }
-
-  public ReelDTO version(@javax.annotation.Nullable Long version) {
-    
-    this.version = version;
-    return this;
-  }
-
-  /**
-   * Get version
-   * @return version
-   */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_VERSION)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
-  public Long getVersion() {
-    return version;
-  }
-
-
-  @JsonProperty(JSON_PROPERTY_VERSION)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setVersion(@javax.annotation.Nullable Long version) {
-    this.version = version;
-  }
-
 
   public ReelDTO id(@javax.annotation.Nonnull UUID id) {
     
@@ -230,8 +199,7 @@ public class ReelDTO {
       return false;
     }
     ReelDTO reelDTO = (ReelDTO) o;
-    return Objects.equals(this.version, reelDTO.version) &&
-        Objects.equals(this.id, reelDTO.id) &&
+    return Objects.equals(this.id, reelDTO.id) &&
         Objects.equals(this.userId, reelDTO.userId) &&
         Objects.equals(this.title, reelDTO.title) &&
         Objects.equals(this.videoUrl, reelDTO.videoUrl) &&
@@ -240,14 +208,13 @@ public class ReelDTO {
 
   @Override
   public int hashCode() {
-    return Objects.hash(version, id, userId, title, videoUrl, createdAt);
+    return Objects.hash(id, userId, title, videoUrl, createdAt);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class ReelDTO {\n");
-    sb.append("    version: ").append(toIndentedString(version)).append("\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    userId: ").append(toIndentedString(userId)).append("\n");
     sb.append("    title: ").append(toIndentedString(title)).append("\n");
