@@ -386,6 +386,16 @@ copy_client_files() {
     else
         echo "Warning: Client template directory not found: $client_src"
     fi
+        # Copy and update EncodingUtils.java specifically
+    local encoding_utils_src="template/microservice/client/EncodingUtils.java"
+    local encoding_utils_dest="$client_dest/EncodingUtils.java"
+    if [ -f "$encoding_utils_src" ]; then
+        cp -f "$encoding_utils_src" "$encoding_utils_dest"
+        sed -i "s/com\\.f4\\.reel/com.f4.${clean_name}/g" "$encoding_utils_dest"
+        echo -e "${GREEN}Copied and updated EncodingUtils.java for ${clean_name}${NC}"
+    else
+        echo "Warning: EncodingUtils.java not found in $encoding_utils_src"
+    fi
 }
 
 # Function to copy config template files
