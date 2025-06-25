@@ -6,6 +6,7 @@ BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
 declare -a redis_services=("ms_notification" "ms_feed")
+declare -a ms_services=("ms_user" "ms_commentlike" "ms_reel" "ms_feed" "ms_notification")
 
 # Function to create directory if it doesn't exist
 create_dir_if_not_exists() {
@@ -671,7 +672,7 @@ for app in "${apps[@]}"; do
 done
 
 # Update imports for all ms_* services
-declare -a ms_services=("ms_user" "ms_commentlike" "ms_reel" "ms_feed" "ms_notification")
+
 for ms in "${ms_services[@]}"; do
     clean_name=$(get_clean_name "$ms")
     update_imports_in_service "../backend/$ms" "$clean_name"
