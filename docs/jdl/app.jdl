@@ -1,6 +1,9 @@
 // =======================================
 // 🔐 Gateway Application
 // =======================================
+enum FeedVisibility {
+  PUBLIC, PRIVATE, FRIENDS_ONLY
+}
 application {
   config {
     baseName gateway
@@ -169,8 +172,18 @@ entity Notification {
 entity FeedItem {
   id UUID required
   userId UUID required
-  reelId UUID required
-  timestamp Instant required
+
+  // New fields based on your updated structure
+  content TextBlob
+  imageUrl String
+  videoUrl String
+  visibility FeedVisibility 
+  location String 
+  likesCount Integer
+  commentsCount Integer
+  sharesCount Integer
+  createdAt Instant required
+  updatedAt Instant required
 }
 // =======================================
 // ⚙️ Entity-to-Microservice Mapping

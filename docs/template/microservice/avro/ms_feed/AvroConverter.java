@@ -59,12 +59,7 @@ public class AvroConverter {
             if (avroPayload.getUserId() != null) {
                 serviceDto.setUserId(UUID.fromString(avroPayload.getUserId()));
             }
-            if (avroPayload.getReelId() != null) {
-                serviceDto.setReelId(UUID.fromString(avroPayload.getReelId()));
-            }
-            if (avroPayload.getTimestamp() != null) {
-                serviceDto.setTimestamp(Instant.parse(avroPayload.getTimestamp()));
-            }
+
             return serviceDto;
         } catch (Exception e) {
             LOG.error("Error converting Avro FeedItemDTO to service DTO", e);
