@@ -35,7 +35,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   ReelDTO.JSON_PROPERTY_VIDEO_URL,
   ReelDTO.JSON_PROPERTY_CREATED_AT
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2025-06-25T20:17:20.430689056+07:00[Asia/Ho_Chi_Minh]", comments = "Generator version: 7.13.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2025-06-25T21:19:19.596615490+07:00[Asia/Ho_Chi_Minh]", comments = "Generator version: 7.13.0")
 public class ReelDTO {
   public static final String JSON_PROPERTY_ID = "id";
   @javax.annotation.Nonnull

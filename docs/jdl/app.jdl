@@ -185,7 +185,6 @@ entity FeedItem {
   visibility FeedVisibility 
   location String 
   likesCount Integer
-  commentsCount Integer
   sharesCount Integer
   createdAt Instant required
   updatedAt Instant required

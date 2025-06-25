@@ -34,9 +34,13 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   CommentDTO.JSON_PROPERTY_PARENT_ID,
   CommentDTO.JSON_PROPERTY_USER_ID,
   CommentDTO.JSON_PROPERTY_CONTENT,
-  CommentDTO.JSON_PROPERTY_CREATED_AT
+  CommentDTO.JSON_PROPERTY_CREATED_AT,
+  CommentDTO.JSON_PROPERTY_UPDATED_AT,
+  CommentDTO.JSON_PROPERTY_LIKES_COUNT,
+  CommentDTO.JSON_PROPERTY_REPLIES_COUNT,
+  CommentDTO.JSON_PROPERTY_MENTIONS
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2025-06-25T20:17:20.430689056+07:00[Asia/Ho_Chi_Minh]", comments = "Generator version: 7.13.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2025-06-25T21:19:19.596615490+07:00[Asia/Ho_Chi_Minh]", comments = "Generator version: 7.13.0")
 public class CommentDTO {
   public static final String JSON_PROPERTY_ID = "id";
   @javax.annotation.Nonnull
@@ -61,6 +65,22 @@ public class CommentDTO {
   public static final String JSON_PROPERTY_CREATED_AT = "createdAt";
   @javax.annotation.Nonnull
   private OffsetDateTime createdAt;
+
+  public static final String JSON_PROPERTY_UPDATED_AT = "updatedAt";
+  @javax.annotation.Nonnull
+  private OffsetDateTime updatedAt;
+
+  public static final String JSON_PROPERTY_LIKES_COUNT = "likesCount";
+  @javax.annotation.Nonnull
+  private Integer likesCount;
+
+  public static final String JSON_PROPERTY_REPLIES_COUNT = "repliesCount";
+  @javax.annotation.Nonnull
+  private Integer repliesCount;
+
+  public static final String JSON_PROPERTY_MENTIONS = "mentions";
+  @javax.annotation.Nullable
+  private UUID mentions;
 
   public CommentDTO() {
   }
@@ -221,6 +241,110 @@ public class CommentDTO {
   }
 
 
+  public CommentDTO updatedAt(@javax.annotation.Nonnull OffsetDateTime updatedAt) {
+    
+    this.updatedAt = updatedAt;
+    return this;
+  }
+
+  /**
+   * Get updatedAt
+   * @return updatedAt
+   */
+  @javax.annotation.Nonnull
+  @JsonProperty(JSON_PROPERTY_UPDATED_AT)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+
+  public OffsetDateTime getUpdatedAt() {
+    return updatedAt;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_UPDATED_AT)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  public void setUpdatedAt(@javax.annotation.Nonnull OffsetDateTime updatedAt) {
+    this.updatedAt = updatedAt;
+  }
+
+
+  public CommentDTO likesCount(@javax.annotation.Nonnull Integer likesCount) {
+    
+    this.likesCount = likesCount;
+    return this;
+  }
+
+  /**
+   * Get likesCount
+   * @return likesCount
+   */
+  @javax.annotation.Nonnull
+  @JsonProperty(JSON_PROPERTY_LIKES_COUNT)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+
+  public Integer getLikesCount() {
+    return likesCount;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_LIKES_COUNT)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  public void setLikesCount(@javax.annotation.Nonnull Integer likesCount) {
+    this.likesCount = likesCount;
+  }
+
+
+  public CommentDTO repliesCount(@javax.annotation.Nonnull Integer repliesCount) {
+    
+    this.repliesCount = repliesCount;
+    return this;
+  }
+
+  /**
+   * Get repliesCount
+   * @return repliesCount
+   */
+  @javax.annotation.Nonnull
+  @JsonProperty(JSON_PROPERTY_REPLIES_COUNT)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+
+  public Integer getRepliesCount() {
+    return repliesCount;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_REPLIES_COUNT)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  public void setRepliesCount(@javax.annotation.Nonnull Integer repliesCount) {
+    this.repliesCount = repliesCount;
+  }
+
+
+  public CommentDTO mentions(@javax.annotation.Nullable UUID mentions) {
+    
+    this.mentions = mentions;
+    return this;
+  }
+
+  /**
+   * Get mentions
+   * @return mentions
+   */
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_MENTIONS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public UUID getMentions() {
+    return mentions;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_MENTIONS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setMentions(@javax.annotation.Nullable UUID mentions) {
+    this.mentions = mentions;
+  }
+
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -235,12 +359,16 @@ public class CommentDTO {
         Objects.equals(this.parentId, commentDTO.parentId) &&
         Objects.equals(this.userId, commentDTO.userId) &&
         Objects.equals(this.content, commentDTO.content) &&
-        Objects.equals(this.createdAt, commentDTO.createdAt);
+        Objects.equals(this.createdAt, commentDTO.createdAt) &&
+        Objects.equals(this.updatedAt, commentDTO.updatedAt) &&
+        Objects.equals(this.likesCount, commentDTO.likesCount) &&
+        Objects.equals(this.repliesCount, commentDTO.repliesCount) &&
+        Objects.equals(this.mentions, commentDTO.mentions);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, parentType, parentId, userId, content, createdAt);
+    return Objects.hash(id, parentType, parentId, userId, content, createdAt, updatedAt, likesCount, repliesCount, mentions);
   }
 
   @Override
@@ -253,6 +381,10 @@ public class CommentDTO {
     sb.append("    userId: ").append(toIndentedString(userId)).append("\n");
     sb.append("    content: ").append(toIndentedString(content)).append("\n");
     sb.append("    createdAt: ").append(toIndentedString(createdAt)).append("\n");
+    sb.append("    updatedAt: ").append(toIndentedString(updatedAt)).append("\n");
+    sb.append("    likesCount: ").append(toIndentedString(likesCount)).append("\n");
+    sb.append("    repliesCount: ").append(toIndentedString(repliesCount)).append("\n");
+    sb.append("    mentions: ").append(toIndentedString(mentions)).append("\n");
     sb.append("}");
     return sb.toString();
   }
