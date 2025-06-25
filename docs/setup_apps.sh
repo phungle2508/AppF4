@@ -5,6 +5,8 @@ GREEN='\033[0;32m'
 BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
+declare -a redis_services=("ms_notification" "ms_feed")
+
 # Function to create directory if it doesn't exist
 create_dir_if_not_exists() {
     if [ ! -d "$1" ]; then
@@ -163,7 +165,6 @@ add_dependency_if_not_exists() {
     fi
 
     # For all ms_names except gateway, add JSch dependency if not already present
-    if [[ "$ms_name" != "gateway" ]]; then
         if ! grep -q "com.jcraft" "$pom_file"; then
                 sed -i '/<dependencies>/a \
                         <dependency>\
@@ -175,7 +176,6 @@ add_dependency_if_not_exists() {
         else
                 echo "ℹ️ JSch dependency already present in $pom_file, skipping insertion."
         fi
-    fi
 }
 
 
@@ -392,29 +392,31 @@ copy_client_files() {
 copy_config_files() {
     local service="$1"
     local clean_name=$(get_clean_name "$service")
-    local config_src="template/config"
-    local config_dest="../backend/$service/src/main/java/com/f4/${clean_name}/config"
-    
+    local config_src="template/config/FeignClientConfiguration.java"
+    local config_dest="../backend/$service/src/main/java/com/f4/${clean_name}/config/FeignClientConfiguration.java"
+
     # Skip gateway service
     if [ "$service" = "gateway" ]; then
         echo "Skipping config template files for gateway"
         return
     fi
-    
-    if [ -d "$config_src" ]; then
-        create_dir_if_not_exists "$config_dest"
-        cp -r "$config_src"/* "$config_dest"/
-        echo -e "${GREEN}Copied config template files for ${clean_name}${NC}"
-        
-        # Update package names in copied config files
-        find "$config_dest" -type f -name "*.java" | while read -r java_file; do
-            sed -i "s/com\\.f4\\.reel/com.f4.${clean_name}/g" "$java_file"
-        done
-        echo -e "${GREEN}Updated package names in config files for ${clean_name}${NC}"
+
+    if [ -f "$config_src" ]; then
+        # Ensure destination directory exists
+        create_dir_if_not_exists "$(dirname "$config_dest")"
+
+        # Copy the FeignClientConfiguration file
+        cp -f "$config_src" "$config_dest"
+        echo -e "${GREEN}Copied FeignClientConfiguration.java for ${clean_name}${NC}"
+
+        # Update package name inside the copied file
+        sed -i "s/com\\.f4\\.reel/com.f4.${clean_name}/g" "$config_dest"
+        echo -e "${GREEN}Updated package name in FeignClientConfiguration.java for ${clean_name}${NC}"
     else
-        echo "Warning: Config template directory not found: $config_src"
+        echo "Warning: FeignClientConfiguration.java not found in $config_src"
     fi
 }
+
 
 # Function to remove Avro Maven plugin from pom.xml
 remove_avro_plugin_from_user() {
@@ -467,6 +469,58 @@ remove_avro_plugin_from_user() {
     fi
 }
 
+replace_cache_configuration() {
+    local service="$1"
+    local clean_name
+    clean_name=$(get_clean_name "$service")
+    local cache_config_src="template/config/CacheConfiguration.java"
+    local cache_config_dest="../backend/$service/src/main/java/com/f4/${clean_name}/config/CacheConfiguration.java"
+
+    # Determine class name based on service
+    local class_name
+    case "$clean_name" in
+        "notification")
+            class_name="Notification"
+            ;;
+        "feed")
+            class_name="FeedItem"
+            ;;
+        *)
+            class_name="Reel" # fallback/default (if needed)
+            ;;
+    esac
+
+    if [ -f "$cache_config_src" ]; then
+        # Create destination directory if it doesn't exist
+        mkdir -p "$(dirname "$cache_config_dest")"
+
+        # Copy and overwrite the CacheConfiguration file
+        cp -f "$cache_config_src" "$cache_config_dest"
+        echo -e "${GREEN}Replaced CacheConfiguration.java for ${clean_name}${NC}"
+
+        # Update package declaration and class references inside the file
+        sed -i "s/package com\\.f4\\.reel/package com.f4.${clean_name}/" "$cache_config_dest"
+        sed -i "s/Reel/${class_name}/g" "$cache_config_dest"
+
+        echo -e "${GREEN}Updated package and class references to ${class_name} in CacheConfiguration.java${NC}"
+    else
+        echo -e "❌ ${cache_config_src} not found"
+    fi
+}
+sanitize_gateway_ts_imports() {
+    local ts_base_dir="../backend/gateway/src/main/webapp/app/entities"
+    echo -e "${BLUE}Sanitizing ms_ imports in .ts files under: $ts_base_dir${NC}"
+
+    find "$ts_base_dir" -type f -name "*.ts" | while read -r ts_file; do
+        # Replace "ms_" → "ms"
+        sed -i 's/"ms_/"ms/g' "$ts_file"
+
+        # Replace 'ms_abc' → 'msabc'
+        sed -i -E "s/'ms_([a-zA-Z0-9_]+)'/'ms\1'/g" "$ts_file"
+
+        echo -e "${GREEN}✓ Sanitized: $ts_file${NC}"
+    done
+}
 
 
 # Main script
@@ -481,7 +535,9 @@ apps=(
     "ms_notification"
     "gateway"
 )
-
+for special_service in "${redis_services[@]}"; do
+    replace_cache_configuration "$special_service"
+done
 # Process each app
 for app in "${apps[@]}"; do
     echo -e "\n${BLUE}Processing $app...${NC}"
@@ -508,7 +564,17 @@ for app in "${apps[@]}"; do
     
     # Copy and update consul config based on app type
     if [ "$app" = "gateway" ]; then
+        sanitize_gateway_ts_imports
         copy_file "template/gateway/consul-config-dev.yml" "../backend/$app/src/main/resources/config/consul-config-dev.yml"
+        gateway_config_src="template/gateway/config"
+        gateway_config_dest="../backend/$app/src/main/java/com/f4/gateway/config"
+        if [ -d "$gateway_config_src" ]; then
+            create_dir_if_not_exists "$gateway_config_dest"
+            cp -f "$gateway_config_src"/*.java "$gateway_config_dest"/
+            echo -e "${GREEN}Copied gateway config files from $gateway_config_src to $gateway_config_dest${NC}"
+        else
+            echo "⚠️  Gateway config source directory not found: $gateway_config_src"
+        fi
     else
         copy_file "template/microservice/consul-config-dev.yml" "../backend/$app/src/main/resources/config/consul-config-dev.yml"
     fi
