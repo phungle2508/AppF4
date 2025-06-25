@@ -1,3 +1,4 @@
+jhipster import-jdl ../docs/jdl/app.jdl --force
 git submodule update --init --recursive
 
 sudo apt install -y wget apt-transport-https curl gnupg

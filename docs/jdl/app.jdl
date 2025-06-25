@@ -153,7 +153,12 @@ entity Comment {
   userId UUID required
   content TextBlob required
   createdAt Instant required
+  updatedAt Instant required
+  likesCount Integer required
+  repliesCount Integer required
+  mentions UUID
 }
+
 entity Like {
   id UUID required
   parentType String required
