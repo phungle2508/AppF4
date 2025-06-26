@@ -155,8 +155,6 @@ entity Comment {
   content TextBlob required
   createdAt Instant required
   updatedAt Instant required
-  likesCount Integer required
-  repliesCount Integer required
   mentions UUID
 }
 entity Like {
@@ -177,16 +175,11 @@ entity Notification {
 entity FeedItem {
   id UUID required
   userId UUID required
-
-  // New fields based on your updated structure
   content TextBlob
   imageUrl String
   videoUrl String
   visibility FeedVisibility 
   location String 
-  likesCount Integer
-  commentsCount Integer
-  sharesCount Integer
   createdAt Instant required
   updatedAt Instant required
 }

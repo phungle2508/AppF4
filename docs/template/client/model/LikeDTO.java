@@ -26,41 +26,41 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
- * ReelDTO
+ * LikeDTO
  */
 @JsonPropertyOrder({
-  ReelDTO.JSON_PROPERTY_ID,
-  ReelDTO.JSON_PROPERTY_USER_ID,
-  ReelDTO.JSON_PROPERTY_TITLE,
-  ReelDTO.JSON_PROPERTY_VIDEO_URL,
-  ReelDTO.JSON_PROPERTY_CREATED_AT
+  LikeDTO.JSON_PROPERTY_ID,
+  LikeDTO.JSON_PROPERTY_PARENT_TYPE,
+  LikeDTO.JSON_PROPERTY_PARENT_ID,
+  LikeDTO.JSON_PROPERTY_USER_ID,
+  LikeDTO.JSON_PROPERTY_CREATED_AT
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2025-06-26T10:46:36.107672237+07:00[Asia/Ho_Chi_Minh]", comments = "Generator version: 7.13.0")
-public class ReelDTO {
+public class LikeDTO {
   public static final String JSON_PROPERTY_ID = "id";
   @javax.annotation.Nonnull
   private UUID id;
+
+  public static final String JSON_PROPERTY_PARENT_TYPE = "parentType";
+  @javax.annotation.Nonnull
+  private String parentType;
+
+  public static final String JSON_PROPERTY_PARENT_ID = "parentId";
+  @javax.annotation.Nonnull
+  private UUID parentId;
 
   public static final String JSON_PROPERTY_USER_ID = "userId";
   @javax.annotation.Nonnull
   private UUID userId;
 
-  public static final String JSON_PROPERTY_TITLE = "title";
-  @javax.annotation.Nonnull
-  private String title;
-
-  public static final String JSON_PROPERTY_VIDEO_URL = "videoUrl";
-  @javax.annotation.Nonnull
-  private String videoUrl;
-
   public static final String JSON_PROPERTY_CREATED_AT = "createdAt";
   @javax.annotation.Nonnull
   private OffsetDateTime createdAt;
 
-  public ReelDTO() {
+  public LikeDTO() {
   }
 
-  public ReelDTO id(@javax.annotation.Nonnull UUID id) {
+  public LikeDTO id(@javax.annotation.Nonnull UUID id) {
     
     this.id = id;
     return this;
@@ -86,7 +86,59 @@ public class ReelDTO {
   }
 
 
-  public ReelDTO userId(@javax.annotation.Nonnull UUID userId) {
+  public LikeDTO parentType(@javax.annotation.Nonnull String parentType) {
+    
+    this.parentType = parentType;
+    return this;
+  }
+
+  /**
+   * Get parentType
+   * @return parentType
+   */
+  @javax.annotation.Nonnull
+  @JsonProperty(JSON_PROPERTY_PARENT_TYPE)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+
+  public String getParentType() {
+    return parentType;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_PARENT_TYPE)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  public void setParentType(@javax.annotation.Nonnull String parentType) {
+    this.parentType = parentType;
+  }
+
+
+  public LikeDTO parentId(@javax.annotation.Nonnull UUID parentId) {
+    
+    this.parentId = parentId;
+    return this;
+  }
+
+  /**
+   * Get parentId
+   * @return parentId
+   */
+  @javax.annotation.Nonnull
+  @JsonProperty(JSON_PROPERTY_PARENT_ID)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+
+  public UUID getParentId() {
+    return parentId;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_PARENT_ID)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  public void setParentId(@javax.annotation.Nonnull UUID parentId) {
+    this.parentId = parentId;
+  }
+
+
+  public LikeDTO userId(@javax.annotation.Nonnull UUID userId) {
     
     this.userId = userId;
     return this;
@@ -112,59 +164,7 @@ public class ReelDTO {
   }
 
 
-  public ReelDTO title(@javax.annotation.Nonnull String title) {
-    
-    this.title = title;
-    return this;
-  }
-
-  /**
-   * Get title
-   * @return title
-   */
-  @javax.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_TITLE)
-  @JsonInclude(value = JsonInclude.Include.ALWAYS)
-
-  public String getTitle() {
-    return title;
-  }
-
-
-  @JsonProperty(JSON_PROPERTY_TITLE)
-  @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setTitle(@javax.annotation.Nonnull String title) {
-    this.title = title;
-  }
-
-
-  public ReelDTO videoUrl(@javax.annotation.Nonnull String videoUrl) {
-    
-    this.videoUrl = videoUrl;
-    return this;
-  }
-
-  /**
-   * Get videoUrl
-   * @return videoUrl
-   */
-  @javax.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_VIDEO_URL)
-  @JsonInclude(value = JsonInclude.Include.ALWAYS)
-
-  public String getVideoUrl() {
-    return videoUrl;
-  }
-
-
-  @JsonProperty(JSON_PROPERTY_VIDEO_URL)
-  @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setVideoUrl(@javax.annotation.Nonnull String videoUrl) {
-    this.videoUrl = videoUrl;
-  }
-
-
-  public ReelDTO createdAt(@javax.annotation.Nonnull OffsetDateTime createdAt) {
+  public LikeDTO createdAt(@javax.annotation.Nonnull OffsetDateTime createdAt) {
     
     this.createdAt = createdAt;
     return this;
@@ -198,27 +198,27 @@ public class ReelDTO {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    ReelDTO reelDTO = (ReelDTO) o;
-    return Objects.equals(this.id, reelDTO.id) &&
-        Objects.equals(this.userId, reelDTO.userId) &&
-        Objects.equals(this.title, reelDTO.title) &&
-        Objects.equals(this.videoUrl, reelDTO.videoUrl) &&
-        Objects.equals(this.createdAt, reelDTO.createdAt);
+    LikeDTO likeDTO = (LikeDTO) o;
+    return Objects.equals(this.id, likeDTO.id) &&
+        Objects.equals(this.parentType, likeDTO.parentType) &&
+        Objects.equals(this.parentId, likeDTO.parentId) &&
+        Objects.equals(this.userId, likeDTO.userId) &&
+        Objects.equals(this.createdAt, likeDTO.createdAt);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, userId, title, videoUrl, createdAt);
+    return Objects.hash(id, parentType, parentId, userId, createdAt);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class ReelDTO {\n");
+    sb.append("class LikeDTO {\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
+    sb.append("    parentType: ").append(toIndentedString(parentType)).append("\n");
+    sb.append("    parentId: ").append(toIndentedString(parentId)).append("\n");
     sb.append("    userId: ").append(toIndentedString(userId)).append("\n");
-    sb.append("    title: ").append(toIndentedString(title)).append("\n");
-    sb.append("    videoUrl: ").append(toIndentedString(videoUrl)).append("\n");
     sb.append("    createdAt: ").append(toIndentedString(createdAt)).append("\n");
     sb.append("}");
     return sb.toString();
