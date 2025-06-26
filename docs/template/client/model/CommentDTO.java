@@ -1,6 +1,6 @@
 /*
- * Ms Feed API
- * Ms Feed API documentation
+ * Ms Commentlike API
+ * Ms Commentlike API documentation
  *
  * The version of the OpenAPI document: 0.0.1
  * Contact: 
@@ -36,11 +36,9 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   CommentDTO.JSON_PROPERTY_CONTENT,
   CommentDTO.JSON_PROPERTY_CREATED_AT,
   CommentDTO.JSON_PROPERTY_UPDATED_AT,
-  CommentDTO.JSON_PROPERTY_LIKES_COUNT,
-  CommentDTO.JSON_PROPERTY_REPLIES_COUNT,
   CommentDTO.JSON_PROPERTY_MENTIONS
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2025-06-26T10:46:36.107672237+07:00[Asia/Ho_Chi_Minh]", comments = "Generator version: 7.13.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2025-06-26T11:42:54.992157831+07:00[Asia/Ho_Chi_Minh]", comments = "Generator version: 7.13.0")
 public class CommentDTO {
   public static final String JSON_PROPERTY_ID = "id";
   @javax.annotation.Nonnull
@@ -69,14 +67,6 @@ public class CommentDTO {
   public static final String JSON_PROPERTY_UPDATED_AT = "updatedAt";
   @javax.annotation.Nonnull
   private OffsetDateTime updatedAt;
-
-  public static final String JSON_PROPERTY_LIKES_COUNT = "likesCount";
-  @javax.annotation.Nonnull
-  private Integer likesCount;
-
-  public static final String JSON_PROPERTY_REPLIES_COUNT = "repliesCount";
-  @javax.annotation.Nonnull
-  private Integer repliesCount;
 
   public static final String JSON_PROPERTY_MENTIONS = "mentions";
   @javax.annotation.Nullable
@@ -267,58 +257,6 @@ public class CommentDTO {
   }
 
 
-  public CommentDTO likesCount(@javax.annotation.Nonnull Integer likesCount) {
-    
-    this.likesCount = likesCount;
-    return this;
-  }
-
-  /**
-   * Get likesCount
-   * @return likesCount
-   */
-  @javax.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_LIKES_COUNT)
-  @JsonInclude(value = JsonInclude.Include.ALWAYS)
-
-  public Integer getLikesCount() {
-    return likesCount;
-  }
-
-
-  @JsonProperty(JSON_PROPERTY_LIKES_COUNT)
-  @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setLikesCount(@javax.annotation.Nonnull Integer likesCount) {
-    this.likesCount = likesCount;
-  }
-
-
-  public CommentDTO repliesCount(@javax.annotation.Nonnull Integer repliesCount) {
-    
-    this.repliesCount = repliesCount;
-    return this;
-  }
-
-  /**
-   * Get repliesCount
-   * @return repliesCount
-   */
-  @javax.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_REPLIES_COUNT)
-  @JsonInclude(value = JsonInclude.Include.ALWAYS)
-
-  public Integer getRepliesCount() {
-    return repliesCount;
-  }
-
-
-  @JsonProperty(JSON_PROPERTY_REPLIES_COUNT)
-  @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setRepliesCount(@javax.annotation.Nonnull Integer repliesCount) {
-    this.repliesCount = repliesCount;
-  }
-
-
   public CommentDTO mentions(@javax.annotation.Nullable UUID mentions) {
     
     this.mentions = mentions;
@@ -361,14 +299,12 @@ public class CommentDTO {
         Objects.equals(this.content, commentDTO.content) &&
         Objects.equals(this.createdAt, commentDTO.createdAt) &&
         Objects.equals(this.updatedAt, commentDTO.updatedAt) &&
-        Objects.equals(this.likesCount, commentDTO.likesCount) &&
-        Objects.equals(this.repliesCount, commentDTO.repliesCount) &&
         Objects.equals(this.mentions, commentDTO.mentions);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, parentType, parentId, userId, content, createdAt, updatedAt, likesCount, repliesCount, mentions);
+    return Objects.hash(id, parentType, parentId, userId, content, createdAt, updatedAt, mentions);
   }
 
   @Override
@@ -382,8 +318,6 @@ public class CommentDTO {
     sb.append("    content: ").append(toIndentedString(content)).append("\n");
     sb.append("    createdAt: ").append(toIndentedString(createdAt)).append("\n");
     sb.append("    updatedAt: ").append(toIndentedString(updatedAt)).append("\n");
-    sb.append("    likesCount: ").append(toIndentedString(likesCount)).append("\n");
-    sb.append("    repliesCount: ").append(toIndentedString(repliesCount)).append("\n");
     sb.append("    mentions: ").append(toIndentedString(mentions)).append("\n");
     sb.append("}");
     return sb.toString();

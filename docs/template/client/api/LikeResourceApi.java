@@ -13,9 +13,94 @@ import java.util.List;
 import java.util.Map;
 import feign.*;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2025-06-26T10:46:36.107672237+07:00[Asia/Ho_Chi_Minh]", comments = "Generator version: 7.13.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2025-06-26T11:42:54.992157831+07:00[Asia/Ho_Chi_Minh]", comments = "Generator version: 7.13.0")
 public interface LikeResourceApi extends ApiClient.Api {
 
+
+  /**
+   * 
+   * 
+   * @param parentId  (required)
+   * @param parentType  (required)
+   * @return Long
+   */
+  @RequestLine("GET /api/likes/countByParentIdAndParentType?parentId={parentId}&parentType={parentType}")
+  @Headers({
+    "Accept: */*",
+  })
+  Long countByParentIdAndParentType(@Param("parentId") @javax.annotation.Nonnull UUID parentId, @Param("parentType") @javax.annotation.Nonnull String parentType);
+
+  /**
+   * 
+   * Similar to <code>countByParentIdAndParentType</code> but it also returns the http response headers .
+   * 
+   * @param parentId  (required)
+   * @param parentType  (required)
+   * @return A ApiResponse that wraps the response boyd and the http headers.
+   */
+  @RequestLine("GET /api/likes/countByParentIdAndParentType?parentId={parentId}&parentType={parentType}")
+  @Headers({
+    "Accept: */*",
+  })
+  ApiResponse<Long> countByParentIdAndParentTypeWithHttpInfo(@Param("parentId") @javax.annotation.Nonnull UUID parentId, @Param("parentType") @javax.annotation.Nonnull String parentType);
+
+
+  /**
+   * 
+   * 
+   * Note, this is equivalent to the other <code>countByParentIdAndParentType</code> method,
+   * but with the query parameters collected into a single Map parameter. This
+   * is convenient for services with optional query parameters, especially when
+   * used with the {@link CountByParentIdAndParentTypeQueryParams} class that allows for
+   * building up this map in a fluent style.
+   * @param queryParams Map of query parameters as name-value pairs
+   *   <p>The following elements may be specified in the query map:</p>
+   *   <ul>
+   *   <li>parentId -  (required)</li>
+   *   <li>parentType -  (required)</li>
+   *   </ul>
+   * @return Long
+   */
+  @RequestLine("GET /api/likes/countByParentIdAndParentType?parentId={parentId}&parentType={parentType}")
+  @Headers({
+  "Accept: */*",
+  })
+  Long countByParentIdAndParentType(@QueryMap(encoded=true) CountByParentIdAndParentTypeQueryParams queryParams);
+
+  /**
+  * 
+  * 
+  * Note, this is equivalent to the other <code>countByParentIdAndParentType</code> that receives the query parameters as a map,
+  * but this one also exposes the Http response headers
+      * @param queryParams Map of query parameters as name-value pairs
+      *   <p>The following elements may be specified in the query map:</p>
+      *   <ul>
+          *   <li>parentId -  (required)</li>
+          *   <li>parentType -  (required)</li>
+      *   </ul>
+          * @return Long
+      */
+      @RequestLine("GET /api/likes/countByParentIdAndParentType?parentId={parentId}&parentType={parentType}")
+      @Headers({
+    "Accept: */*",
+      })
+   ApiResponse<Long> countByParentIdAndParentTypeWithHttpInfo(@QueryMap(encoded=true) CountByParentIdAndParentTypeQueryParams queryParams);
+
+
+   /**
+   * A convenience class for generating query parameters for the
+   * <code>countByParentIdAndParentType</code> method in a fluent style.
+   */
+  public static class CountByParentIdAndParentTypeQueryParams extends HashMap<String, Object> {
+    public CountByParentIdAndParentTypeQueryParams parentId(@javax.annotation.Nonnull final UUID value) {
+      put("parentId", EncodingUtils.encode(value));
+      return this;
+    }
+    public CountByParentIdAndParentTypeQueryParams parentType(@javax.annotation.Nonnull final String value) {
+      put("parentType", EncodingUtils.encode(value));
+      return this;
+    }
+  }
 
   /**
    * 
@@ -190,6 +275,115 @@ public interface LikeResourceApi extends ApiClient.Api {
   ApiResponse<LikeDTO> getLikeWithHttpInfo(@Param("id") @javax.annotation.Nonnull UUID id);
 
 
+
+  /**
+   * 
+   * 
+   * @param parentId  (required)
+   * @param parentType  (required)
+   * @param page Zero-based page index (0..N) (optional, default to 0)
+   * @param size The size of the page to be returned (optional, default to 20)
+   * @param sort Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported. (optional)
+   * @return List&lt;LikeDTO&gt;
+   */
+  @RequestLine("GET /api/likes/by-parent?parentId={parentId}&parentType={parentType}&page={page}&size={size}&sort={sort}")
+  @Headers({
+    "Accept: */*",
+  })
+  List<LikeDTO> getLikesByParent(@Param("parentId") @javax.annotation.Nonnull UUID parentId, @Param("parentType") @javax.annotation.Nonnull String parentType, @Param("page") @javax.annotation.Nullable Integer page, @Param("size") @javax.annotation.Nullable Integer size, @Param("sort") @javax.annotation.Nullable List<String> sort);
+
+  /**
+   * 
+   * Similar to <code>getLikesByParent</code> but it also returns the http response headers .
+   * 
+   * @param parentId  (required)
+   * @param parentType  (required)
+   * @param page Zero-based page index (0..N) (optional, default to 0)
+   * @param size The size of the page to be returned (optional, default to 20)
+   * @param sort Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported. (optional)
+   * @return A ApiResponse that wraps the response boyd and the http headers.
+   */
+  @RequestLine("GET /api/likes/by-parent?parentId={parentId}&parentType={parentType}&page={page}&size={size}&sort={sort}")
+  @Headers({
+    "Accept: */*",
+  })
+  ApiResponse<List<LikeDTO>> getLikesByParentWithHttpInfo(@Param("parentId") @javax.annotation.Nonnull UUID parentId, @Param("parentType") @javax.annotation.Nonnull String parentType, @Param("page") @javax.annotation.Nullable Integer page, @Param("size") @javax.annotation.Nullable Integer size, @Param("sort") @javax.annotation.Nullable List<String> sort);
+
+
+  /**
+   * 
+   * 
+   * Note, this is equivalent to the other <code>getLikesByParent</code> method,
+   * but with the query parameters collected into a single Map parameter. This
+   * is convenient for services with optional query parameters, especially when
+   * used with the {@link GetLikesByParentQueryParams} class that allows for
+   * building up this map in a fluent style.
+   * @param queryParams Map of query parameters as name-value pairs
+   *   <p>The following elements may be specified in the query map:</p>
+   *   <ul>
+   *   <li>parentId -  (required)</li>
+   *   <li>parentType -  (required)</li>
+   *   <li>page - Zero-based page index (0..N) (optional, default to 0)</li>
+   *   <li>size - The size of the page to be returned (optional, default to 20)</li>
+   *   <li>sort - Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported. (optional)</li>
+   *   </ul>
+   * @return List&lt;LikeDTO&gt;
+   */
+  @RequestLine("GET /api/likes/by-parent?parentId={parentId}&parentType={parentType}&page={page}&size={size}&sort={sort}")
+  @Headers({
+  "Accept: */*",
+  })
+  List<LikeDTO> getLikesByParent(@QueryMap(encoded=true) GetLikesByParentQueryParams queryParams);
+
+  /**
+  * 
+  * 
+  * Note, this is equivalent to the other <code>getLikesByParent</code> that receives the query parameters as a map,
+  * but this one also exposes the Http response headers
+      * @param queryParams Map of query parameters as name-value pairs
+      *   <p>The following elements may be specified in the query map:</p>
+      *   <ul>
+          *   <li>parentId -  (required)</li>
+          *   <li>parentType -  (required)</li>
+          *   <li>page - Zero-based page index (0..N) (optional, default to 0)</li>
+          *   <li>size - The size of the page to be returned (optional, default to 20)</li>
+          *   <li>sort - Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported. (optional)</li>
+      *   </ul>
+          * @return List&lt;LikeDTO&gt;
+      */
+      @RequestLine("GET /api/likes/by-parent?parentId={parentId}&parentType={parentType}&page={page}&size={size}&sort={sort}")
+      @Headers({
+    "Accept: */*",
+      })
+   ApiResponse<List<LikeDTO>> getLikesByParentWithHttpInfo(@QueryMap(encoded=true) GetLikesByParentQueryParams queryParams);
+
+
+   /**
+   * A convenience class for generating query parameters for the
+   * <code>getLikesByParent</code> method in a fluent style.
+   */
+  public static class GetLikesByParentQueryParams extends HashMap<String, Object> {
+    public GetLikesByParentQueryParams parentId(@javax.annotation.Nonnull final UUID value) {
+      put("parentId", EncodingUtils.encode(value));
+      return this;
+    }
+    public GetLikesByParentQueryParams parentType(@javax.annotation.Nonnull final String value) {
+      put("parentType", EncodingUtils.encode(value));
+      return this;
+    }
+    public GetLikesByParentQueryParams page(@javax.annotation.Nullable final Integer value) {
+      put("page", EncodingUtils.encode(value));
+      return this;
+    }
+    public GetLikesByParentQueryParams size(@javax.annotation.Nullable final Integer value) {
+      put("size", EncodingUtils.encode(value));
+      return this;
+    }
+    public GetLikesByParentQueryParams sort(@javax.annotation.Nullable final List<String> value) {
+      put("sort", EncodingUtils.encodeCollection(value, "multi"));
+      return this;
+    }
+  }
 
   /**
    * 

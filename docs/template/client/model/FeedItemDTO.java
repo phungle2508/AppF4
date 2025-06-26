@@ -1,6 +1,6 @@
 /*
- * Ms Feed API
- * Ms Feed API documentation
+ * Ms Commentlike API
+ * Ms Commentlike API documentation
  *
  * The version of the OpenAPI document: 0.0.1
  * Contact: 
@@ -36,13 +36,10 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   FeedItemDTO.JSON_PROPERTY_VIDEO_URL,
   FeedItemDTO.JSON_PROPERTY_VISIBILITY,
   FeedItemDTO.JSON_PROPERTY_LOCATION,
-  FeedItemDTO.JSON_PROPERTY_LIKES_COUNT,
-  FeedItemDTO.JSON_PROPERTY_COMMENTS_COUNT,
-  FeedItemDTO.JSON_PROPERTY_SHARES_COUNT,
   FeedItemDTO.JSON_PROPERTY_CREATED_AT,
   FeedItemDTO.JSON_PROPERTY_UPDATED_AT
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2025-06-26T10:46:36.107672237+07:00[Asia/Ho_Chi_Minh]", comments = "Generator version: 7.13.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2025-06-26T11:42:54.992157831+07:00[Asia/Ho_Chi_Minh]", comments = "Generator version: 7.13.0")
 public class FeedItemDTO {
   public static final String JSON_PROPERTY_ID = "id";
   @javax.annotation.Nonnull
@@ -108,18 +105,6 @@ public class FeedItemDTO {
   public static final String JSON_PROPERTY_LOCATION = "location";
   @javax.annotation.Nullable
   private String location;
-
-  public static final String JSON_PROPERTY_LIKES_COUNT = "likesCount";
-  @javax.annotation.Nullable
-  private Integer likesCount;
-
-  public static final String JSON_PROPERTY_COMMENTS_COUNT = "commentsCount";
-  @javax.annotation.Nullable
-  private Integer commentsCount;
-
-  public static final String JSON_PROPERTY_SHARES_COUNT = "sharesCount";
-  @javax.annotation.Nullable
-  private Integer sharesCount;
 
   public static final String JSON_PROPERTY_CREATED_AT = "createdAt";
   @javax.annotation.Nonnull
@@ -314,84 +299,6 @@ public class FeedItemDTO {
   }
 
 
-  public FeedItemDTO likesCount(@javax.annotation.Nullable Integer likesCount) {
-    
-    this.likesCount = likesCount;
-    return this;
-  }
-
-  /**
-   * Get likesCount
-   * @return likesCount
-   */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_LIKES_COUNT)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
-  public Integer getLikesCount() {
-    return likesCount;
-  }
-
-
-  @JsonProperty(JSON_PROPERTY_LIKES_COUNT)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setLikesCount(@javax.annotation.Nullable Integer likesCount) {
-    this.likesCount = likesCount;
-  }
-
-
-  public FeedItemDTO commentsCount(@javax.annotation.Nullable Integer commentsCount) {
-    
-    this.commentsCount = commentsCount;
-    return this;
-  }
-
-  /**
-   * Get commentsCount
-   * @return commentsCount
-   */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_COMMENTS_COUNT)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
-  public Integer getCommentsCount() {
-    return commentsCount;
-  }
-
-
-  @JsonProperty(JSON_PROPERTY_COMMENTS_COUNT)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setCommentsCount(@javax.annotation.Nullable Integer commentsCount) {
-    this.commentsCount = commentsCount;
-  }
-
-
-  public FeedItemDTO sharesCount(@javax.annotation.Nullable Integer sharesCount) {
-    
-    this.sharesCount = sharesCount;
-    return this;
-  }
-
-  /**
-   * Get sharesCount
-   * @return sharesCount
-   */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_SHARES_COUNT)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
-  public Integer getSharesCount() {
-    return sharesCount;
-  }
-
-
-  @JsonProperty(JSON_PROPERTY_SHARES_COUNT)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setSharesCount(@javax.annotation.Nullable Integer sharesCount) {
-    this.sharesCount = sharesCount;
-  }
-
-
   public FeedItemDTO createdAt(@javax.annotation.Nonnull OffsetDateTime createdAt) {
     
     this.createdAt = createdAt;
@@ -460,16 +367,13 @@ public class FeedItemDTO {
         Objects.equals(this.videoUrl, feedItemDTO.videoUrl) &&
         Objects.equals(this.visibility, feedItemDTO.visibility) &&
         Objects.equals(this.location, feedItemDTO.location) &&
-        Objects.equals(this.likesCount, feedItemDTO.likesCount) &&
-        Objects.equals(this.commentsCount, feedItemDTO.commentsCount) &&
-        Objects.equals(this.sharesCount, feedItemDTO.sharesCount) &&
         Objects.equals(this.createdAt, feedItemDTO.createdAt) &&
         Objects.equals(this.updatedAt, feedItemDTO.updatedAt);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, userId, content, imageUrl, videoUrl, visibility, location, likesCount, commentsCount, sharesCount, createdAt, updatedAt);
+    return Objects.hash(id, userId, content, imageUrl, videoUrl, visibility, location, createdAt, updatedAt);
   }
 
   @Override
@@ -483,9 +387,6 @@ public class FeedItemDTO {
     sb.append("    videoUrl: ").append(toIndentedString(videoUrl)).append("\n");
     sb.append("    visibility: ").append(toIndentedString(visibility)).append("\n");
     sb.append("    location: ").append(toIndentedString(location)).append("\n");
-    sb.append("    likesCount: ").append(toIndentedString(likesCount)).append("\n");
-    sb.append("    commentsCount: ").append(toIndentedString(commentsCount)).append("\n");
-    sb.append("    sharesCount: ").append(toIndentedString(sharesCount)).append("\n");
     sb.append("    createdAt: ").append(toIndentedString(createdAt)).append("\n");
     sb.append("    updatedAt: ").append(toIndentedString(updatedAt)).append("\n");
     sb.append("}");
