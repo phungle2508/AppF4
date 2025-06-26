@@ -47,7 +47,6 @@ for ms in $MS_SERVICES; do
   for folder in web/rest service/impl repository; do
     git checkout -- "src/main/java/com/f4/${clean_name}/$folder/" 2>/dev/null || true
   done
-  git checkout -- "src/main/resources/config/liquibase/" 2>/dev/null || true
 
   # Revert only top-level *.java in service/
   service_dir="src/main/java/com/f4/${clean_name}/service"
