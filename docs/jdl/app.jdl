@@ -131,6 +131,7 @@ entity User {
   passwordHash String required
   createdAt Instant required
   keycloakUserId UUID required
+  userAvatar String 
 }
 entity KeycloakUser {
   id UUID required
@@ -158,7 +159,6 @@ entity Comment {
   repliesCount Integer required
   mentions UUID
 }
-
 entity Like {
   id UUID required
   parentType String required
