@@ -1,61 +1,84 @@
-#!/bin/bash
+#!/bin/sh
 
-# Step 1: Backup all submodules
-echo "📦 Backing up submodules before regeneration..."
-git config --file .gitmodules --get-regexp path | awk '{print $2}' | grep '^backend/' | while read -r path; do
-  echo "🔄 Committing changes in $path"
-  if [ -d "$path/.git" ]; then
-    git -C "$path" add .
-    git -C "$path" commit -m "backup before jhipster regeneration" || echo "ℹ️  No changes in $path"
+# 🔧 Get absolute project root directory
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+ROOT_DIR="$(dirname "$SCRIPT_DIR")"
+cd "$ROOT_DIR" || exit 1
+
+echo "📦 Step 1: Committing changes in backend submodules..."
+
+# Find all submodule paths under backend/
+grep 'path = backend/' .gitmodules | cut -d'=' -f2 | sed 's/^[[:space:]]*//' | while read path; do
+  echo "🔁 Checking $path..."
+  if [ -d "$path" ]; then
+    cd "$path" || exit 1
+    if [ "$(git status --porcelain)" ]; then
+      git add .
+      git commit -m "backup before jhipster regeneration"
+      echo "✅ Committed changes in $path"
+    else
+      echo "ℹ️  No changes to commit in $path"
+    fi
+    cd "$ROOT_DIR" || exit 1
   else
-    echo "⚠️  $path is not a valid Git submodule"
+    echo "⚠️  Skipping $path (not found)"
   fi
 done
 
-# Step 2: Import JDL in backend
-echo "🛠 Importing JDL..."
-cd ../backend || exit
+echo "🛠 Step 2: Importing JDL into backend..."
+cd "$ROOT_DIR/backend" || exit
 jhipster import-jdl ../docs/jdl/app.jdl --force
 
-# Step 3: Run setup script
-echo "🚀 Running setup script..."
-cd ../docs
+echo "🚀 Step 3: Running setup script..."
+cd "$ROOT_DIR/docs" || exit
 ./setup_apps.sh
 
-# Step 4: Revert specific changes in each microservice
-echo "🔁 Reverting selected changes in microservices..."
+echo "🔁 Step 4: Reverting selected changes in backend microservices..."
 
-declare -a ms_services=("ms_user" "ms_commentlike" "ms_reel" "ms_feed" "ms_notification")
+MS_SERVICES="ms_user ms_commentlike ms_reel ms_feed ms_notification"
 
-get_clean_name() {
-    echo "${1#ms_}"
-}
-cd ../
-for ms in "${ms_services[@]}"; do
-    echo "🔄 Processing $ms..."
-    clean_name=$(get_clean_name "$ms")
-    cd "backend/$ms" || exit
+for ms in $MS_SERVICES; do
+  echo "🔄 Processing $ms..."
+  clean_name=$(echo "$ms" | sed 's/^ms_//')
+  service_path="$ROOT_DIR/backend/$ms"
+  cd "$service_path" || continue
 
-    # Revert web/rest, service/impl, repository, and liquibase folders
-    git checkout -- "src/main/java/com/f4/${clean_name}/web/rest/" 2>/dev/null
-    git checkout -- "src/main/java/com/f4/${clean_name}/service/impl/" 2>/dev/null
-    git checkout -- "src/main/java/com/f4/${clean_name}/repository/" 2>/dev/null
-    git checkout -- "src/main/resources/config/liquibase/" 2>/dev/null
+  # Revert specific folders
+  for folder in web/rest service/impl repository; do
+    git checkout -- "src/main/java/com/f4/${clean_name}/$folder/" 2>/dev/null || true
+  done
+  git checkout -- "src/main/resources/config/liquibase/" 2>/dev/null || true
 
-    # Revert only top-level service/*.java files (not subfolders)
-    service_dir="src/main/java/com/f4/${clean_name}/service"
-    if [ -d "$service_dir" ]; then
-        for file in "$service_dir"/*.java; do
-            if [ -f "$file" ]; then
-                git checkout -- "$file"
-                echo "✅ Reverted $(basename "$file")"
-            fi
-        done
-    else
-        echo "⚠️  $service_dir not found"
-    fi
+  # Revert only top-level *.java in service/
+  service_dir="src/main/java/com/f4/${clean_name}/service"
+  if [ -d "$service_dir" ]; then
+    for file in "$service_dir"/*.java; do
+      [ -f "$file" ] && git checkout -- "$file" && echo "✅ Reverted $(basename "$file")"
+    done
+  else
+    echo "⚠️  $service_dir not found"
+  fi
 
-    cd - > /dev/null || exit
+  cd "$ROOT_DIR" || exit 1
 done
 
-echo "✅ Done: selective reverts completed after regeneration."
+echo "↩️ Step 5: Undo last commit in backend submodules (only if it was the backup commit)..."
+
+grep 'path = backend/' .gitmodules | cut -d'=' -f2 | sed 's/^[[:space:]]*//' | while read path; do
+  if [ -d "$path" ]; then
+    cd "$path" || exit
+
+    last_msg=$(git log -1 --pretty=%B)
+    if echo "$last_msg" | grep -q "backup before jhipster regeneration"; then
+      git reset --soft HEAD~1
+      echo "✅ Undone backup commit in $path"
+    else
+      echo "ℹ️  No backup commit to undo in $path"
+    fi
+
+    cd "$ROOT_DIR" || exit
+  fi
+done
+
+
+echo "✅ All done: backend submodules committed, JDL imported, setup completed, changes reverted, and commits undone conditionally."
