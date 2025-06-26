@@ -96,6 +96,18 @@ public class FeignClientConfiguration {
         return lazyFeignFor("msuser", KeycloakUserResourceApi.class, auth, enc, dec);
     }
 
+    @Bean
+    @Lazy
+    public CommentResourceApi commentResourceApi(RequestInterceptor auth, Encoder enc, Decoder dec) {
+        return lazyFeignFor("mscommentlike", CommentResourceApi.class, auth, enc, dec);
+    }
+
+    @Bean
+    @Lazy
+    public LikeResourceApi likeResourceApi(RequestInterceptor auth, Encoder enc, Decoder dec) {
+        return lazyFeignFor("mscommentlike", LikeResourceApi.class, auth, enc, dec);
+    }
+
     // === Lazy proxy factory ===
     private <T> T lazyFeignFor(String serviceName, Class<T> clazz, RequestInterceptor auth, Encoder enc, Decoder dec) {
         return (T) Proxy.newProxyInstance(
