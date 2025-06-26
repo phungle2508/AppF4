@@ -35,6 +35,8 @@ services:
       - SPRING_CLOUD_CONSUL_PORT=8500
       - SPRING_DATASOURCE_URL=jdbc:mysql://ms_user-mysql:3306/ms_user?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&createDatabaseIfNotExist=true
       - SPRING_LIQUIBASE_URL=jdbc:mysql://ms_user-mysql:3306/ms_user?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&createDatabaseIfNotExist=true
+      - JHIPSTER_CACHE_REDIS_SERVER=redis://ms_user-redis:6379
+      - JHIPSTER_CACHE_REDIS_CLUSTER=false
       - SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_OIDC_ISSUER_URI=http://keycloak:9080/realms/jhipster
       - SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_OIDC_CLIENT_ID=internal
       - SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_OIDC_CLIENT_SECRET=internal
@@ -67,6 +69,8 @@ services:
       interval: 5s
       timeout: 10s
       retries: 10
+  ms_user-redis:
+    image: redis:7.4.2
 
   ms_reel:
     image: ms_reel

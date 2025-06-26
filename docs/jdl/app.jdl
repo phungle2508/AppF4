@@ -33,6 +33,7 @@ application {
     serverPort 8081
     serviceDiscoveryType consul
     enableSwaggerCodegen true
+    cacheProvider redis
   }
   entities User, KeycloakUser
 }
@@ -131,7 +132,7 @@ entity User {
   passwordHash String required
   createdAt Instant required
   keycloakUserId UUID required
-  userAvatar String 
+  userAvatar String
 }
 entity KeycloakUser {
   id UUID required

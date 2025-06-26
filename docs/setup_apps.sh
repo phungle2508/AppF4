@@ -5,7 +5,7 @@ GREEN='\033[0;32m'
 BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
-declare -a redis_services=("ms_notification" "ms_feed")
+declare -a redis_services=("ms_notification" "ms_feed" "ms_user")
 declare -a ms_services=("ms_user" "ms_commentlike" "ms_reel" "ms_feed" "ms_notification")
 
 # Function to create directory if it doesn't exist
@@ -495,6 +495,9 @@ replace_cache_configuration() {
             ;;
         "feed")
             class_name="FeedItem"
+            ;;
+        "user")
+            class_name="User"
             ;;
         *)
             class_name="Reel" # fallback/default (if needed)
