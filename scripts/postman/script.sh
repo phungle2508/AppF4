@@ -8,7 +8,7 @@ CLIENT_ID="web_app"
 CLIENT_SECRET="your_client_secret_here"
 USERNAME="admin"
 PASSWORD="admin"
-declare -a SERVICE_NAMES=( "msfeed" "msreel" "msnotification" "msuser" "mscommentlike")
+declare -a SERVICE_NAMES=("feed" "msfeed" "msreel" "msnotification" "msuser" "mscommentlike")
 
 # Script-relative directories
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"

@@ -5,6 +5,7 @@ import com.f4.reel.client.EncodingUtils;
 import com.f4.reel.client.model.ApiResponse;
 
 import com.f4.reel.client.model.CommentDTO;
+import com.f4.reel.client.model.CommentWithRedisUserDTO;
 import java.util.UUID;
 
 import java.util.ArrayList;
@@ -13,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 import feign.*;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2025-06-27T08:11:01.300407367+07:00[Asia/Ho_Chi_Minh]", comments = "Generator version: 7.13.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2025-06-27T09:24:56.232976487+07:00[Asia/Ho_Chi_Minh]", comments = "Generator version: 7.13.0")
 public interface CommentResourceApi extends ApiClient.Api {
 
 
@@ -97,6 +98,91 @@ public interface CommentResourceApi extends ApiClient.Api {
       return this;
     }
     public CountByParentIdAndParentType1QueryParams parentType(@javax.annotation.Nonnull final String value) {
+      put("parentType", EncodingUtils.encode(value));
+      return this;
+    }
+  }
+
+  /**
+   * 
+   * 
+   * @param parentIds  (required)
+   * @param parentType  (required)
+   * @return List&lt;Integer&gt;
+   */
+  @RequestLine("GET /api/comments/countCommentsParentIdsAndParentType?parentIds={parentIds}&parentType={parentType}")
+  @Headers({
+    "Accept: */*",
+  })
+  List<Integer> countCommentsParentIdsAndParentType(@Param("parentIds") @javax.annotation.Nonnull List<UUID> parentIds, @Param("parentType") @javax.annotation.Nonnull String parentType);
+
+  /**
+   * 
+   * Similar to <code>countCommentsParentIdsAndParentType</code> but it also returns the http response headers .
+   * 
+   * @param parentIds  (required)
+   * @param parentType  (required)
+   * @return A ApiResponse that wraps the response boyd and the http headers.
+   */
+  @RequestLine("GET /api/comments/countCommentsParentIdsAndParentType?parentIds={parentIds}&parentType={parentType}")
+  @Headers({
+    "Accept: */*",
+  })
+  ApiResponse<List<Integer>> countCommentsParentIdsAndParentTypeWithHttpInfo(@Param("parentIds") @javax.annotation.Nonnull List<UUID> parentIds, @Param("parentType") @javax.annotation.Nonnull String parentType);
+
+
+  /**
+   * 
+   * 
+   * Note, this is equivalent to the other <code>countCommentsParentIdsAndParentType</code> method,
+   * but with the query parameters collected into a single Map parameter. This
+   * is convenient for services with optional query parameters, especially when
+   * used with the {@link CountCommentsParentIdsAndParentTypeQueryParams} class that allows for
+   * building up this map in a fluent style.
+   * @param queryParams Map of query parameters as name-value pairs
+   *   <p>The following elements may be specified in the query map:</p>
+   *   <ul>
+   *   <li>parentIds -  (required)</li>
+   *   <li>parentType -  (required)</li>
+   *   </ul>
+   * @return List&lt;Integer&gt;
+   */
+  @RequestLine("GET /api/comments/countCommentsParentIdsAndParentType?parentIds={parentIds}&parentType={parentType}")
+  @Headers({
+  "Accept: */*",
+  })
+  List<Integer> countCommentsParentIdsAndParentType(@QueryMap(encoded=true) CountCommentsParentIdsAndParentTypeQueryParams queryParams);
+
+  /**
+  * 
+  * 
+  * Note, this is equivalent to the other <code>countCommentsParentIdsAndParentType</code> that receives the query parameters as a map,
+  * but this one also exposes the Http response headers
+      * @param queryParams Map of query parameters as name-value pairs
+      *   <p>The following elements may be specified in the query map:</p>
+      *   <ul>
+          *   <li>parentIds -  (required)</li>
+          *   <li>parentType -  (required)</li>
+      *   </ul>
+          * @return List&lt;Integer&gt;
+      */
+      @RequestLine("GET /api/comments/countCommentsParentIdsAndParentType?parentIds={parentIds}&parentType={parentType}")
+      @Headers({
+    "Accept: */*",
+      })
+   ApiResponse<List<Integer>> countCommentsParentIdsAndParentTypeWithHttpInfo(@QueryMap(encoded=true) CountCommentsParentIdsAndParentTypeQueryParams queryParams);
+
+
+   /**
+   * A convenience class for generating query parameters for the
+   * <code>countCommentsParentIdsAndParentType</code> method in a fluent style.
+   */
+  public static class CountCommentsParentIdsAndParentTypeQueryParams extends HashMap<String, Object> {
+    public CountCommentsParentIdsAndParentTypeQueryParams parentIds(@javax.annotation.Nonnull final List<UUID> value) {
+      put("parentIds", EncodingUtils.encodeCollection(value, "multi"));
+      return this;
+    }
+    public CountCommentsParentIdsAndParentTypeQueryParams parentType(@javax.annotation.Nonnull final String value) {
       put("parentType", EncodingUtils.encode(value));
       return this;
     }
@@ -284,13 +370,13 @@ public interface CommentResourceApi extends ApiClient.Api {
    * @param page Zero-based page index (0..N) (optional, default to 0)
    * @param size The size of the page to be returned (optional, default to 20)
    * @param sort Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported. (optional)
-   * @return List&lt;CommentDTO&gt;
+   * @return List&lt;CommentWithRedisUserDTO&gt;
    */
   @RequestLine("GET /api/comments/by-parent?parentId={parentId}&parentType={parentType}&page={page}&size={size}&sort={sort}")
   @Headers({
     "Accept: */*",
   })
-  List<CommentDTO> getCommentsByParent(@Param("parentId") @javax.annotation.Nonnull UUID parentId, @Param("parentType") @javax.annotation.Nonnull String parentType, @Param("page") @javax.annotation.Nullable Integer page, @Param("size") @javax.annotation.Nullable Integer size, @Param("sort") @javax.annotation.Nullable List<String> sort);
+  List<CommentWithRedisUserDTO> getCommentsByParent(@Param("parentId") @javax.annotation.Nonnull UUID parentId, @Param("parentType") @javax.annotation.Nonnull String parentType, @Param("page") @javax.annotation.Nullable Integer page, @Param("size") @javax.annotation.Nullable Integer size, @Param("sort") @javax.annotation.Nullable List<String> sort);
 
   /**
    * 
@@ -307,7 +393,7 @@ public interface CommentResourceApi extends ApiClient.Api {
   @Headers({
     "Accept: */*",
   })
-  ApiResponse<List<CommentDTO>> getCommentsByParentWithHttpInfo(@Param("parentId") @javax.annotation.Nonnull UUID parentId, @Param("parentType") @javax.annotation.Nonnull String parentType, @Param("page") @javax.annotation.Nullable Integer page, @Param("size") @javax.annotation.Nullable Integer size, @Param("sort") @javax.annotation.Nullable List<String> sort);
+  ApiResponse<List<CommentWithRedisUserDTO>> getCommentsByParentWithHttpInfo(@Param("parentId") @javax.annotation.Nonnull UUID parentId, @Param("parentType") @javax.annotation.Nonnull String parentType, @Param("page") @javax.annotation.Nullable Integer page, @Param("size") @javax.annotation.Nullable Integer size, @Param("sort") @javax.annotation.Nullable List<String> sort);
 
 
   /**
@@ -327,13 +413,13 @@ public interface CommentResourceApi extends ApiClient.Api {
    *   <li>size - The size of the page to be returned (optional, default to 20)</li>
    *   <li>sort - Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported. (optional)</li>
    *   </ul>
-   * @return List&lt;CommentDTO&gt;
+   * @return List&lt;CommentWithRedisUserDTO&gt;
    */
   @RequestLine("GET /api/comments/by-parent?parentId={parentId}&parentType={parentType}&page={page}&size={size}&sort={sort}")
   @Headers({
   "Accept: */*",
   })
-  List<CommentDTO> getCommentsByParent(@QueryMap(encoded=true) GetCommentsByParentQueryParams queryParams);
+  List<CommentWithRedisUserDTO> getCommentsByParent(@QueryMap(encoded=true) GetCommentsByParentQueryParams queryParams);
 
   /**
   * 
@@ -349,13 +435,13 @@ public interface CommentResourceApi extends ApiClient.Api {
           *   <li>size - The size of the page to be returned (optional, default to 20)</li>
           *   <li>sort - Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported. (optional)</li>
       *   </ul>
-          * @return List&lt;CommentDTO&gt;
+          * @return List&lt;CommentWithRedisUserDTO&gt;
       */
       @RequestLine("GET /api/comments/by-parent?parentId={parentId}&parentType={parentType}&page={page}&size={size}&sort={sort}")
       @Headers({
     "Accept: */*",
       })
-   ApiResponse<List<CommentDTO>> getCommentsByParentWithHttpInfo(@QueryMap(encoded=true) GetCommentsByParentQueryParams queryParams);
+   ApiResponse<List<CommentWithRedisUserDTO>> getCommentsByParentWithHttpInfo(@QueryMap(encoded=true) GetCommentsByParentQueryParams queryParams);
 
 
    /**

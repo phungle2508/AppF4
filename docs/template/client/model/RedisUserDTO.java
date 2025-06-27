@@ -32,14 +32,14 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   RedisUserDTO.JSON_PROPERTY_USERNAME,
   RedisUserDTO.JSON_PROPERTY_USER_AVATAR
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2025-06-27T08:11:01.300407367+07:00[Asia/Ho_Chi_Minh]", comments = "Generator version: 7.13.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2025-06-27T09:24:56.232976487+07:00[Asia/Ho_Chi_Minh]", comments = "Generator version: 7.13.0")
 public class RedisUserDTO {
   public static final String JSON_PROPERTY_ID = "id";
-  @javax.annotation.Nonnull
+  @javax.annotation.Nullable
   private UUID id;
 
   public static final String JSON_PROPERTY_USERNAME = "username";
-  @javax.annotation.Nonnull
+  @javax.annotation.Nullable
   private String username;
 
   public static final String JSON_PROPERTY_USER_AVATAR = "userAvatar";
@@ -49,7 +49,7 @@ public class RedisUserDTO {
   public RedisUserDTO() {
   }
 
-  public RedisUserDTO id(@javax.annotation.Nonnull UUID id) {
+  public RedisUserDTO id(@javax.annotation.Nullable UUID id) {
     
     this.id = id;
     return this;
@@ -59,9 +59,9 @@ public class RedisUserDTO {
    * Get id
    * @return id
    */
-  @javax.annotation.Nonnull
+  @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_ID)
-  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public UUID getId() {
     return id;
@@ -69,13 +69,13 @@ public class RedisUserDTO {
 
 
   @JsonProperty(JSON_PROPERTY_ID)
-  @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setId(@javax.annotation.Nonnull UUID id) {
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setId(@javax.annotation.Nullable UUID id) {
     this.id = id;
   }
 
 
-  public RedisUserDTO username(@javax.annotation.Nonnull String username) {
+  public RedisUserDTO username(@javax.annotation.Nullable String username) {
     
     this.username = username;
     return this;
@@ -85,9 +85,9 @@ public class RedisUserDTO {
    * Get username
    * @return username
    */
-  @javax.annotation.Nonnull
+  @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_USERNAME)
-  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getUsername() {
     return username;
@@ -95,8 +95,8 @@ public class RedisUserDTO {
 
 
   @JsonProperty(JSON_PROPERTY_USERNAME)
-  @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setUsername(@javax.annotation.Nonnull String username) {
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setUsername(@javax.annotation.Nullable String username) {
     this.username = username;
   }
 

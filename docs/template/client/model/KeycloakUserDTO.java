@@ -34,7 +34,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   KeycloakUserDTO.JSON_PROPERTY_REALM_ID,
   KeycloakUserDTO.JSON_PROPERTY_USER_ID
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2025-06-27T08:11:01.300407367+07:00[Asia/Ho_Chi_Minh]", comments = "Generator version: 7.13.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2025-06-27T09:24:56.232976487+07:00[Asia/Ho_Chi_Minh]", comments = "Generator version: 7.13.0")
 public class KeycloakUserDTO {
   public static final String JSON_PROPERTY_ID = "id";
   @javax.annotation.Nonnull
