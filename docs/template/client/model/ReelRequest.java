@@ -1,6 +1,6 @@
 /*
- * Ms Commentlike API
- * Ms Commentlike API documentation
+ * Ms Feed API
+ * Ms Feed API documentation
  *
  * The version of the OpenAPI document: 0.0.1
  * Contact: 
@@ -32,7 +32,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   ReelRequest.JSON_PROPERTY_TITLE,
   ReelRequest.JSON_PROPERTY_VIDEO_URL
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2025-06-26T11:42:54.992157831+07:00[Asia/Ho_Chi_Minh]", comments = "Generator version: 7.13.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2025-06-27T08:11:01.300407367+07:00[Asia/Ho_Chi_Minh]", comments = "Generator version: 7.13.0")
 public class ReelRequest {
   public static final String JSON_PROPERTY_EVENT_NAME = "eventName";
   @javax.annotation.Nullable

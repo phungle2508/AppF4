@@ -5,6 +5,7 @@ import com.f4.reel.client.EncodingUtils;
 import com.f4.reel.client.model.ApiResponse;
 
 import com.f4.reel.client.model.FeedItemDTO;
+import com.f4.reel.client.model.FeedWithOtherDTO;
 import java.util.UUID;
 
 import java.util.ArrayList;
@@ -13,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 import feign.*;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2025-06-26T11:42:54.992157831+07:00[Asia/Ho_Chi_Minh]", comments = "Generator version: 7.13.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2025-06-27T08:11:01.300407367+07:00[Asia/Ho_Chi_Minh]", comments = "Generator version: 7.13.0")
 public interface FeedItemResourceApi extends ApiClient.Api {
 
 
@@ -70,6 +71,107 @@ public interface FeedItemResourceApi extends ApiClient.Api {
   ApiResponse<Void> deleteFeedItemWithHttpInfo(@Param("id") @javax.annotation.Nonnull UUID id);
 
 
+
+  /**
+   * 
+   * 
+   * @param query  (required)
+   * @param page Zero-based page index (0..N) (optional, default to 0)
+   * @param size The size of the page to be returned (optional, default to 20)
+   * @param sort Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported. (optional)
+   * @return List&lt;FeedWithOtherDTO&gt;
+   */
+  @RequestLine("GET /api/feed-items/search-for-main-page?query={query}&page={page}&size={size}&sort={sort}")
+  @Headers({
+    "Accept: */*",
+  })
+  List<FeedWithOtherDTO> findFeedWithOther(@Param("query") @javax.annotation.Nonnull String query, @Param("page") @javax.annotation.Nullable Integer page, @Param("size") @javax.annotation.Nullable Integer size, @Param("sort") @javax.annotation.Nullable List<String> sort);
+
+  /**
+   * 
+   * Similar to <code>findFeedWithOther</code> but it also returns the http response headers .
+   * 
+   * @param query  (required)
+   * @param page Zero-based page index (0..N) (optional, default to 0)
+   * @param size The size of the page to be returned (optional, default to 20)
+   * @param sort Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported. (optional)
+   * @return A ApiResponse that wraps the response boyd and the http headers.
+   */
+  @RequestLine("GET /api/feed-items/search-for-main-page?query={query}&page={page}&size={size}&sort={sort}")
+  @Headers({
+    "Accept: */*",
+  })
+  ApiResponse<List<FeedWithOtherDTO>> findFeedWithOtherWithHttpInfo(@Param("query") @javax.annotation.Nonnull String query, @Param("page") @javax.annotation.Nullable Integer page, @Param("size") @javax.annotation.Nullable Integer size, @Param("sort") @javax.annotation.Nullable List<String> sort);
+
+
+  /**
+   * 
+   * 
+   * Note, this is equivalent to the other <code>findFeedWithOther</code> method,
+   * but with the query parameters collected into a single Map parameter. This
+   * is convenient for services with optional query parameters, especially when
+   * used with the {@link FindFeedWithOtherQueryParams} class that allows for
+   * building up this map in a fluent style.
+   * @param queryParams Map of query parameters as name-value pairs
+   *   <p>The following elements may be specified in the query map:</p>
+   *   <ul>
+   *   <li>query -  (required)</li>
+   *   <li>page - Zero-based page index (0..N) (optional, default to 0)</li>
+   *   <li>size - The size of the page to be returned (optional, default to 20)</li>
+   *   <li>sort - Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported. (optional)</li>
+   *   </ul>
+   * @return List&lt;FeedWithOtherDTO&gt;
+   */
+  @RequestLine("GET /api/feed-items/search-for-main-page?query={query}&page={page}&size={size}&sort={sort}")
+  @Headers({
+  "Accept: */*",
+  })
+  List<FeedWithOtherDTO> findFeedWithOther(@QueryMap(encoded=true) FindFeedWithOtherQueryParams queryParams);
+
+  /**
+  * 
+  * 
+  * Note, this is equivalent to the other <code>findFeedWithOther</code> that receives the query parameters as a map,
+  * but this one also exposes the Http response headers
+      * @param queryParams Map of query parameters as name-value pairs
+      *   <p>The following elements may be specified in the query map:</p>
+      *   <ul>
+          *   <li>query -  (required)</li>
+          *   <li>page - Zero-based page index (0..N) (optional, default to 0)</li>
+          *   <li>size - The size of the page to be returned (optional, default to 20)</li>
+          *   <li>sort - Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported. (optional)</li>
+      *   </ul>
+          * @return List&lt;FeedWithOtherDTO&gt;
+      */
+      @RequestLine("GET /api/feed-items/search-for-main-page?query={query}&page={page}&size={size}&sort={sort}")
+      @Headers({
+    "Accept: */*",
+      })
+   ApiResponse<List<FeedWithOtherDTO>> findFeedWithOtherWithHttpInfo(@QueryMap(encoded=true) FindFeedWithOtherQueryParams queryParams);
+
+
+   /**
+   * A convenience class for generating query parameters for the
+   * <code>findFeedWithOther</code> method in a fluent style.
+   */
+  public static class FindFeedWithOtherQueryParams extends HashMap<String, Object> {
+    public FindFeedWithOtherQueryParams query(@javax.annotation.Nonnull final String value) {
+      put("query", EncodingUtils.encode(value));
+      return this;
+    }
+    public FindFeedWithOtherQueryParams page(@javax.annotation.Nullable final Integer value) {
+      put("page", EncodingUtils.encode(value));
+      return this;
+    }
+    public FindFeedWithOtherQueryParams size(@javax.annotation.Nullable final Integer value) {
+      put("size", EncodingUtils.encode(value));
+      return this;
+    }
+    public FindFeedWithOtherQueryParams sort(@javax.annotation.Nullable final List<String> value) {
+      put("sort", EncodingUtils.encodeCollection(value, "multi"));
+      return this;
+    }
+  }
 
   /**
    * 
