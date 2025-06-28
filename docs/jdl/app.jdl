@@ -165,6 +165,7 @@ entity Like {
   userId UUID required
   createdAt Instant required
 }
+
 entity Notification {
   id UUID required
   recipientId UUID required
