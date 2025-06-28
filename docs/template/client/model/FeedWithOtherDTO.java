@@ -1,6 +1,6 @@
 /*
- * Ms Feed API
- * Ms Feed API documentation
+ * Ms Commentlike API
+ * Ms Commentlike API documentation
  *
  * The version of the OpenAPI document: 0.0.1
  * Contact: 
@@ -16,6 +16,7 @@ package com.f4.reel.client.model;
 import java.util.Objects;
 import java.util.Arrays;
 import com.f4.reel.client.model.FeedItemDTO;
+import com.f4.reel.client.model.RedisUserDTO;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -29,25 +30,20 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
  */
 @JsonPropertyOrder({
   FeedWithOtherDTO.JSON_PROPERTY_FEED_ITEM,
-  FeedWithOtherDTO.JSON_PROPERTY_USER_NAME,
-  FeedWithOtherDTO.JSON_PROPERTY_USER_AVATAR,
+  FeedWithOtherDTO.JSON_PROPERTY_REDIS_USER_D_T_O,
   FeedWithOtherDTO.JSON_PROPERTY_LIKE_COUNT,
   FeedWithOtherDTO.JSON_PROPERTY_COMMENT_COUNT,
   FeedWithOtherDTO.JSON_PROPERTY_SHARE_COUNT
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2025-06-27T09:24:56.232976487+07:00[Asia/Ho_Chi_Minh]", comments = "Generator version: 7.13.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2025-06-28T09:20:35.299334524+07:00[Asia/Ho_Chi_Minh]", comments = "Generator version: 7.13.0")
 public class FeedWithOtherDTO {
   public static final String JSON_PROPERTY_FEED_ITEM = "feedItem";
   @javax.annotation.Nullable
   private FeedItemDTO feedItem;
 
-  public static final String JSON_PROPERTY_USER_NAME = "userName";
+  public static final String JSON_PROPERTY_REDIS_USER_D_T_O = "redisUserDTO";
   @javax.annotation.Nullable
-  private String userName;
-
-  public static final String JSON_PROPERTY_USER_AVATAR = "userAvatar";
-  @javax.annotation.Nullable
-  private String userAvatar;
+  private RedisUserDTO redisUserDTO;
 
   public static final String JSON_PROPERTY_LIKE_COUNT = "likeCount";
   @javax.annotation.Nullable
@@ -90,55 +86,29 @@ public class FeedWithOtherDTO {
   }
 
 
-  public FeedWithOtherDTO userName(@javax.annotation.Nullable String userName) {
+  public FeedWithOtherDTO redisUserDTO(@javax.annotation.Nullable RedisUserDTO redisUserDTO) {
     
-    this.userName = userName;
+    this.redisUserDTO = redisUserDTO;
     return this;
   }
 
   /**
-   * Get userName
-   * @return userName
+   * Get redisUserDTO
+   * @return redisUserDTO
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_USER_NAME)
+  @JsonProperty(JSON_PROPERTY_REDIS_USER_D_T_O)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public String getUserName() {
-    return userName;
+  public RedisUserDTO getRedisUserDTO() {
+    return redisUserDTO;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_USER_NAME)
+  @JsonProperty(JSON_PROPERTY_REDIS_USER_D_T_O)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setUserName(@javax.annotation.Nullable String userName) {
-    this.userName = userName;
-  }
-
-
-  public FeedWithOtherDTO userAvatar(@javax.annotation.Nullable String userAvatar) {
-    
-    this.userAvatar = userAvatar;
-    return this;
-  }
-
-  /**
-   * Get userAvatar
-   * @return userAvatar
-   */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_USER_AVATAR)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
-  public String getUserAvatar() {
-    return userAvatar;
-  }
-
-
-  @JsonProperty(JSON_PROPERTY_USER_AVATAR)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setUserAvatar(@javax.annotation.Nullable String userAvatar) {
-    this.userAvatar = userAvatar;
+  public void setRedisUserDTO(@javax.annotation.Nullable RedisUserDTO redisUserDTO) {
+    this.redisUserDTO = redisUserDTO;
   }
 
 
@@ -230,8 +200,7 @@ public class FeedWithOtherDTO {
     }
     FeedWithOtherDTO feedWithOtherDTO = (FeedWithOtherDTO) o;
     return Objects.equals(this.feedItem, feedWithOtherDTO.feedItem) &&
-        Objects.equals(this.userName, feedWithOtherDTO.userName) &&
-        Objects.equals(this.userAvatar, feedWithOtherDTO.userAvatar) &&
+        Objects.equals(this.redisUserDTO, feedWithOtherDTO.redisUserDTO) &&
         Objects.equals(this.likeCount, feedWithOtherDTO.likeCount) &&
         Objects.equals(this.commentCount, feedWithOtherDTO.commentCount) &&
         Objects.equals(this.shareCount, feedWithOtherDTO.shareCount);
@@ -239,7 +208,7 @@ public class FeedWithOtherDTO {
 
   @Override
   public int hashCode() {
-    return Objects.hash(feedItem, userName, userAvatar, likeCount, commentCount, shareCount);
+    return Objects.hash(feedItem, redisUserDTO, likeCount, commentCount, shareCount);
   }
 
   @Override
@@ -247,8 +216,7 @@ public class FeedWithOtherDTO {
     StringBuilder sb = new StringBuilder();
     sb.append("class FeedWithOtherDTO {\n");
     sb.append("    feedItem: ").append(toIndentedString(feedItem)).append("\n");
-    sb.append("    userName: ").append(toIndentedString(userName)).append("\n");
-    sb.append("    userAvatar: ").append(toIndentedString(userAvatar)).append("\n");
+    sb.append("    redisUserDTO: ").append(toIndentedString(redisUserDTO)).append("\n");
     sb.append("    likeCount: ").append(toIndentedString(likeCount)).append("\n");
     sb.append("    commentCount: ").append(toIndentedString(commentCount)).append("\n");
     sb.append("    shareCount: ").append(toIndentedString(shareCount)).append("\n");

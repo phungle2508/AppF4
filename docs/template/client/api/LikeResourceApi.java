@@ -14,9 +14,94 @@ import java.util.List;
 import java.util.Map;
 import feign.*;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2025-06-27T09:24:56.232976487+07:00[Asia/Ho_Chi_Minh]", comments = "Generator version: 7.13.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2025-06-28T09:20:35.299334524+07:00[Asia/Ho_Chi_Minh]", comments = "Generator version: 7.13.0")
 public interface LikeResourceApi extends ApiClient.Api {
 
+
+  /**
+   * 
+   * 
+   * @param parentId  (required)
+   * @param userId  (required)
+   * @return Boolean
+   */
+  @RequestLine("GET /api/likes/exists?parentId={parentId}&userId={userId}")
+  @Headers({
+    "Accept: */*",
+  })
+  Boolean checkLikeExists(@Param("parentId") @javax.annotation.Nonnull UUID parentId, @Param("userId") @javax.annotation.Nonnull UUID userId);
+
+  /**
+   * 
+   * Similar to <code>checkLikeExists</code> but it also returns the http response headers .
+   * 
+   * @param parentId  (required)
+   * @param userId  (required)
+   * @return A ApiResponse that wraps the response boyd and the http headers.
+   */
+  @RequestLine("GET /api/likes/exists?parentId={parentId}&userId={userId}")
+  @Headers({
+    "Accept: */*",
+  })
+  ApiResponse<Boolean> checkLikeExistsWithHttpInfo(@Param("parentId") @javax.annotation.Nonnull UUID parentId, @Param("userId") @javax.annotation.Nonnull UUID userId);
+
+
+  /**
+   * 
+   * 
+   * Note, this is equivalent to the other <code>checkLikeExists</code> method,
+   * but with the query parameters collected into a single Map parameter. This
+   * is convenient for services with optional query parameters, especially when
+   * used with the {@link CheckLikeExistsQueryParams} class that allows for
+   * building up this map in a fluent style.
+   * @param queryParams Map of query parameters as name-value pairs
+   *   <p>The following elements may be specified in the query map:</p>
+   *   <ul>
+   *   <li>parentId -  (required)</li>
+   *   <li>userId -  (required)</li>
+   *   </ul>
+   * @return Boolean
+   */
+  @RequestLine("GET /api/likes/exists?parentId={parentId}&userId={userId}")
+  @Headers({
+  "Accept: */*",
+  })
+  Boolean checkLikeExists(@QueryMap(encoded=true) CheckLikeExistsQueryParams queryParams);
+
+  /**
+  * 
+  * 
+  * Note, this is equivalent to the other <code>checkLikeExists</code> that receives the query parameters as a map,
+  * but this one also exposes the Http response headers
+      * @param queryParams Map of query parameters as name-value pairs
+      *   <p>The following elements may be specified in the query map:</p>
+      *   <ul>
+          *   <li>parentId -  (required)</li>
+          *   <li>userId -  (required)</li>
+      *   </ul>
+          * @return Boolean
+      */
+      @RequestLine("GET /api/likes/exists?parentId={parentId}&userId={userId}")
+      @Headers({
+    "Accept: */*",
+      })
+   ApiResponse<Boolean> checkLikeExistsWithHttpInfo(@QueryMap(encoded=true) CheckLikeExistsQueryParams queryParams);
+
+
+   /**
+   * A convenience class for generating query parameters for the
+   * <code>checkLikeExists</code> method in a fluent style.
+   */
+  public static class CheckLikeExistsQueryParams extends HashMap<String, Object> {
+    public CheckLikeExistsQueryParams parentId(@javax.annotation.Nonnull final UUID value) {
+      put("parentId", EncodingUtils.encode(value));
+      return this;
+    }
+    public CheckLikeExistsQueryParams userId(@javax.annotation.Nonnull final UUID value) {
+      put("userId", EncodingUtils.encode(value));
+      return this;
+    }
+  }
 
   /**
    * 
@@ -241,6 +326,87 @@ public interface LikeResourceApi extends ApiClient.Api {
   ApiResponse<Void> deleteLikeWithHttpInfo(@Param("id") @javax.annotation.Nonnull UUID id);
 
 
+
+  /**
+   * 
+   * 
+   * @param parentId  (required)
+   * @param userId  (required)
+   */
+  @RequestLine("DELETE /api/likes/by-parent-and-user?parentId={parentId}&userId={userId}")
+  @Headers({
+    "Accept: application/json",
+  })
+  void deleteLikeByParentIdAndUserId(@Param("parentId") @javax.annotation.Nonnull UUID parentId, @Param("userId") @javax.annotation.Nonnull UUID userId);
+
+  /**
+   * 
+   * Similar to <code>deleteLikeByParentIdAndUserId</code> but it also returns the http response headers .
+   * 
+   * @param parentId  (required)
+   * @param userId  (required)
+   */
+  @RequestLine("DELETE /api/likes/by-parent-and-user?parentId={parentId}&userId={userId}")
+  @Headers({
+    "Accept: application/json",
+  })
+  ApiResponse<Void> deleteLikeByParentIdAndUserIdWithHttpInfo(@Param("parentId") @javax.annotation.Nonnull UUID parentId, @Param("userId") @javax.annotation.Nonnull UUID userId);
+
+
+  /**
+   * 
+   * 
+   * Note, this is equivalent to the other <code>deleteLikeByParentIdAndUserId</code> method,
+   * but with the query parameters collected into a single Map parameter. This
+   * is convenient for services with optional query parameters, especially when
+   * used with the {@link DeleteLikeByParentIdAndUserIdQueryParams} class that allows for
+   * building up this map in a fluent style.
+   * @param queryParams Map of query parameters as name-value pairs
+   *   <p>The following elements may be specified in the query map:</p>
+   *   <ul>
+   *   <li>parentId -  (required)</li>
+   *   <li>userId -  (required)</li>
+   *   </ul>
+   */
+  @RequestLine("DELETE /api/likes/by-parent-and-user?parentId={parentId}&userId={userId}")
+  @Headers({
+  "Accept: application/json",
+  })
+  void deleteLikeByParentIdAndUserId(@QueryMap(encoded=true) DeleteLikeByParentIdAndUserIdQueryParams queryParams);
+
+  /**
+  * 
+  * 
+  * Note, this is equivalent to the other <code>deleteLikeByParentIdAndUserId</code> that receives the query parameters as a map,
+  * but this one also exposes the Http response headers
+      * @param queryParams Map of query parameters as name-value pairs
+      *   <p>The following elements may be specified in the query map:</p>
+      *   <ul>
+          *   <li>parentId -  (required)</li>
+          *   <li>userId -  (required)</li>
+      *   </ul>
+      */
+      @RequestLine("DELETE /api/likes/by-parent-and-user?parentId={parentId}&userId={userId}")
+      @Headers({
+    "Accept: application/json",
+      })
+   ApiResponse<Void> deleteLikeByParentIdAndUserIdWithHttpInfo(@QueryMap(encoded=true) DeleteLikeByParentIdAndUserIdQueryParams queryParams);
+
+
+   /**
+   * A convenience class for generating query parameters for the
+   * <code>deleteLikeByParentIdAndUserId</code> method in a fluent style.
+   */
+  public static class DeleteLikeByParentIdAndUserIdQueryParams extends HashMap<String, Object> {
+    public DeleteLikeByParentIdAndUserIdQueryParams parentId(@javax.annotation.Nonnull final UUID value) {
+      put("parentId", EncodingUtils.encode(value));
+      return this;
+    }
+    public DeleteLikeByParentIdAndUserIdQueryParams userId(@javax.annotation.Nonnull final UUID value) {
+      put("userId", EncodingUtils.encode(value));
+      return this;
+    }
+  }
 
   /**
    * 

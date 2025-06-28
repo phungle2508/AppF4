@@ -1,6 +1,6 @@
 /*
- * Ms Feed API
- * Ms Feed API documentation
+ * Ms Commentlike API
+ * Ms Commentlike API documentation
  *
  * The version of the OpenAPI document: 0.0.1
  * Contact: 
@@ -39,7 +39,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   FeedItemDTO.JSON_PROPERTY_CREATED_AT,
   FeedItemDTO.JSON_PROPERTY_UPDATED_AT
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2025-06-27T09:24:56.232976487+07:00[Asia/Ho_Chi_Minh]", comments = "Generator version: 7.13.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2025-06-28T09:20:35.299334524+07:00[Asia/Ho_Chi_Minh]", comments = "Generator version: 7.13.0")
 public class FeedItemDTO {
   public static final String JSON_PROPERTY_ID = "id";
   @javax.annotation.Nonnull
