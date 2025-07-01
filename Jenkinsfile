@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        VPS_HOST = '152.42.195.205'
+        VPS_HOST = '188.166.217.82'
         REMOTE_SCRIPT_PATH = '/root/f4-microserices-vps-configuration/AppF4/scripts/deploy_service.sh'
     }
 
