@@ -45,6 +45,9 @@ update_package() {
         sed -i "s/package com\.f4\.gateway/package com.f4.${clean_name}/" "$file"
         # Update imports
         sed -i "s/com\.mycompany\.myapp\.config/com.f4.${clean_name}.config/" "$file"
+        # Update specific imports for ApplicationProperties and CRLFLogConverter
+        sed -i "s|import com\.mycompany\.myapp\.config\.ApplicationProperties;|import com.f4.${clean_name}.config.ApplicationProperties;|g" "$file"
+        sed -i "s|import com\.mycompany\.myapp\.config\.CRLFLogConverter;|import com.f4.${clean_name}.config.CRLFLogConverter;|g" "$file"
         # Update logger class reference
         sed -i "s/LoggerFactory\.getLogger(Main\.class)/LoggerFactory.getLogger(Dev${clean_name^}.class)/" "$file"
         # Update constructor name

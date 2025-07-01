@@ -10,7 +10,6 @@ ssh:
   remote:
     host: appf4.io.vn
   user: root
-  password: ledinhde788De
   service-name: remote-apigateway
   mysql_database: apigateway
   mysql_port: 3306

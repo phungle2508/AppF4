@@ -12,6 +12,10 @@ import java.util.Collection;
 import java.util.Optional;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,10 +25,8 @@ import org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.Environment;
-import org.springframework.core.env.PropertySource;
 import org.springframework.core.env.StandardEnvironment;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.beans.factory.annotation.Value;
 import tech.jhipster.config.DefaultProfileUtil;
 import tech.jhipster.config.JHipsterConstants;
 import org.yaml.snakeyaml.Yaml;
@@ -196,6 +198,60 @@ public class Main {
     }
 
     /**
+     * Reads the SSH password from the .env file at the root directory
+     * 
+     * @return The SSH password from the .env file, or null if not found
+     */
+    private static String readSshPasswordFromEnv() {
+        // First try to look in the project root directory
+        Path projectDir = Paths.get(System.getProperty("user.dir"));
+        Path envPath = projectDir.resolve(".env");
+
+        // If not found, try to look in the parent directory (AppF4)
+        if (!envPath.toFile().exists()) {
+            // Check if we're in a subdirectory of AppF4
+            String dirName = projectDir.getFileName().toString();
+            if (projectDir.getParent() != null &&
+                    projectDir.getParent().getFileName() != null &&
+                    "AppF4".equals(projectDir.getParent().getFileName().toString())) {
+                envPath = projectDir.getParent().resolve(".env");
+            } else if (projectDir.getParent() != null &&
+                    projectDir.getParent().getParent() != null &&
+                    projectDir.getParent().getParent().getFileName() != null &&
+                    "AppF4".equals(projectDir.getParent().getParent().getFileName().toString())) {
+                // We might be in a deeper subdirectory like AppF4/backend/ms_reel
+                envPath = projectDir.getParent().getParent().resolve(".env");
+            }
+        }
+
+        LOG.info("Looking for .env file at: {}", envPath.toAbsolutePath());
+
+        if (!envPath.toFile().exists()) {
+            LOG.warn("Could not find .env file at {}", envPath.toAbsolutePath());
+            return null;
+        }
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(envPath.toFile()))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                // Skip comment lines or empty lines
+                if (line.trim().startsWith("//") || line.trim().isEmpty()) {
+                    continue;
+                }
+                if (line.startsWith("SSH_PASSWORD=")) {
+                    String password = line.substring("SSH_PASSWORD=".length());
+                    LOG.info("Successfully read SSH password from .env file");
+                    return password;
+                }
+            }
+            LOG.warn("SSH_PASSWORD entry not found in .env file");
+        } catch (IOException e) {
+            LOG.error("Could not read .env file at {}", envPath, e);
+        }
+        return null;
+    }
+
+    /**
      * Main method, used to run the application.
      *
      * @param args the command line arguments.
@@ -244,10 +300,29 @@ public class Main {
         String user = env.getProperty("ssh.user");
         boolean enableSshForwarding = Boolean.parseBoolean(env.getProperty("ssh.forwarding.enabled"));
 
+        // Read SSH password from .env file
+        String sshPassword = readSshPasswordFromEnv();
+
+        // Check if SSH forwarding is enabled but password is missing
+        if (enableSshForwarding && (sshPassword == null || sshPassword.trim().isEmpty())) {
+            LOG.error("SSH forwarding is enabled but SSH_PASSWORD is missing in .env file");
+            LOG.error("Application will now exit. Please create a .env file with SSH_PASSWORD at project root");
+
+            // Give time for logs to be written
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+
+            // Exit with error code
+            System.exit(1);
+        }
+
         // Set up SSH tunnel after application startup if enabled
         if (enableSshForwarding) {
             LOG.info("Establishing SSH tunnel after application startup...");
-            setupSshPortForwarding(remoteHost, remotePort, localPort, user, env.getProperty("ssh.password"));
+            setupSshPortForwarding(remoteHost, remotePort, localPort, user, sshPassword);
             // Give the SSH connection some time to establish
             try {
                 Thread.sleep(1000);
